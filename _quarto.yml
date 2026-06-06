@@ -1,0 +1,74 @@
+project:
+  type: book
+
+book:
+  title: "Arquitectura de Influencia en Ecosistemas de Consumo"
+  author: "Sergio Escalante Presa"
+  date: today
+  chapters:
+    - index.qmd
+    - bloque1.qmd
+    - bloque2.qmd
+    - comparacion_PCA_SNA.qmd
+    - bloque3.qmd
+    - anexoUsoIA.qmd
+    
+format:
+  html:
+    theme: [cosmo, theme.scss]                # limpio y neutro; alternativas: litera, flatly
+    fontsize: 1.05em
+    linestretch: 1.6            # interlineado generoso = más legible
+    highlight-style: github     # resaltado de código discreto
+    code-copy: true
+    code-overflow: wrap
+    code-block-bg: true
+    code-block-border-left: "#d0d0d0"
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: true
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    df-print: paged             # tablas de datos paginadas y limpias
+    grid:                       # proporciones equilibradas de página
+      sidebar-width: 260px
+      body-width: 820px
+      margin-width: 260px
+
+  pdf:
+    documentclass: scrbook      # KOMA-Script: el estándar para libros serios
+    classoption: [oneside]      # usa [twoside] si lo vas a imprimir encuadernado
+    papersize: a4
+    geometry:
+      - top=25mm
+      - bottom=25mm
+      - inner=30mm
+      - outer=25mm
+      - heightrounded
+    fontsize: 11pt
+    linestretch: 1.4
+    pdf-engine: xelatex         # tipografía moderna y soporte de fuentes del sistema
+    colorlinks: true
+    linkcolor: black            # enlaces internos discretos
+    urlcolor: "RoyalBlue"
+    citecolor: "RoyalBlue"
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: true
+    highlight-style: github
+    code-block-bg: "#f7f7f7"
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    keep-tex: false
+    # mainfont: "TeX Gyre Pagella"   # ← descoméntalas para un look tipo Palatino
+    # sansfont: "TeX Gyre Heros"
+    # monofont: "JetBrains Mono"
+
+
+

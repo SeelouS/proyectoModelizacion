@@ -1,0 +1,4 @@
+---
+title: "Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA."
+---
+

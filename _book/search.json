@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Arquitectura de Influencia en Ecosistemas de Consumo",
+    "section": "",
+    "text": "Introducción\nEn este proyecto de Aprendizaje Basado en Proyectos (ABP) se pretende que actuéis como analistas de datos para entender cómo se estructuran las relaciones entre productos y usuarios en Amazon.\nEl objetivo es que apliquéis las técnicas vistas en clase, en particular, de reducción de datos, grafos y clasificación para predecir el comportamiento del mercado.",
+    "crumbs": [
+      "Introducción"
+    ]
+  },
+  {
+    "objectID": "bloque1.html",
+    "href": "bloque1.html",
+    "title": "1  Bloque I: Análisis de Componentes Principales (PCA).",
+    "section": "",
+    "text": "1.1 Carga del dataset.\nEn esta primera fase, el objetivo es extraer las dimensiones latentes que definen el éxito de un producto.\nPrimero, cargaremos el dataset Reviews.csv con la librería data.table ya que es más rápida y eficiente que los métodos y librerías convencionales.\nlibrary(data.table)\n\nreviews &lt;- fread(file=\"./Reviews.csv\")",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Bloque I: Análisis de Componentes Principales (PCA).</span>"
+    ]
+  },
+  {
+    "objectID": "bloque1.html#observación-y-preparación-del-dataset.",
+    "href": "bloque1.html#observación-y-preparación-del-dataset.",
+    "title": "1  Bloque I: Análisis de Componentes Principales (PCA).",
+    "section": "1.2 Observación y preparación del dataset.",
+    "text": "1.2 Observación y preparación del dataset.\nUna vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay incluidos en el dataset y nos vamos a quedar con las últimas 3000 reseñas.\nPara crear la tabla usaremos tidyverse.\n\n# Vemos el nombre de las columnas del dataset\ncolnames(reviews)\n\n [1] \"Id\"                     \"ProductId\"              \"UserId\"                \n [4] \"ProfileName\"            \"HelpfulnessNumerator\"   \"HelpfulnessDenominator\"\n [7] \"Score\"                  \"Time\"                   \"Summary\"               \n[10] \"Text\"                  \n\n# Creamos la tabla de productos.\nlibrary(tidyverse)\n\nproductos &lt;- reviews |&gt;\n  mutate(\n    size_texto=nchar(Text),\n    size_summary=nchar(Summary)\n  ) |&gt;\n  group_by(ProductId) |&gt;\n  summarise(numero_reviews=n(), #Obtenemos el no. de reseñas\n            rating_promedio=mean(Score), #Valoración media\n            size_summary_promedio=mean(size_summary),\n            size_texto_promedio=mean(size_texto),\n            numero_usuarios=length(unique(UserId)),\n            comprado_por_ultima_vez=max(Time) #Para filtrado\n            ) |&gt;  \n  as_tibble()\n\n# Vemos cuántos productos hay.\ncat(\"Número de productos distintos: \", nrow(productos))\n\nNúmero de productos distintos:  74258\n\n\nHay demasiados productos, así los filtraremos para quedarnos con los últimos 4000 productos que han sido reseñados. Para ello usaremos la variable comprado_por_ultima_vez, que después eliminaremos una vez tengamos los productos.\n\nproductos &lt;- productos |&gt;\n  arrange(desc(comprado_por_ultima_vez)) |&gt;\n  head(4000) |&gt;\n  select(-comprado_por_ultima_vez)\n\nAhora ya tenemos un dataset para aplicarle PCA. Antes explicaremos qué métricas hemos incluido en la tabla y se indicará un conjunto de métricas que no se han añadido pero que podrían ser interesantes de estudiar en futuros trabajos.\n\n1.2.1 Métricas incluidas.\n\nnumero_reviews: Número de reseñas que tiene un producto.\nrating_promedio: Valoración media (sobre 5) que tiene un producto determinado.\nsize_summary_promedio: Promedio de la longitud (en caracteres) del resumen de la reseña.\nsize_texto_promedio: Promedio de la longitud (en caracteres) del cuerpo de la reseña.\nnumero_usuarios: Número de usuarios que han comprado ese producto.\n\n\n\n1.2.2 Posibles métricas interesantes:\n\nUna métrica que tenga el promedio (o varianza) del sentimiento de las opiniones de los usuarios.\nUna métrica que incluya el precio del producto (no está en el dataset pero podría ser muy interesante de incluir).\nUna métrica que indique el tipo de producto (Informática, Moda, Libros, etc.). Tampoco está en el dataset pero podría ser también muy interesante de incluir.\nUna variable que indique si tiene envío PRIME o no (llega en 1 día).\nUna columna que represente al vendedor del producto (Amazon o un tercero).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Bloque I: Análisis de Componentes Principales (PCA).</span>"
+    ]
+  },
+  {
+    "objectID": "bloque1.html#tiene-sentido-aplicar-pca-a-nuestra-tabla.",
+    "href": "bloque1.html#tiene-sentido-aplicar-pca-a-nuestra-tabla.",
+    "title": "1  Bloque I: Análisis de Componentes Principales (PCA).",
+    "section": "1.3 ¿Tiene sentido aplicar PCA a nuestra tabla?.",
+    "text": "1.3 ¿Tiene sentido aplicar PCA a nuestra tabla?.\nAntes de aplicar PCA, veremos si nuestra tabla tiene variables correlacionadas. En caso de que no las tuviera, no tendría sentido aplicar PCA ya que no simplificaría los datos más. Para esto usaremos la librería corrplot.\nPara calcular la correlación y, si tiene sentido, aplicar PCA, eliminaremos la columna ProductId, ya que solo puede haber valores numéricos en la variable.\n\nproductos_limpio &lt;- productos |&gt;\n  select(-ProductId)\n\nlibrary(corrplot)\n\ncorrplot(\n  cor(productos_limpio),\n  method = \"color\",\n  type = \"upper\",\n  col = colorRampPalette(c(\"#8C2D2D\", \n                           \"#D9A5A5\", \n                           \"#F7F7F7\", \n                           \"#AFC6D9\", \n                           \"#2F5D8C\"))(200),\n  tl.col = \"black\"\n)\n\n\n\n\n\n\n\n\nPodemos observar que hay pocos pares de variables muy correlacionados. Sin embargo, hay bastantes pares de variables que tienen una correlación intermedia (\\(\\approx 0.4\\)).\nPor lo tanto, se concluye en que merece la pena aplicar PCA para simplificar los datos.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Bloque I: Análisis de Componentes Principales (PCA).</span>"
+    ]
+  },
+  {
+    "objectID": "anexoUsoIA.html",
+    "href": "anexoUsoIA.html",
+    "title": "5  Anexo: Diario de Interacción con IA.",
+    "section": "",
+    "text": "5.1 Prompt 1: Configuración libro quarto.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anexo: Diario de Interacción con IA.</span>"
+    ]
+  },
+  {
+    "objectID": "anexoUsoIA.html#prompt-1-configuración-libro-quarto.",
+    "href": "anexoUsoIA.html#prompt-1-configuración-libro-quarto.",
+    "title": "5  Anexo: Diario de Interacción con IA.",
+    "section": "",
+    "text": "5.1.1 Motivo.\nSe le ha pedido que genere el apartado format: del libro quarto con el que se va a desarrollar el proyecto.\n\n\n5.1.2 Prompt (Modelo Opus 4.8 Extra).\ncréame un muy buen campo apartado de format para un trabajo científico\ny profesional. El documento es un libro de quarto, solo necesito el \ncampo de format y debe compilar en pdf y html. Tiene que producir \nuna salida PROFESIONAL, ELEGANTE y MINIMALISTA\n\n\n5.1.3 Output.\nAquí tienes un bloque format pensado para un Quarto book con doble salida (PDF + HTML), buscando ese aire sobrio y tipográficamente cuidado:\nhtml:\n    theme: cosmo    # limpio y neutro; alternativas: litera, flatly\n    fontsize: 1.05em\n    linestretch: 1.6            # interlineado generoso = más legible\n    highlight-style: github     # resaltado de código discreto\n    code-copy: true\n    code-overflow: wrap\n    code-block-bg: true\n    code-block-border-left: \"#d0d0d0\"\n    toc: true\n    toc-depth: 3\n    toc-title: \"Contenido\"\n    number-sections: true\n    anchor-sections: true\n    smooth-scroll: true\n    link-external-icon: true\n    link-external-newwindow: true\n    fig-align: center\n    fig-cap-location: bottom\n    tbl-cap-location: top\n    df-print: paged             # tablas de datos paginadas y limpias\n    grid:                       # proporciones equilibradas de página\n      sidebar-width: 260px\n      body-width: 820px\n      margin-width: 260px\n\n  pdf:\n    documentclass: scrbook # KOMA-Script: el estándar para libros serios\n    classoption: [oneside] # usa [twoside] si lo vas a encuadernar\n    papersize: a4\n    geometry:\n      - top=25mm\n      - bottom=25mm\n      - inner=30mm\n      - outer=25mm\n      - heightrounded\n    fontsize: 11pt\n    linestretch: 1.4\n    pdf-engine: xelatex # tipografía moderna y soporte de fuentes\n    colorlinks: true\n    linkcolor: black            # enlaces internos discretos\n    urlcolor: \"RoyalBlue\"\n    citecolor: \"RoyalBlue\"\n    toc: true\n    toc-depth: 3\n    toc-title: \"Contenido\"\n    number-sections: true\n    highlight-style: github\n    code-block-bg: \"#f7f7f7\"\n    fig-cap-location: bottom\n    tbl-cap-location: top\n    keep-tex: false\n    # mainfont: \"TeX Gyre Pagella\" # descoméntalas para look tipo Palatino\n    # sansfont: \"TeX Gyre Heros\"\n    # monofont: \"JetBrains Mono\"\nTres cosas que conviene que sepas:\nEl PDF necesita una distribución LaTeX. Si no la tienes, instala TinyTeX con quarto install tinytex (es ligera y suficiente). Con xelatex y las fuentes comentadas, por defecto usa Latin Modern, que ya viene con LaTeX y compila sin instalar nada extra. Las fuentes están comentadas a propósito. Si las activas, deben estar instaladas en tu sistema o falla la compilación. TeX Gyre Pagella/Heros suelen venir con TeX Live; JetBrains Mono la tendrías que instalar aparte. Esa terna (serif elegante + sans humanista + mono legible) es la que más eleva el resultado, pero pruébalo solo cuando tengas las fuentes. oneside vs twoside. Lo dejé en oneside porque para lectura en pantalla evita los márgenes asimétricos y las páginas en blanco entre capítulos. Si el destino es imprenta y encuadernado, cambia a twoside y el geometry con inner/outer ya te dará márgenes correctos para el lomo.\nSi quieres dar un paso más en la parte HTML, puedo prepararte un theme.scss con tu paleta y tipografía para afinar colores, espaciados y bloques de código por encima de lo que permite el YAML.\n\n\n5.1.4 Valoración.\nLa parte del format me pareció correcta, la probé y me gustó el resultado. Sin embargó la conversación siguió para que me generara ese archivo theme.scss que me propuso.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anexo: Diario de Interacción con IA.</span>"
+    ]
+  },
+  {
+    "objectID": "anexoUsoIA.html#prompt-2-generación-archivo-theme.scss.",
+    "href": "anexoUsoIA.html#prompt-2-generación-archivo-theme.scss.",
+    "title": "5  Anexo: Diario de Interacción con IA.",
+    "section": "5.2 Prompt 2: Generación archivo theme.scss.",
+    "text": "5.2 Prompt 2: Generación archivo theme.scss.\n\n5.2.1 Motivo.\nSe le ha pedido que genere el archivo theme.scss del libro quarto con el que se va a usar para generar el html del proyecto. Este archivo lo propuso la IA en la primera interacción.\n\n\n5.2.2 Prompt (Modelo Opus 4.8 Extra).\nvale, creame un scss para la parte de html que sea igual de elegante,\nminimalista y profesional\n\n\n5.2.3 Output.\nPara activarlo, en tu _quarto.yml cambia la línea del tema dentro de format: html::\ntheme: [cosmo, theme.scss]\nEl orden importa: cosmo aporta la base de Bootstrap y tu theme.scss la sobrescribe encima. Guarda el archivo en la raíz del proyecto (junto al _quarto.yml).\nTres decisiones de diseño que conviene que entiendas:\nEl sistema tipográfico IBM Plex (sans + serif + mono) es lo que más eleva el resultado. El cuerpo va en sans para leer cómodo en pantalla, pero los títulos van en serif: ese contraste serif/sans es el truco editorial que da el aire de “libro científico” sin recargar nada. Al ser una sola familia coordinada, todo se ve coherente. Se cargan desde Google Fonts, así que la primera compilación necesita conexión.\nUn solo acento (azul tinta #15506b). En minimalismo, la elegancia viene de la restricción: fondo blanco, texto casi negro y un único color que marca enlaces, TOC activo y citas. Si quieres un tono más académico clásico, cambia --accent y $link-color/$primary a un granate (#7a1f2b). Las tablas usan estilo “booktabs” (solo líneas horizontales gruesas arriba/abajo y bajo la cabecera, sin rejilla vertical). Es la convención de las publicaciones científicas serias y es lo que hace que una tabla se vea profesional en lugar de “de hoja de cálculo”.\nSi más adelante quieres que el PDF y el HTML compartan exactamente la misma paleta de acento, puedo darte el include-in-header de LaTeX equivalente para que los enlaces del PDF usen ese mismo azul tinta.\n[Más fichero theme.scss usado en el proyecto]\n\n\n5.2.4 Valoración.\nDe nuevo, me pareció correcto el resultado que produjo, así que no se siguió preguntando.",
+    "crumbs": [
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Anexo: Diario de Interacción con IA.</span>"
+    ]
+  }
+]

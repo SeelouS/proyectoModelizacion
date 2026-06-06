@@ -1,0 +1,130 @@
+---
+title: "Anexo: Diario de Interacción con IA."
+---
+
+## Prompt 1: Configuración libro quarto.
+
+### Motivo.
+
+Se le ha pedido que genere el apartado `format:` del libro quarto con el que se va a desarrollar el proyecto.
+
+### Prompt (Modelo Opus 4.8 Extra).
+
+```text         
+créame un muy buen campo apartado de format para un trabajo científico
+y profesional. El documento es un libro de quarto, solo necesito el 
+campo de format y debe compilar en pdf y html. Tiene que producir 
+una salida PROFESIONAL, ELEGANTE y MINIMALISTA
+```
+
+### Output.
+
+Aquí tienes un bloque format pensado para un Quarto book con doble salida (PDF + HTML), buscando ese aire sobrio y tipográficamente cuidado:
+
+
+```yml
+html:
+    theme: cosmo    # limpio y neutro; alternativas: litera, flatly
+    fontsize: 1.05em
+    linestretch: 1.6            # interlineado generoso = más legible
+    highlight-style: github     # resaltado de código discreto
+    code-copy: true
+    code-overflow: wrap
+    code-block-bg: true
+    code-block-border-left: "#d0d0d0"
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: true
+    anchor-sections: true
+    smooth-scroll: true
+    link-external-icon: true
+    link-external-newwindow: true
+    fig-align: center
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    df-print: paged             # tablas de datos paginadas y limpias
+    grid:                       # proporciones equilibradas de página
+      sidebar-width: 260px
+      body-width: 820px
+      margin-width: 260px
+
+  pdf:
+    documentclass: scrbook # KOMA-Script: el estándar para libros serios
+    classoption: [oneside] # usa [twoside] si lo vas a encuadernar
+    papersize: a4
+    geometry:
+      - top=25mm
+      - bottom=25mm
+      - inner=30mm
+      - outer=25mm
+      - heightrounded
+    fontsize: 11pt
+    linestretch: 1.4
+    pdf-engine: xelatex # tipografía moderna y soporte de fuentes
+    colorlinks: true
+    linkcolor: black            # enlaces internos discretos
+    urlcolor: "RoyalBlue"
+    citecolor: "RoyalBlue"
+    toc: true
+    toc-depth: 3
+    toc-title: "Contenido"
+    number-sections: true
+    highlight-style: github
+    code-block-bg: "#f7f7f7"
+    fig-cap-location: bottom
+    tbl-cap-location: top
+    keep-tex: false
+    # mainfont: "TeX Gyre Pagella" # descoméntalas para look tipo Palatino
+    # sansfont: "TeX Gyre Heros"
+    # monofont: "JetBrains Mono"
+```
+
+Tres cosas que conviene que sepas:
+
+El PDF necesita una distribución LaTeX. Si no la tienes, instala TinyTeX con `quarto install tinytex` (es ligera y suficiente). Con xelatex y las fuentes comentadas, por defecto usa Latin Modern, que ya viene con LaTeX y compila sin instalar nada extra.
+Las fuentes están comentadas a propósito. Si las activas, deben estar instaladas en tu sistema o falla la compilación. TeX Gyre Pagella/Heros suelen venir con TeX Live; JetBrains Mono la tendrías que instalar aparte. Esa terna (serif elegante + sans humanista + mono legible) es la que más eleva el resultado, pero pruébalo solo cuando tengas las fuentes.
+`oneside` vs `twoside`. Lo dejé en `oneside` porque para lectura en pantalla evita los márgenes asimétricos y las páginas en blanco entre capítulos. Si el destino es imprenta y encuadernado, cambia a `twoside` y el `geometry` con `inner`/`outer` ya te dará márgenes correctos para el lomo.
+
+Si quieres dar un paso más en la parte HTML, puedo prepararte un `theme.scss` con tu paleta y tipografía para afinar colores, espaciados y bloques de código por encima de lo que permite el YAML.
+
+### Valoración.
+
+La parte del `format` me pareció correcta, la probé y me gustó el resultado. Sin embargó la conversación siguió para que me generara ese archivo **theme.scss** que me propuso.
+
+## Prompt 2: Generación archivo theme.scss.
+
+### Motivo.
+
+Se le ha pedido que genere el archivo **theme.scss** del libro quarto con el que se va a usar para generar el html del proyecto. Este archivo lo propuso la IA en la primera interacción.
+
+### Prompt (Modelo Opus 4.8 Extra).
+```text      
+vale, creame un scss para la parte de html que sea igual de elegante,
+minimalista y profesional
+```
+
+### Output.
+
+Para activarlo, en tu `_quarto.yml` cambia la línea del tema dentro de `format: html:`:
+
+```yaml    
+theme: [cosmo, theme.scss]
+```
+
+El orden importa: `cosmo` aporta la base de Bootstrap y tu `theme.scss` la sobrescribe encima. Guarda el archivo en la raíz del proyecto (junto al `_quarto.yml`).
+
+Tres decisiones de diseño que conviene que entiendas:
+
+El sistema tipográfico IBM Plex (sans + serif + mono) es lo que más eleva el resultado. El cuerpo va en sans para leer cómodo en pantalla, pero los títulos van en serif: ese contraste serif/sans es el truco editorial que da el aire de "libro científico" sin recargar nada. Al ser una sola familia coordinada, todo se ve coherente. Se cargan desde Google Fonts, así que la primera compilación necesita conexión.
+
+Un solo acento (azul tinta `#15506b`). En minimalismo, la elegancia viene de la restricción: fondo blanco, texto casi negro y un único color que marca enlaces, TOC activo y citas. Si quieres un tono más académico clásico, cambia `--accent` y `$link-color`/`$primary` a un granate (`#7a1f2b`).
+Las tablas usan estilo "booktabs" (solo líneas horizontales gruesas arriba/abajo y bajo la cabecera, sin rejilla vertical). Es la convención de las publicaciones científicas serias y es lo que hace que una tabla se vea profesional en lugar de "de hoja de cálculo".
+
+Si más adelante quieres que el PDF y el HTML compartan exactamente la misma paleta de acento, puedo darte el `include-in-header` de LaTeX equivalente para que los enlaces del PDF usen ese mismo azul tinta.
+
+[Más fichero **theme.scss** usado en el proyecto]
+
+### Valoración.
+
+De nuevo, me pareció correcto el resultado que produjo, así que no se siguió preguntando.

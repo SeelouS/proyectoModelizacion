@@ -1,0 +1,5 @@
+# Introducción {.unnumbered}
+
+En este proyecto de **Aprendizaje Basado en Proyectos (ABP)** se pretende que **actuéis** como analistas de datos para entender cómo se estructuran las relaciones entre productos y usuarios en Amazon.
+
+El objetivo es que **apliquéis** las técnicas vistas en clase, en particular, de reducción de datos, grafos y clasificación para predecir el comportamiento del mercado.

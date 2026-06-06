@@ -1,0 +1,117 @@
+---
+title: "Bloque I: Análisis de Componentes Principales (PCA)."
+---
+
+En esta primera fase, el objetivo es extraer las dimensiones latentes que definen el éxito de un producto.
+
+- **Tarea:** Reducción de dimensionalidad. Construir una tabla de métricas por producto (Rating promedio, número de reseñas, precio, longitud promedio del texto de la reseña).
+- **Análisis:** Aplicar PCA para reducir estas variables a 2 o 3 componentes principales.
+- **Interpretación:** ¿Qué representan los ejes? (Ej: ¿El PC1 separa productos “Premium” de “Ventas Masivas”?). Debéis justificar la retención de varianza con un Scree Plot. Si solo hay código no se evalúa, debéis ir extrayendo conocimiento en cada paso, **interpretad**, **analizad** resultados. Justificad la retención de varianza mediante el criterio de Kaiser o el gráfico de sedimentación, e **interpretad** qué
+significan físicamente los nuevos ejes.
+
+## Carga del dataset.
+
+Primero, cargaremos el dataset `Reviews.csv` con la librería `data.table` ya que es más rápida y eficiente que los métodos y librerías convencionales.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(data.table)
+
+reviews <- fread(file="./Reviews.csv")
+```
+
+## Observación y preparación del dataset.
+
+Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay **incluidos** en el dataset y nos vamos a quedar con las últimas **3000 reseñas**.
+
+Para crear la tabla usaremos `tidyverse`.
+
+```{r}
+#| message: false
+#| warning: false
+# Vemos el nombre de las columnas del dataset
+colnames(reviews)
+
+# Creamos la tabla de productos.
+library(tidyverse)
+
+productos <- reviews |>
+  mutate(
+    size_texto=nchar(Text),
+    size_summary=nchar(Summary)
+  ) |>
+  group_by(ProductId) |>
+  summarise(numero_reviews=n(), #Obtenemos el no. de reseñas
+            rating_promedio=mean(Score), #Valoración media
+            size_summary_promedio=mean(size_summary),
+            size_texto_promedio=mean(size_texto),
+            numero_usuarios=length(unique(UserId)),
+            comprado_por_ultima_vez=max(Time) #Para filtrado
+            ) |>  
+  as_tibble()
+
+# Vemos cuántos productos hay.
+cat("Número de productos distintos: ", nrow(productos))
+```
+
+Hay demasiados productos, así los filtraremos para quedarnos con los últimos **4000 productos** que han sido reseñados. Para ello usaremos la variable `comprado_por_ultima_vez`, que después eliminaremos una vez tengamos los productos.
+
+```{r}
+productos <- productos |>
+  arrange(desc(comprado_por_ultima_vez)) |>
+  head(4000) |>
+  select(-comprado_por_ultima_vez)
+```
+
+Ahora ya tenemos un dataset para aplicarle **PCA**. Antes explicaremos qué métricas hemos incluido en la tabla y se indicará un conjunto de métricas que no se han añadido pero que podrían ser interesantes de estudiar en futuros trabajos.
+
+### Métricas incluidas.
+
+- `numero_reviews`: Número de reseñas que tiene un producto.
+- `rating_promedio`: Valoración media (sobre 5) que tiene un producto determinado.
+- `size_summary_promedio`: Promedio de la longitud (en caracteres) del **resumen** de la reseña.
+- `size_texto_promedio`: Promedio de la longitud (en caracteres) del **cuerpo** de la reseña.
+- `numero_usuarios`: Número de usuarios que han comprado ese producto.
+
+### Posibles métricas interesantes:
+
+1. Una métrica que tenga el promedio (o varianza) del **sentimiento de las opiniones** de los usuarios.
+1. Una métrica que incluya el **precio** del producto (no está en el dataset pero podría ser muy interesante de incluir).
+1. Una métrica que indique el **tipo** de producto (Informática, Moda, Libros, etc.). Tampoco está en el dataset pero podría ser también muy interesante de incluir.
+1. Una variable que indique si tiene **envío PRIME** o no (llega en 1 día).
+1. Una columna que represente al vendedor del producto (**Amazon** o un **tercero**).
+
+## ¿Tiene sentido aplicar PCA a nuestra tabla?.
+
+Antes de aplicar PCA, veremos si nuestra tabla tiene **variables correlacionadas**. En caso de que no las tuviera, **no tendría sentido** aplicar PCA ya que no simplificaría los datos más. Para esto usaremos la librería `corrplot`. 
+
+Para calcular la correlación y, si tiene sentido, aplicar PCA, **eliminaremos** la columna `ProductId`, ya que solo puede haber valores numéricos en la variable.
+
+```{r}
+#| message: false
+#| warning: false
+
+productos_limpio <- productos |>
+  select(-ProductId)
+
+library(corrplot)
+
+corrplot(
+  cor(productos_limpio),
+  method = "color",
+  type = "upper",
+  col = colorRampPalette(c("#8C2D2D", 
+                           "#D9A5A5", 
+                           "#F7F7F7", 
+                           "#AFC6D9", 
+                           "#2F5D8C"))(200),
+  tl.col = "black"
+)
+
+```
+
+Podemos observar que hay pocos pares de variables muy correlacionados. Sin embargo, hay **bastantes pares de variables que tienen una correlación intermedia** ($\approx 0.4$).
+
+Por lo tanto, se concluye en que **merece la pena** aplicar PCA para simplificar los datos.
