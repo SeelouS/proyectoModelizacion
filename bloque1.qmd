@@ -19,6 +19,9 @@ Primero, cargaremos el dataset `Reviews.csv` con la librería `data.table` ya qu
 
 library(data.table)
 
+# Usaremos esta semilla para todo el proyecto
+set.seed(2004)
+
 reviews <- fread(file="./Reviews.csv")
 ```
 
@@ -115,3 +118,85 @@ corrplot(
 Podemos observar que hay pocos pares de variables muy correlacionados. Sin embargo, hay **bastantes pares de variables que tienen una correlación intermedia** ($\approx 0.4$).
 
 Por lo tanto, se concluye en que **merece la pena** aplicar PCA para simplificar los datos.
+
+## Aplicación de PCA para reducir la dimensionalidad de los datos.
+
+Usaremos la función `prcomp()`de la librería `stats`. También estableceremos los hiperparámetros `scale` y `center` a `TRUE` para estandarizar los datos, ya que PCA es **muy sensible** a la unidades de medida.
+
+```{r}
+pca_productos <- prcomp(productos_limpio, scale=TRUE, center=TRUE)
+```
+
+Y usamos la función `summary()` de la librería `base`, para ver la proporción de la varianza explicada por **cada componente principal**, y **cuánto aporta** cada variable de nuestra tabla principal a la creación de estas nuevas variables.
+
+```{r}
+resumen <- summary(pca_productos)
+
+cat("Varianza explicada por cada componente principal:\n")
+resumen$importance
+
+cat("\n\nCuánto aporta cada variable inicial a cada una de las PCs:\n")
+resumen$rotation
+```
+
+De aquí podemos sacar varias conclusiones importantes, que después se **reforzarán** con pruebas gráficas:
+
+1. Podemos ver que reduciendo los datos a 2 componentes principales explicaríamos aproximadamente el 67% de la varianza de los datos, pero que **usando las 3 primeras** llegaríamos a explicar **casi el 87%** de los datos. Por tanto, sería recomendable usar las 3 primeras componentes principales en vez de las 2 primeras.
+1. También, en esa misma tabla, podemos apreciar que la última componente es prácticamente **inútil**, ya que solo explica un **0.01% de la varianza**, aproximadamente.
+1. Se puede observar de la segunda tabla que, la primera componente tiene una fuerte influencia de las variables `numero_reviews` y  `numero_usuarios`; variables que estaban **muy correlacionadas previamente**.
+1. La segunda componente está formada principalmente por las variables `size_summary_promedio` y `size_texto_promedio`.
+1. La tercera está creada casi exclusivamente por el `rating_promedio`.
+1. La cuarta y quinta componente principal tiene una distribución de la aportación de cada variable a su creación **similar a la primera y segunda**. La diferencia es que ahora, esas variables más importantes **dapuntan a un sentido diferente**, es decir, una de ellas tiene coeficiente negativo, mientras que la otra tiene coeficiente positivo.
+
+### Scree Plot: ¿Cuánta información aporta cada componente principal?
+
+Representaremos el ScreePlot con la información obtenida en la primera mostrada antes. Para ello usaremos la función `fviz_eig()` de la librería `factoextra`.
+
+```{r}
+#| message: false
+#| warning: false
+
+# Creamos el scree plot
+library(factoextra)
+
+fviz_eig(pca_productos, 
+         addlabels = TRUE, 
+         ylim = c(0, 50), 
+         title = "Scree Plot")
+```
+
+Podemos observar que **no hay un codo muy marcado**. Aún así, sería recomendable coger **mínimo 2 componentes, y como máximo 3**; aunque cogiendo 4 componentes tendríamos casi el 100% de la varianza explicada. Una conclusión evidente es que la quinta componente es **insignificante**.
+
+### El Biplot del dataset.
+
+Ahora observaremos el Biplot del dataset con los datos de la segunda tabla mostrada. Para ello usaremos la función `fviz_pca_biplot()` de la librería `factoextra` (cargada previamente).
+
+```{r}
+
+fviz_pca_biplot(pca_productos,
+                col.var = "#2F5D8C", 
+                col.ind = "#8C2D2D",
+                repel=TRUE,
+                geom="point",
+                title = "Biplot de los productos.")
+```
+
+De esta gráfica podemos sacar 2 cosas en claro muy interesantes.
+
+La primera es que **cuantas más reseñas tenga el producto, mejor**. Esto se puede deber a que un usuario puede preferir un producto con muchas reseñas a uno con pocas, ya que la primera opción es **más segura**.
+
+La segunda es que **la valoración media importa**, pero si sus reseñas son muy largas **contrarresta** esa buena valoración. Esto tiene un motivo, las personas que se fijan en si un producto es bueno (alta valoración), la mayoría también quieren leer las opiniones de otros usuarios. Sin embargo, si estas reseñas son muy largas, el usuario se puede ver **sin ganas de leerlas** y decidirse por **otras opciones** con valoraciones similares pero con **reseñas más directas**.
+
+## Conclusión: ¿Qué significa cada componente?
+
+Aquí se dará una posible interpretación de qué significa cada componente:
+
+La primera componente es clara. Representa el número de reseñas que tiene el producto.
+
+La segunda componente es más interesante, ya que representa **cómo de bien reseñado está un producto**. Para esta componente no solo importa la valoración media que tiene el producto, sino que también importa cómo de fácil es leer las opiniones de otros usuarios, penalizando reseñas excesivamente largas. Sería interesante ver cómo se relacionaría el sentimiento promedio de las reseñas con esta variable.
+
+La tercera componente, que no se ha graficado, también tiene una interpretación clara (sacada de la segunda tabla). Esta componente representa simplemente la valoración promedia del producto.
+
+---
+
+***FIN DEL BLOQUE 1***

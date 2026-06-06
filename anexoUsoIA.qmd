@@ -128,3 +128,59 @@ Si más adelante quieres que el PDF y el HTML compartan exactamente la misma pal
 ### Valoración.
 
 De nuevo, me pareció correcto el resultado que produjo, así que no se siguió preguntando.
+
+---
+
+## Prompt 3: Consulta sobre qué había que hacer en el Bloque 2.
+
+### Motivo.
+
+Se le ha preguntado qué es lo que pedía la tarea del Bloque 2, y se le ha pedido los pasos para hacerlo (no la solución).
+
+### Prompt (Modelo Opus 4.8 Extra).
+```text      
+**Tarea:** Construir la red de usuarios en un **grafo de coparticipación**. 
+Dos productos están conectados si han sido reseñados por los mismos *N* 
+usuarios. Debéis justificar la elección de *N* basándoos en la densidad 
+del grafo resultante.
+
+que es esto y cuales son los pasos para hacerlo
+```
+
+### Output.
+
+Voy a explicarte primero qué te están pidiendo conceptualmente y luego los pasos concretos en tu stack (R/igraph/tidygraph).
+
+Qué es
+
+Partes de datos de reseñas, que de forma natural son una red bipartita (o de dos modos): tienes dos tipos de nodos —usuarios y productos— y una arista usuario↔producto cuando ese usuario ha reseñado ese producto.
+
+Un grafo de coparticipación es la proyección de esa red bipartita sobre uno solo de los conjuntos de nodos, en tu caso los productos. Colapsas los usuarios y conectas dos productos cuando comparten reseñadores. El número de reseñadores que comparten dos productos es el peso de la arista.
+
+El matiz importante de la tarea es el umbral N: no conectas dos productos por compartir un solo usuario, sino solo si comparten al menos N reseñadores en común. Ese N es un filtro que controla cuántas aristas sobreviven y, por tanto, la densidad del grafo final.
+
+Los pasos
+
+- Preparar los datos. Necesitas una tabla de pares (usuario, producto) —una fila por reseña—. Limpia duplicados (un mismo usuario que reseñó el mismo producto dos veces cuenta como uno solo).
+- Construir la matriz de incidencia bipartita B de tamaño productos × usuarios, donde B[p,u] = 1 si el usuario u reseñó el producto p. Lo más eficiente es una matriz dispersa (Matrix::sparseMatrix).
+- Proyectar sobre productos. El truco está en una multiplicación matricial: C = B %*% t(B). Entonces C[i,j] es exactamente el número de usuarios que reseñaron ambos productos i y j (la diagonal es cuántos reseñadores tiene cada producto, que descartas).
+- Aplicar el umbral N. Conviertes C en adyacencia binaria: hay arista entre i y j si C[i,j] >= N. Aquí "los mismos N usuarios" se interpreta como al menos N reseñadores compartidos (es la convención estándar).
+- Justificar N por densidad. Esta es la parte central de la tarea, te la detallo abajo.
+- Construir el grafo final y analizarlo con tus métricas de centralidad y topología (grado, intermediación, componentes, etc.) sobre el grafo ya filtrado.
+
+Cómo justificar la elección de N
+
+La idea es que N es una palanca que controla la densidad, y la densidad determina si el grafo es analizable:
+
+- N muy bajo (p. ej. 1): casi todos los productos quedan conectados → densidad altísima, un "ovillo" (hairball) sin estructura visible.
+- N muy alto: apenas quedan aristas → grafo fragmentado en muchos componentes aislados, sin estructura que analizar.
+
+Recuerda la fórmula de densidad para un grafo no dirigido:
+
+{FORMULA DE LA DENSIDAD DE UN GRAFO NO DIRIGIDO}
+
+El argumento que debes escribir en la memoria no es "elegí N=3 porque sí", sino un barrido: calcula la densidad (y conviene añadir el nº de componentes y el tamaño del componente gigante) para un rango de valores de N, los representas, y eliges el N en el punto donde el grafo deja de ser un ovillo pero todavía conserva un componente gigante conexo. Normalmente ese punto es un "codo" en la curva densidad–N. Esa curva es tu justificación.
+
+### Valoración.
+
+Gracias a esta respuesta entendí que era un grafo de coparticipación y supe que tenía que hacer. Seguro que usando librería como `tidygraph` o `igraph` también se podría hacer, pero me pareció muy interesante la propuesta de usar matrices dispersas por eficiencia, así que he decidido usarlas.

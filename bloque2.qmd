@@ -2,3 +2,45 @@
 title: "Bloque II: Análisis de Redes Sociales (SNA)."
 ---
 
+Una vez reducida la dimensionalidad, pasaréis a modelar el ecosistema de consumo como una red compleja bidimensional.
+
+- **Tarea:** Construir la red de usuarios en un **grafo de coparticipación**. Dos productos están conectados si han sido reseñados por los mismos *N* usuarios. Debéis justificar la elección de *N* basándoos en la densidad del grafo resultante.
+- **Análisis: Utilizad** métricas de centralidad: **PageRank** (para identificar productos “faro”), **Betweenness** (para identificar productos puente entre categorías), etc.
+- Detección de Comunidades: Mediante el algoritmo de **Louvain** o **Walktrap**, **analizad** si las comunidades coinciden con aspectos geográficos o de categorías de consumo u otras características.
+- **Visualización: Mostrad** las comunidades de productos más densas. **Manejad** eficientemente objetos de grafos de gran tamaño (limpieza de nodos aislados, simplificación de aristas).
+
+## Creación del dataset.
+
+Para crear este dataset vamos a usar la librería `Matrix`. La intención es llegar a tener una matriz *M*, de tamaño $P\times P$, donde *P* es el número de productos, y que la celda $(i, j)$ represente el número de usuarios que han reseñado tanto al producto *i* como al producto *j*.
+
+Para esto es muy importante, quedarnos con los pares (*UserId*, *ProductId*), y que solo salgan una vez. Si un usuario ha reseñado más de una vez un mismo producto, solo contará como una fila.
+
+```{r}
+#| message: false
+#| warning: false
+
+#Paso 0: Cargamos el dataset, para ello usamos
+#la librería data.table, como en el bloque anterior.
+library(data.table)
+
+# Usaremos esta semilla para todo el proyecto
+set.seed(2004)
+
+ds <- fread(file="./Reviews.csv")
+
+#Paso 1: Nos quedamos solamente con los pares 
+# (UserId, ProductId) únicos.
+
+valores <- ds |>
+  select(UserId, ProductId) |>
+  unique()
+
+# Paso 2: Pasamos esta información a una matriz dispersa.
+
+library(Matrix)
+
+M <- Matrix::sparseMatrix(
+  
+)
+```
+
