@@ -38,9 +38,140 @@ valores <- ds |>
 # Paso 2: Pasamos esta información a una matriz dispersa.
 
 library(Matrix)
+library(dplyr)
 
-M <- Matrix::sparseMatrix(
-  
+productosFactores <- factor(valores$ProductId)
+userFactores <- factor(valores$UserId)
+
+A <- sparseMatrix(
+  i = as.integer(productosFactores),
+  j = as.integer(userFactores),
+  x = 1,
+  dims = c(nlevels(productosFactores), nlevels(userFactores)),
+  dimnames = list(levels(productosFactores), levels(userFactores))
 )
+```
+
+Ahora, creamos la matriz *M* que definimos anteriormente, y lo haremos a partir de la matriz que creamos en el bloque anterior (la matriz *A*).
+
+```{r}
+M <- A %*% t(A)
+M <- as(M, "dgCMatrix")
+diag(M) <- 0          # quitamos auto-bucles
+```
+
+A continuación procederemos a elegir el umbral *N* más adecuado para nuestro grafo. Para ello, crearemos una función auxiliar `densidad_para_N(N)`, que calculará la densidad, el número de componentes, y el tamaño de la componente más grande para un umbral *N* dado. Con esos datos, decidiremos cuál es el umbral más apropiado para nuestro grafo.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(igraph)
+
+densidad_para_N <- function(N) {
+  C <- M
+  C@x[C@x < N] <- 0 #pone a 0 los pesos por debajo de N
+  C <- drop0(C)
+  g <- graph_from_adjacency_matrix(C, 
+                                   mode = "undirected",
+                                   weighted = TRUE, 
+                                   diag = FALSE)#no incluir diagonal
+  tibble(
+    N            = N,
+    densidad     = edge_density(g),
+    n_componentes = components(g)$no,
+    size_componente_mas_grande = max(components(g)$csize)
+  )
+}
+```
+
+Probaremos con **10 umbrales distintos** (desde $N=1$ hasta $N=10$), y usaremos `ggplot()` para graficar la densidad resultante tras aplicar cada umbral. Para aplicar iterativamente la función `densidad_para_N(N)`, usaremos la función `map_dfr(v, f)` de la librería `purrr`, que aplica (y guarda en un df) el resultado de aplicar la función *f*, a cada elemento del vector *v*.
+
+```{r}
+library(purrr)
+library(ggplot2)
+
+umbrales <- map_dfr(1:10, densidad_para_N)
+print(umbrales)
+
+ggplot(umbrales, aes(N, densidad)) +
+  geom_line() + geom_point() +
+  labs(title = "Densidad del grafo según el umbral N")
+```
+
+Con la tabla y la gráfica podemos ver varias cosas:
+
+1. $N=1$ es un umbral demasiado pequeño. El clúster (componente) más grande tiene un tamaño gigante. Casi 50000 productos de los $\approx 72000$ que hay, están en esa componente.
+2. El codo se encuentra en $N=2$, la caída de densidad de $N=1$ a $N=2$ es mucho más grande que la que hay de $N=2$ a $N=3$. Además, la componente más grande con $N=2$ tiene menos de 7000 productos, reduciendo significativamente el tamaño de las componentes.
+
+Por tanto, aunque $N=3$ es también una buena opción, se escogerá $N=2$ como umbral.
+
+## Creación y visualización del grafo.
+
+Creamos nuestro grafo de coparticipación `g` con $N=2$.
+
+```{r}
+C <- M
+C@x[C@x < 2] <- 0 #pone a 0 los pesos por debajo de N
+C <- drop0(C)
+g <- graph_from_adjacency_matrix(C, 
+                                   mode = "undirected",
+                                   weighted = TRUE, 
+                                   diag = FALSE) #no incluir diagonal
+```
+
+Visualizaremos el grafo resultante para una exploración inicial. Usaremos `ggraph`, en combinación con `graphlayouts`, que incluye layouts pensados para **grafos con muchos nodos y aristas**. También identificaremos las comunidades que hay en el grafo usando el **algoritmo de Louvain**. Solo tendremos en cuenta componentes con más de 5 nodos para poder reducir un poco la complejidad del grafo y poder visualizarlo más fácilmente.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(igraph)
+library(ggraph)
+library(graphlayouts)
+
+g2 <- delete_edges(g, E(g)[weight < 2])
+g2 <- delete_vertices(g2, degree(g2) == 0)
+
+# comunidades + tamaño de componente como atributos de nodo
+V(g2)$comunidad <- factor(membership(cluster_louvain(g2, weights = E(g2)$weight)))
+V(g2)$tam       <- components(g2)$csize[components(g2)$membership]
+
+lay_fun <- function(cmp) {
+  if (vcount(cmp) > 100)
+    layout_with_sparse_stress(cmp, pivots = min(1000, vcount(cmp) - 1))
+  else
+    layout_with_stress(cmp)
+}
+
+set.seed(123)
+xy <- layout_components(g2, layout = lay_fun)
+
+ggraph(g2, layout = "manual", x = xy[, 1], y = xy[, 2]) +
+  geom_edge_link0(edge_colour = "grey85", width = 0.1, alpha = 0.25) +
+  geom_node_point(aes(colour = comunidad, size = tam),
+                  alpha = 0.8, show.legend = FALSE) +
+  scale_size(range = c(0.4, 2)) +
+  theme_graph()
+```
+
+Estructuralmente, podemos apreciar que **hay un gran clúster** en el centro, que será la **principal categoría de productos** que se han vendido (Libros, tecnología, etc.), y después hay muchas componentes pequeñas.
+
+Con respecto a las comunidades no podemos extraer mucha información, pues al haber tantas, los colores se **"solapan"**, es decir, hay muchos colores que son muy parecidos entre ellos. Sin embargo, hay una cosa en claro y es que la componente principal sí tiene una comunidad mayoritaria, cosa que también refuerza el concepto de *categoría principal de producto*.
+
+## Análisis de centralidad.
+
+Veámos ahora qué productos son los más importantes tanto en el ranking proporcionado por **PageRank** (productos **faro**), tanto en el ranking proporcionado por **Betweenness** (productos **puente**).
+
+Primero, convertiremos el grafo a un `tbl_graph` para simplifcar los cálculos y el tratamiento de los datos. Después, calcularemos tanto la métrica de PageRank como la de Betweenness.
+
+```{r}
+
+g <- g2 |>
+  as_tbl_graph() |>
+  activate(nodes) |>
+  mutate(pagerank=centrality_pagerank(weights=weight,directed=FALSE),
+         betw=centrality_betweenness(weights = weight, directed = FALSE))
+
 ```
 
