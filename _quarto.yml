@@ -9,8 +9,8 @@ book:
     - index.qmd
     - bloque1.qmd
     - bloque2.qmd
-    - comparacion_PCA_SNA.qmd
     - bloque3.qmd
+    - comparacion_PCA_SNA.qmd
     - anexoUsoIA.qmd
     
 format:

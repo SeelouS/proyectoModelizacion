@@ -27,7 +27,7 @@ reviews <- fread(file="./Reviews.csv")
 
 ## Observación y preparación del dataset.
 
-Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay **incluidos** en el dataset y nos vamos a quedar con las últimas **3000 reseñas**.
+Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay **incluidos** en el dataset y nos vamos a quedar con los últimos **4000 productos**.
 
 Para crear la tabla usaremos `tidyverse`.
 
@@ -121,7 +121,7 @@ Por lo tanto, se concluye en que **merece la pena** aplicar PCA para simplificar
 
 ## Aplicación de PCA para reducir la dimensionalidad de los datos.
 
-Usaremos la función `prcomp()`de la librería `stats`. También estableceremos los hiperparámetros `scale` y `center` a `TRUE` para estandarizar los datos, ya que PCA es **muy sensible** a la unidades de medida.
+Usaremos la función `prcomp()`de la librería `stats`. También estableceremos los hiperparámetros `scale` y `center` a `TRUE` para estandarizar los datos, ya que PCA es **muy sensible** a las unidades de medida.
 
 ```{r}
 pca_productos <- prcomp(productos_limpio, scale=TRUE, center=TRUE)
@@ -146,7 +146,7 @@ De aquí podemos sacar varias conclusiones importantes, que después se **reforz
 1. Se puede observar de la segunda tabla que, la primera componente tiene una fuerte influencia de las variables `numero_reviews` y  `numero_usuarios`; variables que estaban **muy correlacionadas previamente**.
 1. La segunda componente está formada principalmente por las variables `size_summary_promedio` y `size_texto_promedio`.
 1. La tercera está creada casi exclusivamente por el `rating_promedio`.
-1. La cuarta y quinta componente principal tiene una distribución de la aportación de cada variable a su creación **similar a la primera y segunda**. La diferencia es que ahora, esas variables más importantes **dapuntan a un sentido diferente**, es decir, una de ellas tiene coeficiente negativo, mientras que la otra tiene coeficiente positivo.
+1. La cuarta y quinta componente principal tiene una distribución de la aportación de cada variable a su creación **similar a la primera y segunda**. La diferencia es que ahora, esas variables más importantes **apuntan a un sentido diferente**, es decir, una de ellas tiene coeficiente negativo, mientras que la otra tiene coeficiente positivo.
 
 ### Scree Plot: ¿Cuánta información aporta cada componente principal?
 
@@ -166,6 +166,18 @@ fviz_eig(pca_productos,
 ```
 
 Podemos observar que **no hay un codo muy marcado**. Aún así, sería recomendable coger **mínimo 2 componentes, y como máximo 3**; aunque cogiendo 4 componentes tendríamos casi el 100% de la varianza explicada. Una conclusión evidente es que la quinta componente es **insignificante**.
+
+Para decidir si elegir 2 o 3 componentes, aplicamos el **Criterio de Kaiser**.
+
+```{r}
+eig <- pca_productos$sdev^2
+barplot(eig, names.arg = paste0("PC", 1:5))
+abline(h = 1, lty = 2)
+```
+
+Luego, por el criterio de Kaiser, solo nos quedaríamos con las **dos primeras componentes** (son las que tienen el autovalor mayor que 1).
+
+Podemos observar que la tercera componente se queda muy cerca (0.97), pero **el criterio la excluiría**. Aún así, vamos a tenerla en cuenta también **a la hora de analizarlas**.
 
 ### El Biplot del dataset.
 
@@ -193,9 +205,9 @@ Aquí se dará una posible interpretación de qué significa cada componente:
 
 La primera componente es clara. Representa el número de reseñas que tiene el producto.
 
-La segunda componente es más interesante, ya que representa **cómo de bien reseñado está un producto**. Para esta componente no solo importa la valoración media que tiene el producto, sino que también importa cómo de fácil es leer las opiniones de otros usuarios, penalizando reseñas excesivamente largas. Sería interesante ver cómo se relacionaría el sentimiento promedio de las reseñas con esta variable.
+La segunda componente es más interesante, ya que representa **la verbosidad de las reseñas de un producto**. Para esta componente no importa demasiado la valoración media que tiene el producto, sino que lo que realmente marca la diferencia es **cómo de fácil es leer las opiniones de otros usuarios**, penalizando así las reseñas excesivamente largas. Sería interesante ver cómo se relacionaría el sentimiento promedio de las reseñas con esta variable.
 
-La tercera componente, que no se ha graficado, también tiene una interpretación clara (sacada de la segunda tabla). Esta componente representa simplemente la valoración promedia del producto.
+La tercera componente, que no se ha graficado, también tiene una interpretación clara (sacada de la segunda tabla). Esta componente representa simplemente la valoración promedio del producto.
 
 ---
 

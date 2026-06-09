@@ -130,7 +130,6 @@ library(igraph)
 library(ggraph)
 library(graphlayouts)
 
-g2 <- delete_edges(g, E(g)[weight < 2])
 g2 <- delete_vertices(g2, degree(g2) == 0)
 
 # comunidades + tamaño de componente como atributos de nodo
@@ -144,7 +143,6 @@ lay_fun <- function(cmp) {
     layout_with_stress(cmp)
 }
 
-set.seed(123)
 xy <- layout_components(g2, layout = lay_fun)
 
 ggraph(g2, layout = "manual", x = xy[, 1], y = xy[, 2]) +
@@ -161,9 +159,9 @@ Con respecto a las comunidades no podemos extraer mucha información, pues al ha
 
 ## Análisis de centralidad.
 
-Veámos ahora qué productos son los más importantes tanto en el ranking proporcionado por **PageRank** (productos **faro**), tanto en el ranking proporcionado por **Betweenness** (productos **puente**).
+Veamos ahora qué productos son los más importantes tanto en el ranking proporcionado por **PageRank** (productos **faro**), tanto en el ranking proporcionado por **Betweenness** (productos **puente**).
 
-Primero, convertiremos el grafo a un `tbl_graph` para simplifcar los cálculos y el tratamiento de los datos. Después, calcularemos tanto la métrica de PageRank como la de Betweenness.
+Primero, convertiremos el grafo a un `tbl_graph` para simplificar los cálculos y el tratamiento de los datos. Después, calcularemos tanto la métrica de PageRank como la de Betweenness.
 
 ```{r}
 #| message: false
@@ -175,7 +173,7 @@ g <- g2 |>
   as_tbl_graph() |>
   activate(nodes) |>
   mutate(pagerank=centrality_pagerank(weights=weight,directed=FALSE),
-         betw=centrality_betweenness(weights = weight, directed = FALSE),
+         betw=centrality_betweenness(weights = 1/weight, directed = FALSE),
          grado=centrality_degree(weights = weight))
 
 ```
@@ -216,17 +214,17 @@ top_20
 
 ```
 
-Aquí podemos ver que los productos que más destacan son también los 5 - 6 primeros; el resto mantienen un valor bastante más bajo que estos. Su valor es muy alto debido al **gran número de componentes** que tiene el grafo, siendo estos productos los pocos que conecten 2 o más componentes / comunidades entre ellas.
+Aquí podemos ver que los productos que más destacan son también los 5 - 6 primeros; el resto mantienen un valor bastante más bajo que estos. Su valor es muy alto debido al **gran número de componentes** que tiene el grafo, siendo estos productos los pocos que conectan 2 o más componentes / comunidades entre ellas.
 
 También podemos ver que los **primeros 6 productos pertenecen a la misma comunidad** que antes. Sin embargo, el que pertenezcan o no a esa comunidad enorme **no es tan relevante** aquí. Podemos observar que en el resto del top podemos encontrar productos que no son de esa categoría, aunque también es cierto que los productos más importantes (con respecto a esta métrica) sí son de la mega-categoría 5.
 
 Por tanto, los productos más importantes (los productos *puente*) son:
 
 1. `B002IEZJMA`
-1. `B0041NYV8E`
-1. `B002IEVJRY`
 1. `B006MONQMC`
+1. `B0041NYV8E`
 1. `B002LANN56`
+1. `B002IEVJRY`
 1. `B001VJ0B0I`
 
 ### Comprobación de los resultados.
@@ -247,7 +245,11 @@ V(g_ego)$ego <- V(g_ego)$name == "B002IEZJMA"
 ggraph(g_ego, layout = "stress") +
   geom_edge_link(alpha = 0.08, colour = "grey70") +
   geom_node_point(aes(colour = comunidad, size = grado)) +
-  geom_node_point(data = ~ subset(.x, ego), colour = "gold", size = 8, shape = 21, stroke = 1.2) +
+  geom_node_point(data = ~ subset(.x, ego), 
+                  colour = "gold", 
+                  size = 8, 
+                  shape = 21, 
+                  stroke = 1.2) +
   scale_colour_viridis_d(option = "turbo") +
   labs(colour = "Comunidad",
        title = "Ego-grafo de B002IEZJMA",

@@ -11,7 +11,7 @@ Finalmente, explotaremos la topología de la red construida en el Bloque II para
 
 El dataset con el que hemos estado trabajando **no contiene una variable de categoría, precio o geográfica** (ya se mencionó en el Bloque I). Por tanto, no existe una etiqueta de categoría "real" que ocultar y volver a predecir. En lugar de inventar una, haremos la predicción con **etiquetas que sí podemos derivar honestamente de los datos** y que juegan el papel de la "categoría desconocida":
 
-1. **Homofilia de la calidad**: tomamos como etiqueta la **calidad del producto** (valoración alta/baja), y comprobamos si la posición en la red de un producto permite predecir su valoriación a partir de los vecinos. Por tanto, se intentará responder a la siguiente pregunta: *"si no conociera la valoración de un producto, ¿podría adivinarla mirando a sus vecinos?"*.
+1. **Homofilia de la calidad**: tomamos como etiqueta la **calidad del producto** (valoración alta/baja), y comprobamos si la posición en la red de un producto permite predecir su valoración a partir de los vecinos. Por tanto, se intentará responder a la siguiente pregunta: *"si no conociera la valoración de un producto, ¿podría adivinarla mirando a sus vecinos?"*.
 2. **Clasificación "Elite" desde la topología**: predecimos si un producto es un *best-seller* usando **solo** descriptores estructurales del grafo.
 3. **Link Prediction / co-compra**: predecimos qué pares de productos *deberían* estar conectados (co-reseñados) y los proponemos como recomendaciones de co-compra.
 
@@ -89,7 +89,8 @@ La **homofilia** es el principio de que los nodos conectados tienden a ser simil
 
 rating <- productos |> select(ProductId, rating_promedio, numero_reviews)
 
-tabla_productos <- tibble(ProductId = V(grafo_componente_principal)$name) |>
+tabla_productos <- tibble(ProductId = 
+                            V(grafo_componente_principal)$name) |>
   left_join(rating, by = "ProductId")
 
 tabla_productos$calidad <- factor(ifelse(
@@ -97,7 +98,8 @@ tabla_productos$calidad <- factor(ifelse(
   "alta", 
   "baja"))
 
-V(grafo_componente_principal)$calidad <- as.character(tabla_productos$calidad)
+V(grafo_componente_principal)$calidad <- as.character(
+  tabla_productos$calidad)
 
 table(tabla_productos$calidad)
 ```
@@ -151,8 +153,6 @@ score_alta  <- as.numeric(matriz[, idx_alta] %*%
 score_baja  <- as.numeric(matriz[, idx_baja] %*% 
                             rep(1, length(idx_baja)))
 
-clase_mayoritaria <- names(sort(table(vals[train]), 
-                                decreasing = TRUE))[1]
 pred <- ifelse(
   score_alta >= score_baja, 
   "alta", 
@@ -171,11 +171,11 @@ cat("\nExactitud del voto de vecinos: ", round(acc, 3), "\n")
 cat("Baseline (clase mayoritaria): ", round(baseline, 3), "\n")
 ```
 
-**Interpretación.** El clasificador acierta un $\approx 80\%$, que está por encima del baseline trivial de $\approx 75\%$ % (que se obtendría prediciendo siempre con la clase más común). 
+**Interpretación.** El clasificador acierta un $\approx 80\%$, que está por encima del baseline trivial de $\approx 75\%$ (que se obtendría prediciendo siempre con la clase más común). 
 
-Sin embargo, la verdadera diferencia ocurre en la precisión a la hora de predecir la clase minotritaria: como podemos apreciar en la tabla, se predijeron de más productos con calidad *"baja"*. Aún así, esta precisión estaría **muy por encima del azar** y del baseline, que tendría precisión de $0\%$ para esta clase. 
+Sin embargo, la verdadera diferencia ocurre en la precisión a la hora de predecir la clase minoritaria: como podemos apreciar en la tabla, se predijeron de más productos con calidad *"baja"*. Aún así, esta precisión estaría **muy por encima del azar** y del baseline, que tendría precisión de $0\%$ para esta clase. 
 
-Conclusión: **la estructura del grafo contiene información limiatada sobre la calidad de un producto** — se puede predecir la etiqueta de un nodo mirando a sus vecinos, pero con un acierto limitado.
+Conclusión: **la estructura del grafo contiene información limitada sobre la calidad de un producto** — se puede predecir la etiqueta de un nodo mirando a sus vecinos, pero con un acierto limitado.
 
 ### ¿Coinciden las comunidades con la calidad?
 
@@ -187,9 +187,12 @@ La intuición inicial es que esto no va a ser así, si no que estas comunidades 
 #| message: false
 #| warning: false
 
-comunidades <- cluster_louvain(grafo_componente_principal, weights = E(grafo_componente_principal)$weight)
+comunidades <- cluster_louvain(
+  grafo_componente_principal, 
+  weights = E(grafo_componente_principal)$weight)
 
-proporcion_alta <- tapply(tabla_productos$calidad == "alta", membership(comunidades), mean)
+proporcion_alta <- tapply(tabla_productos$calidad == "alta",
+                          membership(comunidades), mean)
 comunidades_grandes <- proporcion_alta[sizes(comunidades) >= 100]
 
 cat("Comunidades:", length(comunidades), "\n")
@@ -283,7 +286,7 @@ Esto se da por la estructura del grafo —un producto con muchas reseñas compar
 
 Finalmente, intentaremos predecir **aristas que aún no existen**. Si dos productos comparten muchos vecinos en la red de co-reseña, **es probable que un mismo usuario acabe comprando ambos**.
 
-Para ello, calcularemos la puntuación (`igraph::simmilarity()`) que reciben pares de productos no conectados usando diferentes métodos. En particular, estos métodos serán:
+Para ello, calcularemos la puntuación que reciben pares de productos no conectados usando diferentes métodos. En particular, estos métodos serán:
 
 1. Vecinos comunes (CN).
 1. Jaccard.
@@ -291,6 +294,12 @@ Para ello, calcularemos la puntuación (`igraph::simmilarity()`) que reciben par
 1. Preferential Attachment.
 
 Finalmente, **ordenaremos las posibles aristas por esa puntuación** y obtendremos las 20 mejores recomendaciones de posibles productos relacionados para cada método.
+
+:::{.callout-note title=Nota.}
+En un principio se planteó usar la función `igraph::similarity()`, que es capaz de calcular casi todos los métodos.
+
+Sin embargo, conversando con la IA me di cuenta que esta función generaba una matriz densa, siendo imposible crearla con el tamaño con el que se trabajaba. Por ello decidí que lo mejor era trabajar con **matrices dispersas**, y calcular las métricas a mano.
+:::
 
 ```{r}
 #| message: false
@@ -315,7 +324,9 @@ predecir_links <- function(g,
   # --- Vecinos comunes ---
   CN <- A %*% A
   CN <- as(CN, "TsparseMatrix")
-  resumen <- Matrix::summary(CN)            # data.frame con columnas i, j, x (1-indexado)
+  
+  # data.frame con columnas i, j, x (1-indexado)
+  resumen <- Matrix::summary(CN) 
 
   # Solo triangulo superior (i<j)
   resumen <- resumen[resumen$i < resumen$j, , drop = FALSE]
@@ -327,7 +338,8 @@ predecir_links <- function(g,
   # Aplicamos el umbral
   resumen <- resumen[resumen$x >= min_common, , drop = FALSE]
 
-  if (nrow(resumen) == 0L) stop("No hay pares candidatos con esos parametros.")
+  if (nrow(resumen) == 0L) stop(
+    "No hay pares candidatos con esos parametros.")
 
   i  <- resumen$i
   j  <- resumen$j
@@ -343,9 +355,9 @@ predecir_links <- function(g,
   # --- Adamic-Adar ---
   w <- 1 / log(grado)
   w[!is.finite(w)] <- 0
-  academic_adar <- A %*% Matrix::Diagonal(x = w) %*% A
-  academic_adar <- as(academic_adar, "TsparseMatrix")
-  academic_adar <- academic_adar[cbind(i, j)]
+  adamic_adar <- A %*% Matrix::Diagonal(x = w) %*% A
+  adamic_adar <- as(adamic_adar, "TsparseMatrix")
+  adamic_adar <- adamic_adar[cbind(i, j)]
 
   # --- Resultado ordenable ---
   res <- data.frame(
@@ -353,13 +365,14 @@ predecir_links <- function(g,
     to               = nombre[j],
     common_neighbors = cn,
     jaccard          = as.numeric(jaccard),
-    adamic_adar      = as.numeric(academic_adar),
+    adamic_adar      = as.numeric(adamic_adar),
     pref_attach      = as.numeric(preferential_attachment),
     stringsAsFactors = FALSE
   )
 
   if (!order_by %in% names(res)) {
-    stop("order_by debe ser uno de: common_neighbors, jaccard, adamic_adar, pref_attach")
+    stop("order_by debe ser uno de: common_neighbors, jaccard, ",
+         "adamic_adar, pref_attach")
   }
   
   res <- res[order(res[[order_by]], decreasing = TRUE), ]
@@ -394,7 +407,7 @@ Luego se podrían hacer 2 cosas. O bien aceptar este resultado y ver cuando la f
 La red de coparticipación **no predice igual de bien** las diferentes métricas estudiadas:
 
 - **Popularidad:** se predice **casi perfectamente** desde la estructura gracias al modelo de regresión logística entrenado. La posición de un producto en el grafo *representa* la popularidad de este.
-- **Calidad:** la red solo puede hacer una **predicción débil**, que aun así mejora el baseline, aunque sea un una menor medida. La calidad es un atributo mal representado dentro de la estructura de la red.
+- **Calidad:** la red solo puede hacer una **predicción débil**, que aun así mejora el baseline, aunque sea en una menor medida. La calidad es un atributo mal representado dentro de la estructura de la red.
 
 En conjunto, hemos usado los enlaces para **clasificar** productos *Elite* o *No Elite*, **predecir** un atributo por homofilia (calidad) y **recomendar** nuevos enlaces potenciales. La idea más relevante que hemos obtenido es que **centralidad ≈ popularidad**, siendo un resultado similar al obtenido en el apartado de PCA ([Bloque I]("./bloque1.qmd")).
 

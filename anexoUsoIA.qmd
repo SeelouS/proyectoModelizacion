@@ -9,6 +9,8 @@ En esta sección no se han incluido todas las interacciones que se han tenido co
 2. Son muy parecidas a otras interacciones ya explicadas.
 
 Al final de esta parte hay un resumen del porcentaje aproximado de uso de la IA para cada bloque.
+
+Finalmente, es necesario mencionar que no se ha identificado ninguna alucinación de la IA. Es cierto que hay veces que ha fallado en sus salidas, pero no ha sido por su culpa. Todas las veces que falló fue porque me generó código para visualizar un grafo, y no usaba las variables que yo tenía simplemente porque no se las facilité.
 :::
 
 ## Prompt 1: Configuración libro quarto.
@@ -148,7 +150,8 @@ Se le ha preguntado qué es lo que pedía la tarea del Bloque 2, y se le ha pedi
 
 ### Prompt (Modelo Opus 4.8 Extra).
 ```text      
-**Tarea:** Construir la red de usuarios en un **grafo de coparticipación**. 
+**Tarea:** Construir la red de usuarios en un ç
+**grafo de coparticipación**. 
 Dos productos están conectados si han sido reseñados por los mismos *N* 
 usuarios. Debéis justificar la elección de *N* basándoos en la densidad 
 del grafo resultante.
@@ -205,11 +208,12 @@ Se le ha preguntado qué es lo que pedía la tarea del Bloque 3, en especial en 
 ### Prompt (Modelo Opus 4.8 Extra).
 ```text      
 Reto: Si un producto no tiene categoría asignada, ¿podéis predecirla 
-basándoos en la categoría de sus “vecinos” en la red de usuarios? (Homofilia). 
+basándoos en la categoría de sus “vecinos” en la red de usuarios? 
+(Homofilia). 
 Utilizad la estructura del grafo para predecir si un usuario pertenece a 
 una categoría “Elite” o para recomendar un enlace (Link Prediction), 
-por ejemplo, identificando qué productos suelen adquirirse de forma conjunta 
-(co-compra) basándose en la estructura de la red.
+por ejemplo, identificando qué productos suelen adquirirse de forma 
+conjunta (co-compra) basándose en la estructura de la red.
 
 que puedo hacer para predecir si un producto es elite o no, y que metrica 
 puedo predecir con la Homofilia si no tengo ni categoría ni precio.

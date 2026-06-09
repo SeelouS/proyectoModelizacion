@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>1&nbsp; Bloque I: Análisis de Componentes Principales (PCA). – Arquitectura de Influencia en Ecosistemas de Consumo</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -72,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-02b7b62a15ccdfeac99fd78ed28fc3c0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ff907a47ac0a29d3ca1a7450859183ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7e99a56414d45cd2060c2141c27fe866.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6d71e7d90f3d7f746f6ce96e34693826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -109,10 +107,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
+
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -165,7 +165,9 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Arquitectura de Influencia en Ecosistemas de Consumo</a> 
     </div>
@@ -197,14 +199,14 @@ window.Quarto = {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./comparacion_PCA_SNA.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></span></a>
+  <a href="./bloque3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./bloque3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span></a>
+  <a href="./comparacion_PCA_SNA.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -281,7 +283,7 @@ window.Quarto = {
 </section>
 <section id="observación-y-preparación-del-dataset." class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="observación-y-preparación-del-dataset."><span class="header-section-number">1.2</span> Observación y preparación del dataset.</h2>
-<p>Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay <strong>incluidos</strong> en el dataset y nos vamos a quedar con las últimas <strong>3000 reseñas</strong>.</p>
+<p>Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay <strong>incluidos</strong> en el dataset y nos vamos a quedar con los últimas <strong>4000 productos</strong>.</p>
 <p>Para crear la tabla usaremos <code>tidyverse</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vemos el nombre de las columnas del dataset</span></span>
@@ -427,7 +429,7 @@ numero_usuarios       -0.7070295307</code></pre>
 <li>Se puede observar de la segunda tabla que, la primera componente tiene una fuerte influencia de las variables <code>numero_reviews</code> y <code>numero_usuarios</code>; variables que estaban <strong>muy correlacionadas previamente</strong>.</li>
 <li>La segunda componente está formada principalmente por las variables <code>size_summary_promedio</code> y <code>size_texto_promedio</code>.</li>
 <li>La tercera está creada casi exclusivamente por el <code>rating_promedio</code>.</li>
-<li>La cuarta y quinta componente principal tiene una distribución de la aportación de cada variable a su creación <strong>similar a la primera y segunda</strong>. La diferencia es que ahora, esas variables más importantes <strong>dapuntan a un sentido diferente</strong>, es decir, una de ellas tiene coeficiente negativo, mientras que la otra tiene coeficiente positivo.</li>
+<li>La cuarta y quinta componente principal tiene una distribución de la aportación de cada variable a su creación <strong>similar a la primera y segunda</strong>. La diferencia es que ahora, esas variables más importantes <strong>apuntan a un sentido diferente</strong>, es decir, una de ellas tiene coeficiente negativo, mientras que la otra tiene coeficiente positivo.</li>
 </ol>
 <section id="scree-plot-cuánta-información-aporta-cada-componente-principal" class="level3" data-number="1.4.1">
 <h3 data-number="1.4.1" class="anchored" data-anchor-id="scree-plot-cuánta-información-aporta-cada-componente-principal"><span class="header-section-number">1.4.1</span> Scree Plot: ¿Cuánta información aporta cada componente principal?</h3>
@@ -449,21 +451,36 @@ numero_usuarios       -0.7070295307</code></pre>
 </div>
 </div>
 <p>Podemos observar que <strong>no hay un codo muy marcado</strong>. Aún así, sería recomendable coger <strong>mínimo 2 componentes, y como máximo 3</strong>; aunque cogiendo 4 componentes tendríamos casi el 100% de la varianza explicada. Una conclusión evidente es que la quinta componente es <strong>insignificante</strong>.</p>
+<p>Para decidir si elegir 2 o 3 componentes, aplicamos el <strong>Criterio de Kaiser</strong>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>eig <span class="ot">&lt;-</span> pca_productos<span class="sc">$</span>sdev<span class="sc">^</span><span class="dv">2</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(eig, <span class="at">names.arg =</span> <span class="fu">paste0</span>(<span class="st">"PC"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>))</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="dv">1</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bloque1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Luego, por el criterio de Kaiser, solo nos quedaríamos con las <strong>dos primeras componentes</strong> (son las que tienen el autovalor mayor que 1).</p>
+<p>Podemos observar que la tercera componente se queda muy cerca (0.97), pero <strong>el criterio la excluiría</strong>. Aún así, vamos a tenerla en cuenta también <strong>a la hora de analizarlas</strong>.</p>
 </section>
 <section id="el-biplot-del-dataset." class="level3" data-number="1.4.2">
 <h3 data-number="1.4.2" class="anchored" data-anchor-id="el-biplot-del-dataset."><span class="header-section-number">1.4.2</span> El Biplot del dataset.</h3>
 <p>Ahora observaremos el Biplot del dataset con los datos de la segunda tabla mostrada. Para ello usaremos la función <code>fviz_pca_biplot()</code> de la librería <code>factoextra</code> (cargada previamente).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pca_productos,</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.var =</span> <span class="st">"#2F5D8C"</span>, </span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.ind =</span> <span class="st">"#8C2D2D"</span>,</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">repel=</span><span class="cn">TRUE</span>,</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom=</span><span class="st">"point"</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Biplot de los productos."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fviz_pca_biplot</span>(pca_productos,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.var =</span> <span class="st">"#2F5D8C"</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">col.ind =</span> <span class="st">"#8C2D2D"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">repel=</span><span class="cn">TRUE</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>                <span class="at">geom=</span><span class="st">"point"</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>                <span class="at">title =</span> <span class="st">"Biplot de los productos."</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="bloque1_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="bloque1_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -477,8 +494,8 @@ numero_usuarios       -0.7070295307</code></pre>
 <h2 data-number="1.5" class="anchored" data-anchor-id="conclusión-qué-significa-cada-componente"><span class="header-section-number">1.5</span> Conclusión: ¿Qué significa cada componente?</h2>
 <p>Aquí se dará una posible interpretación de qué significa cada componente:</p>
 <p>La primera componente es clara. Representa el número de reseñas que tiene el producto.</p>
-<p>La segunda componente es más interesante, ya que representa <strong>cómo de bien reseñado está un producto</strong>. Para esta componente no solo importa la valoración media que tiene el producto, sino que también importa cómo de fácil es leer las opiniones de otros usuarios, penalizando reseñas excesivamente largas. Sería interesante ver cómo se relacionaría el sentimiento promedio de las reseñas con esta variable.</p>
-<p>La tercera componente, que no se ha graficado, también tiene una interpretación clara (sacada de la segunda tabla). Esta componente representa simplemente la valoración promedia del producto.</p>
+<p>La segunda componente es más interesante, ya que representa <strong>la verbosidad de las reseñas de un producto</strong>. Para esta componente no importa demasiado la valoración media que tiene el producto, sino que lo que realmente marca la diferencia es <strong>cómo de fácil es leer las opiniones de otros usuarios</strong>, penalizando así las reseñas excesivamente largas. Sería interesante ver cómo se relacionaría el sentimiento promedio de las reseñas con esta variable.</p>
+<p>La tercera componente, que no se ha graficado, también tiene una interpretación clara (sacada de la segunda tabla). Esta componente representa simplemente la valoración promedio del producto.</p>
 <hr>
 <p><strong><em>FIN DEL BLOQUE 1</em></strong></p>
 
