@@ -130,11 +130,17 @@ library(igraph)
 library(ggraph)
 library(graphlayouts)
 
-g2 <- delete_vertices(g2, degree(g2) == 0)
+g2 <- delete_vertices(g, degree(g) == 0)
 
 # comunidades + tamaño de componente como atributos de nodo
 V(g2)$comunidad <- factor(membership(cluster_louvain(g2, weights = E(g2)$weight)))
 V(g2)$tam       <- components(g2)$csize[components(g2)$membership]
+```
+
+A continuación dibujamos el grafo. El cálculo del *layout* (`layout_components` con *sparse stress*) sobre miles de nodos es la parte más costosa de todo el documento, así que la figura se ha **pre-renderizado una sola vez** (con la misma semilla `set.seed(2004)`, mediante el script `generar_figuras_grafos.R`) y se inserta como imagen. El código se muestra pero no se ejecuta (`#| eval: false`).
+
+```{r}
+#| eval: false
 
 lay_fun <- function(cmp) {
   if (vcount(cmp) > 100)
@@ -152,6 +158,8 @@ ggraph(g2, layout = "manual", x = xy[, 1], y = xy[, 2]) +
   scale_size(range = c(0.4, 2)) +
   theme_graph()
 ```
+
+![Grafo de coparticipación completo (umbral $N=2$), coloreado por comunidad de Louvain; el tamaño de cada nodo es proporcional al de su componente. Se aprecia un gran clúster central y multitud de componentes pequeñas.](figuras/bloque2_grafo_completo.png){#fig-grafo-completo width=100%}
 
 Estructuralmente, podemos apreciar que **hay un gran clúster** en el centro, que será la **principal categoría de productos** que se han vendido (Libros, tecnología, etc.), y después hay muchas componentes pequeñas.
 
@@ -232,6 +240,8 @@ Por tanto, los productos más importantes (los productos *puente*) son:
 Veamos en el grafo, usando el primer nodo de ejemplo (que resulta ser el mismo para las 2 métricas) quiénes son sus vecinos para comprobar que las métricas reflejan, en efecto, su importancia dentro de la red. Para ello crearemos un subgrafo con una egored.
 
 ```{r}
+#| eval: false
+
 g_i <- as.igraph(g)
 
 # El ProductId líder es B002IEZJMA.
@@ -256,6 +266,8 @@ ggraph(g_ego, layout = "stress") +
        subtitle = paste0(vcount(g_ego), " nodos · ", ecount(g_ego), " aristas"))
 
 ```
+
+![Ego-grafo del producto líder `B002IEZJMA` (el de mayor PageRank y Betweenness), rodeado en dorado. Sus vecinos se colorean por comunidad y se dimensionan por grado: el nodo conecta con muchos productos de grado alto y de varias comunidades, lo que explica sus altos valores de centralidad.](figuras/bloque2_ego_B002IEZJMA.png){#fig-ego width=100%}
 
 Aquí se demuestra claramente lo que ya exponían. Nuestro nodo (rodeado por un círculo amarillo), está **conectado con muchísimos otros productos** que tienen grado de centralidad elevados también (tamaño del nodo). Esto explica por qué tiene un valor de PageRank tan elevado.
 

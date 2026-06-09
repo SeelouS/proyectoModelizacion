@@ -283,7 +283,7 @@ window.Quarto = {
 </section>
 <section id="observación-y-preparación-del-dataset." class="level2" data-number="1.2">
 <h2 data-number="1.2" class="anchored" data-anchor-id="observación-y-preparación-del-dataset."><span class="header-section-number">1.2</span> Observación y preparación del dataset.</h2>
-<p>Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay <strong>incluidos</strong> en el dataset y nos vamos a quedar con los últimas <strong>4000 productos</strong>.</p>
+<p>Una vez tenemos el dataset cargado, vamos a estudiarlo un poco y a generar una tabla con métricas de cada producto. En particular, vamos a observar qué datos hay <strong>incluidos</strong> en el dataset y nos vamos a quedar con los últimos <strong>4000 productos</strong>.</p>
 <p>Para crear la tabla usaremos <code>tidyverse</code>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Vemos el nombre de las columnas del dataset</span></span>
@@ -381,7 +381,7 @@ window.Quarto = {
 </section>
 <section id="aplicación-de-pca-para-reducir-la-dimensionalidad-de-los-datos." class="level2" data-number="1.4">
 <h2 data-number="1.4" class="anchored" data-anchor-id="aplicación-de-pca-para-reducir-la-dimensionalidad-de-los-datos."><span class="header-section-number">1.4</span> Aplicación de PCA para reducir la dimensionalidad de los datos.</h2>
-<p>Usaremos la función <code>prcomp()</code>de la librería <code>stats</code>. También estableceremos los hiperparámetros <code>scale</code> y <code>center</code> a <code>TRUE</code> para estandarizar los datos, ya que PCA es <strong>muy sensible</strong> a la unidades de medida.</p>
+<p>Usaremos la función <code>prcomp()</code>de la librería <code>stats</code>. También estableceremos los hiperparámetros <code>scale</code> y <code>center</code> a <code>TRUE</code> para estandarizar los datos, ya que PCA es <strong>muy sensible</strong> a las unidades de medida.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>pca_productos <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(productos_limpio, <span class="at">scale=</span><span class="cn">TRUE</span>, <span class="at">center=</span><span class="cn">TRUE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>

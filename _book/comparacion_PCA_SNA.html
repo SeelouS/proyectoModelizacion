@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA. – Arquitectura de Influencia en Ecosistemas de Consumo</title>
+<title>4&nbsp; Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA. – Arquitectura de Influencia en Ecosistemas de Consumo</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -68,18 +65,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./bloque3.html" rel="next">
-<link href="./bloque2.html" rel="prev">
+<link href="./anexoUsoIA.html" rel="next">
+<link href="./bloque3.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-02b7b62a15ccdfeac99fd78ed28fc3c0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-ff907a47ac0a29d3ca1a7450859183ed.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7e99a56414d45cd2060c2141c27fe866.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6d71e7d90f3d7f746f6ce96e34693826.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -109,7 +107,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
 
 
 </head>
@@ -123,7 +123,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./comparacion_PCA_SNA.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./comparacion_PCA_SNA.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -136,7 +136,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
     <div class="sidebar-title mb-0 py-0">
       <a href="./">Arquitectura de Influencia en Ecosistemas de Consumo</a> 
     </div>
@@ -168,14 +170,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./comparacion_PCA_SNA.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></span></a>
+  <a href="./bloque3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./bloque3.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span></a>
+  <a href="./comparacion_PCA_SNA.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -194,12 +196,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Contenido</h2>
    
   <ul>
-  <li><a href="#reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." id="toc-reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." class="nav-link active" data-scroll-target="#reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii."><span class="header-section-number">3.1</span> Reconstrucción del PCA (Bloque I) y de las centralidades (Bloque II).</a></li>
-  <li><a href="#comparación-de-las-dos-aproximaciones." id="toc-comparación-de-las-dos-aproximaciones." class="nav-link" data-scroll-target="#comparación-de-las-dos-aproximaciones."><span class="header-section-number">3.2</span> Comparación de las dos aproximaciones.</a></li>
-  <li><a href="#centralidad-y-posición-en-el-pca-miden-lo-mismo" id="toc-centralidad-y-posición-en-el-pca-miden-lo-mismo" class="nav-link" data-scroll-target="#centralidad-y-posición-en-el-pca-miden-lo-mismo"><span class="header-section-number">3.3</span> ¿Centralidad y posición en el PCA miden lo mismo?</a></li>
-  <li><a href="#outliers-del-pca-vs.-productos-centrales." id="toc-outliers-del-pca-vs.-productos-centrales." class="nav-link" data-scroll-target="#outliers-del-pca-vs.-productos-centrales."><span class="header-section-number">3.4</span> Outliers del PCA vs.&nbsp;productos centrales.</a></li>
-  <li><a href="#visualización-del-cruce-el-biplot-coloreado-por-centralidad." id="toc-visualización-del-cruce-el-biplot-coloreado-por-centralidad." class="nav-link" data-scroll-target="#visualización-del-cruce-el-biplot-coloreado-por-centralidad."><span class="header-section-number">3.5</span> Visualización del cruce: el biplot coloreado por centralidad.</a></li>
-  <li><a href="#conclusión-de-la-validación-cruzada." id="toc-conclusión-de-la-validación-cruzada." class="nav-link" data-scroll-target="#conclusión-de-la-validación-cruzada."><span class="header-section-number">3.6</span> Conclusión de la validación cruzada.</a></li>
+  <li><a href="#reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." id="toc-reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." class="nav-link active" data-scroll-target="#reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii."><span class="header-section-number">4.1</span> Reconstrucción del PCA (Bloque I) y de las centralidades (Bloque II).</a></li>
+  <li><a href="#comparación-de-las-dos-aproximaciones." id="toc-comparación-de-las-dos-aproximaciones." class="nav-link" data-scroll-target="#comparación-de-las-dos-aproximaciones."><span class="header-section-number">4.2</span> Comparación de las dos aproximaciones.</a></li>
+  <li><a href="#centralidad-y-posición-en-el-pca-miden-lo-mismo" id="toc-centralidad-y-posición-en-el-pca-miden-lo-mismo" class="nav-link" data-scroll-target="#centralidad-y-posición-en-el-pca-miden-lo-mismo"><span class="header-section-number">4.3</span> ¿Centralidad y posición en el PCA miden lo mismo?</a></li>
+  <li><a href="#outliers-del-pca-vs.-productos-centrales." id="toc-outliers-del-pca-vs.-productos-centrales." class="nav-link" data-scroll-target="#outliers-del-pca-vs.-productos-centrales."><span class="header-section-number">4.4</span> Outliers del PCA vs.&nbsp;productos centrales.</a></li>
+  <li><a href="#visualización-del-cruce-el-biplot-coloreado-por-centralidad." id="toc-visualización-del-cruce-el-biplot-coloreado-por-centralidad." class="nav-link" data-scroll-target="#visualización-del-cruce-el-biplot-coloreado-por-centralidad."><span class="header-section-number">4.5</span> Visualización del cruce: el biplot coloreado por centralidad.</a></li>
+  <li><a href="#conclusión-de-la-validación-cruzada." id="toc-conclusión-de-la-validación-cruzada." class="nav-link" data-scroll-target="#conclusión-de-la-validación-cruzada."><span class="header-section-number">4.6</span> Conclusión de la validación cruzada.</a></li>
   </ul>
 </nav>
     </div>
@@ -208,7 +210,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA.</span></h1>
 </div>
 
 
@@ -233,8 +235,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>¿Los productos con mayor centralidad en el grafo son también los que destacan en el biplot del PCA?</p>
 </blockquote>
 <p>Cruzar ambos métodos es una forma de <strong>validación</strong>: si dos técnicas tan distintas señalan a los mismos productos, la conclusión es robusta; si se contradicen, cada una está capturando algo diferente.</p>
-<section id="reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii."><span class="header-section-number">3.1</span> Reconstrucción del PCA (Bloque I) y de las centralidades (Bloque II).</h2>
+<section id="reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii." class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="reconstrucción-del-pca-bloque-i-y-de-las-centralidades-bloque-ii."><span class="header-section-number">4.1</span> Reconstrucción del PCA (Bloque I) y de las centralidades (Bloque II).</h2>
 <p>Reconstruimos las dos vistas con exactamente la misma metodología de los bloques anteriores. El PCA se calcula sobre los <strong>4000 productos más recientes</strong> (como en el Bloque I) y las centralidades sobre el grafo de coparticipación completo.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
@@ -263,50 +265,51 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">4000</span>) <span class="sc">|&gt;</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>comprado_por_ultima_vez)</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(productos_pca <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>ProductId), <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>scores<span class="sc">$</span>ProductId <span class="ot">&lt;-</span> productos_pca<span class="sc">$</span>ProductId</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">#SNA</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>valores <span class="ot">&lt;-</span> reviews <span class="sc">|&gt;</span> <span class="fu">select</span>(UserId, ProductId) <span class="sc">|&gt;</span> <span class="fu">distinct</span>()</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>pf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>ProductId)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>uf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>UserId)</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sparseMatrix</span>(<span class="at">i =</span> <span class="fu">as.integer</span>(pf), <span class="at">j =</span> <span class="fu">as.integer</span>(uf), <span class="at">x =</span> <span class="dv">1</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dims =</span> <span class="fu">c</span>(<span class="fu">nlevels</span>(pf), <span class="fu">nlevels</span>(uf)),</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">levels</span>(pf), <span class="fu">levels</span>(uf)))</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> A <span class="sc">%*%</span> <span class="fu">t</span>(A)</span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">as</span>(M, <span class="st">"dgCMatrix"</span>) </span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(M) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> M; </span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>; <span class="co"># 2 es el umbral</span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">drop0</span>(C)</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(C, </span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">mode =</span> <span class="st">"undirected"</span>, </span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># elminamos nodos inconexos</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g, <span class="fu">degree</span>(g) <span class="sc">==</span> <span class="dv">0</span>)</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>medidas <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>  <span class="at">ProductId =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name,</span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">pagerank  =</span> <span class="fu">page_rank</span>(g, </span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight, </span>
-<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                        <span class="at">directed =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>vector,</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength  =</span> <span class="fu">strength</span>(g,  </span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>                       <span class="at">weights =</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight),</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>  <span class="at">betw      =</span> <span class="fu">betweenness</span>(g, </span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                          <span class="at">weights =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>  <span class="at">grado =</span> <span class="fu">degree</span>(g, <span class="at">mode=</span><span class="st">"total"</span>)</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>pca <span class="ot">&lt;-</span> <span class="fu">prcomp</span>(productos_pca <span class="sc">|&gt;</span> <span class="fu">select</span>(<span class="sc">-</span>ProductId), </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>              <span class="at">center =</span> <span class="cn">TRUE</span>, <span class="at">scale. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(pca<span class="sc">$</span>x)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>scores<span class="sc">$</span>ProductId <span class="ot">&lt;-</span> productos_pca<span class="sc">$</span>ProductId</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">#SNA</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>valores <span class="ot">&lt;-</span> reviews <span class="sc">|&gt;</span> <span class="fu">select</span>(UserId, ProductId) <span class="sc">|&gt;</span> <span class="fu">distinct</span>()</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>pf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>ProductId)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>uf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>UserId)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sparseMatrix</span>(<span class="at">i =</span> <span class="fu">as.integer</span>(pf), <span class="at">j =</span> <span class="fu">as.integer</span>(uf), <span class="at">x =</span> <span class="dv">1</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dims =</span> <span class="fu">c</span>(<span class="fu">nlevels</span>(pf), <span class="fu">nlevels</span>(uf)),</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">levels</span>(pf), <span class="fu">levels</span>(uf)))</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> A <span class="sc">%*%</span> <span class="fu">t</span>(A)</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">as</span>(M, <span class="st">"dgCMatrix"</span>) </span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(M) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> M; </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>; <span class="co"># 2 es el umbral</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">drop0</span>(C)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(C, </span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">mode =</span> <span class="st">"undirected"</span>, </span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co"># elminamos nodos inconexos</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g, <span class="fu">degree</span>(g) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>medidas <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="at">ProductId =</span> <span class="fu">V</span>(g)<span class="sc">$</span>name,</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="at">pagerank  =</span> <span class="fu">page_rank</span>(g, </span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>                        <span class="at">weights =</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight, </span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>                        <span class="at">directed =</span> <span class="cn">FALSE</span>)<span class="sc">$</span>vector,</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength  =</span> <span class="fu">strength</span>(g,  </span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>                       <span class="at">weights =</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight),</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="at">betw      =</span> <span class="fu">betweenness</span>(g, </span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>                          <span class="at">weights =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">E</span>(g)<span class="sc">$</span>weight, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>  <span class="at">grado =</span> <span class="fu">degree</span>(g, <span class="at">mode=</span><span class="st">"total"</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="comparación-de-las-dos-aproximaciones." class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="comparación-de-las-dos-aproximaciones."><span class="header-section-number">3.2</span> Comparación de las dos aproximaciones.</h2>
+<section id="comparación-de-las-dos-aproximaciones." class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="comparación-de-las-dos-aproximaciones."><span class="header-section-number">4.2</span> Comparación de las dos aproximaciones.</h2>
 <p>El PCA se calculó sobre los productos <strong>más recientes</strong> y el grafo retiene los productos con <strong>suficiente co-reseña</strong>. Así que como no son el mismo conjunto, trabajaremos sobre su <strong>intersección</strong>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>interseccion <span class="ot">&lt;-</span> <span class="fu">inner_join</span>(scores, medidas, <span class="at">by =</span> <span class="st">"ProductId"</span>)</span>
@@ -317,21 +320,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>Productos en PCA: 4000 | nodos del grafo: 12617 | en AMBOS: 1857 </code></pre>
 </div>
 </div>
-<p>El solapamiento es suficiente para comparar ambas técnicas. Por ello, procederemos a comparar los cálculos</p>
+<p>El solapamiento es suficiente para comparar ambas técnicas. Por ello, procederemos a comparar los cálculos.</p>
 </section>
-<section id="centralidad-y-posición-en-el-pca-miden-lo-mismo" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="centralidad-y-posición-en-el-pca-miden-lo-mismo"><span class="header-section-number">3.3</span> ¿Centralidad y posición en el PCA miden lo mismo?</h2>
+<section id="centralidad-y-posición-en-el-pca-miden-lo-mismo" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="centralidad-y-posición-en-el-pca-miden-lo-mismo"><span class="header-section-number">4.3</span> ¿Centralidad y posición en el PCA miden lo mismo?</h2>
 <p>Calculamos la correlación de <strong>Spearman</strong> entre cada medida de centralidad y cada componente.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>vars_c <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"pagerank"</span>, <span class="st">"strength"</span>, <span class="st">"betw"</span>, <span class="st">"grado"</span>)</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>tabla_cor <span class="ot">&lt;-</span> <span class="fu">lapply</span>(vars_c, <span class="cf">function</span>(cc) {</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(<span class="at">centralidad =</span> cc,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC1  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC1,  <span class="at">method =</span> <span class="st">"spearman"</span>),</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC2  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC2,  <span class="at">method =</span> <span class="st">"spearman"</span>),</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC3  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC3,  <span class="at">method =</span> <span class="st">"spearman"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  )}) <span class="sc">|&gt;</span> <span class="fu">bind_rows</span>()</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>tabla_cor <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC1  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC1,  </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"spearman"</span>),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC2  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC2,  </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"spearman"</span>),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">PC3  =</span> <span class="fu">cor</span>(interseccion[[cc]], interseccion<span class="sc">$</span>PC3, </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                    <span class="at">method =</span> <span class="st">"spearman"</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  )}) <span class="sc">|&gt;</span> <span class="fu">bind_rows</span>()</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>tabla_cor <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">where</span>(is.numeric), \(x) <span class="fu">round</span>(x, <span class="dv">3</span>)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
@@ -343,11 +349,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Interpretación.</strong> De esta tabla podemos obtener varias cosas en claro:</p>
 <ul>
 <li>Las 4 medidas se correlacionan <strong>fuertemente con PC1</strong> (aunque PageRank tiene una correlación más floja). Esto tiene sentido ya que en el Bloque I vimos que <strong>PC1 lo define principalmente <code>numero_reviews</code> y <code>numero_usuarios</code></strong>, es decir, <strong>PC1 es el eje de la popularidad</strong>. Y, como dijimos en el Bloque 3 la centralidad en una red de co-reseña <em>representa</em> básicamente la popularidad, así que <strong>ambos métodos coinciden en este eje</strong>.</li>
-<li>Por otro lado, la correlación con <strong>PC2</strong> (verbosidad de las reseñas) y <strong>PC3</strong> (valoración) es <strong>prácticamente nula</strong>. Esto nos dice que la centralidad de un producto <strong>no dice nada</strong> sobre lo bien valorado que esta un producto, o lo <em>“leíble”</em> que son las reseñas de este.</li>
+<li>Por otro lado, la correlación con <strong>PC2</strong> (verbosidad de las reseñas) y <strong>PC3</strong> (valoración) es <strong>prácticamente nula</strong>. Esto nos dice que la centralidad de un producto <strong>no dice nada</strong> sobre lo bien valorado que está un producto, o lo <em>“leíble”</em> que son las reseñas de este.</li>
 </ul>
 </section>
-<section id="outliers-del-pca-vs.-productos-centrales." class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="outliers-del-pca-vs.-productos-centrales."><span class="header-section-number">3.4</span> Outliers del PCA vs.&nbsp;productos centrales.</h2>
+<section id="outliers-del-pca-vs.-productos-centrales." class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="outliers-del-pca-vs.-productos-centrales."><span class="header-section-number">4.4</span> Outliers del PCA vs.&nbsp;productos centrales.</h2>
 <p>Definimos a los <strong>outliers</strong> como el 5 % de productos más extremos y como <strong>central</strong> al 5 % con mayor PageRank.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>interseccion <span class="ot">&lt;-</span> interseccion <span class="sc">|&gt;</span></span>
@@ -356,11 +362,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              PC3 <span class="sc">&gt;=</span> <span class="fu">quantile</span>(PC3, <span class="fl">0.95</span>),</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">central =</span> pagerank <span class="sc">&gt;=</span> <span class="fu">quantile</span>(pagerank, <span class="fl">0.95</span>))</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">outlier =</span> interseccion<span class="sc">$</span>outlier, <span class="at">central =</span> interseccion<span class="sc">$</span>central)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>p_outlier_si_central <span class="ot">&lt;-</span> <span class="fu">mean</span>(interseccion<span class="sc">$</span>outlier[interseccion<span class="sc">$</span>central])</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>p_outlier <span class="ot">&lt;-</span> <span class="fu">mean</span>(interseccion<span class="sc">$</span>outlier)</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>tabla</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>tabla <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">outlier =</span> interseccion<span class="sc">$</span>outlier, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>               <span class="at">central =</span> interseccion<span class="sc">$</span>central)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>p_outlier_si_central <span class="ot">&lt;-</span> <span class="fu">mean</span>(interseccion<span class="sc">$</span>outlier[interseccion<span class="sc">$</span>central])</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>p_outlier <span class="ot">&lt;-</span> <span class="fu">mean</span>(interseccion<span class="sc">$</span>outlier)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>tabla</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       central
 outlier FALSE TRUE
@@ -376,19 +383,21 @@ P(outlier | central) = 0.452   vs  P(outlier) = 0.137 </code></pre>
 </div>
 <p>La respuesta es contundente: un producto central tiene más de un 45% de probabilidad de ser outlier del PCA, frente al casi 14% de un producto cualquiera. Por tanto, concluimos que <strong>sí, los productos con mayor centralidad suelen ser los outliers del biplot</strong>.</p>
 </section>
-<section id="visualización-del-cruce-el-biplot-coloreado-por-centralidad." class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="visualización-del-cruce-el-biplot-coloreado-por-centralidad."><span class="header-section-number">3.5</span> Visualización del cruce: el biplot coloreado por centralidad.</h2>
-<p>Lo confirmamos visualmente. Situamos los productos de la intersección en el plano PC1–PC2 y los coloreamos por su PageRank; rodeamos en rojo el 5 % más central.</p>
+<section id="visualización-del-cruce-el-biplot-coloreado-por-centralidad." class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="visualización-del-cruce-el-biplot-coloreado-por-centralidad."><span class="header-section-number">4.5</span> Visualización del cruce: el biplot coloreado por centralidad.</h2>
+<p>Lo confirmamos visualmente. Situamos los productos de la intersección en el plano PC1–PC2 y los coloreamos por su PageRank; rodeamos en rojo el 5 % más central. Aplicamos el logaritmo para hacer los valores más legibles (entre -15 y 5).</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(interseccion, <span class="fu">aes</span>(PC1, PC2)) <span class="sc">+</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> <span class="fu">log10</span>(pagerank), <span class="at">size =</span> strength), <span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data =</span> <span class="fu">filter</span>(interseccion, central),</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">colour =</span> <span class="st">"#8C2D2D"</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="fl">2.4</span>, <span class="at">stroke =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient</span>(<span class="at">low =</span> <span class="st">"#AFC6D9"</span>, <span class="at">high =</span> <span class="st">"#2F5D8C"</span>, <span class="at">name =</span> <span class="st">"log10(PageRank)"</span>) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="dv">4</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PC1  (→ más popular)"</span>, <span class="at">y =</span> <span class="st">"PC2  (→ reseñas más largas)"</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Cruce PCA × SNA: centralidad sobre el biplot"</span>) <span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_gradient</span>(<span class="at">low =</span> <span class="st">"#AFC6D9"</span>, </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">high =</span> <span class="st">"#2F5D8C"</span>, </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">name =</span> <span class="st">"log10(PageRank)"</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="dv">4</span>), <span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"PC1  (→ más popular)"</span>, <span class="at">y =</span> <span class="st">"PC2  (→ reseñas más largas)"</span>,</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Cruce PCA × SNA: centralidad sobre el biplot"</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -397,14 +406,14 @@ P(outlier | central) = 0.452   vs  P(outlier) = 0.137 </code></pre>
 </div>
 </div>
 </div>
-<p>La nube se dispersa hacia la <strong>derecha</strong>: ahí, separados de los productos “normales”, se sitúan los puntos azul oscuro (centrales) y rojos (outliers).</p>
+<p>La nube se dispersa hacia la <strong>izquierda</strong>: ahí, separados de los productos “normales”, se sitúan los puntos azul oscuro (centrales) y rojos (outliers).</p>
 <p>Esto es exactamente lo que se predijo con los resultados numéricos: <strong>la centralidad crece a lo largo de PC1, y los productos centrales son los que más tienden a ser outliers</strong>, pero <strong>sin desplazarse demasiado en el eje vertical</strong> (PC2) ni en el eje de calidad (PC3).</p>
 </section>
-<section id="conclusión-de-la-validación-cruzada." class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="conclusión-de-la-validación-cruzada."><span class="header-section-number">3.6</span> Conclusión de la validación cruzada.</h2>
+<section id="conclusión-de-la-validación-cruzada." class="level2" data-number="4.6">
+<h2 data-number="4.6" class="anchored" data-anchor-id="conclusión-de-la-validación-cruzada."><span class="header-section-number">4.6</span> Conclusión de la validación cruzada.</h2>
 <p>Cruzando PCA y SNA obtenemos las siguientes conclusiones</p>
 <ol type="1">
-<li><strong>Coinciden en el eje de la popularidad.</strong> PC1 y la centralidad de la red (<code>strength</code>, PageRank, <em>betweenness</em>, grado) miden, de manera independiente, <strong>lo mismo</strong>: cuánta gente interactúa con el producto. Esta intuición esta respaldada por una alto índice de correlación.</li>
+<li><strong>Coinciden en el eje de la popularidad.</strong> PC1 y la centralidad de la red (<code>strength</code>, PageRank, <em>betweenness</em>, grado) miden, de manera independiente, <strong>lo mismo</strong>: cuánta gente interactúa con el producto. Esta intuición está respaldada por una alto índice de correlación.</li>
 <li><strong>Los productos centrales son los outliers del biplot.</strong> Pero lo son <strong>en la dirección del PC1</strong>. Son extremos en <em>popularidad</em>, no en <em>verbosidad</em> ni en <em>calidad</em> (PC2 y PC3, respectivamente). La conclusión con <em>calidad</em> también la obtuvimos con SNA, la topología de la red aportaba muy poca información acerca de la calidad de un producto.</li>
 </ol>
 <p>En resumen, PCA y SNA llegan a resultados parecidos en las métricas que parecen compartir. Hay una <strong>alta correlación entre popularidad (PC1) y centralidad</strong>, mientras que desde las dos comparativas se concluye también que <strong>valoración (PC3) y centralidad están muy poco (o nada) correlacionadas</strong>.</p>
@@ -822,13 +831,13 @@ P(outlier | central) = 0.452   vs  P(outlier) = 0.137 </code></pre>
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./bloque2.html" class="pagination-link" aria-label="Bloque II: Análisis de Redes Sociales (SNA).">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Bloque II: Análisis de Redes Sociales (SNA).</span></span>
+      <a href="./bloque3.html" class="pagination-link" aria-label="Bloque III: Clasificación Basada en Enlaces (Link-based).">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./bloque3.html" class="pagination-link" aria-label="Bloque III: Clasificación Basada en Enlaces (Link-based).">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Bloque III: Clasificación Basada en Enlaces (Link-based).</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./anexoUsoIA.html" class="pagination-link" aria-label="Anexo: Diario de Interacción con IA.">
+        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Anexo: Diario de Interacción con IA.</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
