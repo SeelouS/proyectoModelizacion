@@ -74,8 +74,15 @@ Las tareas de clasificación e inferencia por enlaces solo tienen sentido sobre 
 #| warning: false
 
 comp <- components(g)
-grafo_componente_principal  <- induced_subgraph(g, which(comp$membership == which.max(comp$csize)))
-cat("Componente principal:", vcount(grafo_componente_principal), "nodos,", ecount(grafo_componente_principal), "aristas",
+grafo_componente_principal  <- 
+  induced_subgraph(g, 
+                   which(comp$membership == 
+                           which.max(comp$csize)))
+cat("Componente principal:", 
+    vcount(grafo_componente_principal), 
+    "nodos,", 
+    ecount(grafo_componente_principal), 
+    "aristas",
     "(de", comp$no, "componentes en total).\n")
 ```
 

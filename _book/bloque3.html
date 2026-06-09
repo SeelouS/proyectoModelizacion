@@ -328,9 +328,16 @@ window.Quarto = {
 <p>Las tareas de clasificación e inferencia por enlaces solo tienen sentido sobre nodos <strong>conectados</strong>, por lo que trabajaremos solamente sobre la <strong>componente gigante</strong>, que concentra una gran parte de los productos. Además, así conseguimos manejar eficientemente <em>“grafos de gran tamaño”</em>: descartamos todas las componentes diminutas y nos quedamos con el núcleo.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">components</span>(g)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grafo_componente_principal  <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g, <span class="fu">which</span>(comp<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(comp<span class="sc">$</span>csize)))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Componente principal:"</span>, <span class="fu">vcount</span>(grafo_componente_principal), <span class="st">"nodos,"</span>, <span class="fu">ecount</span>(grafo_componente_principal), <span class="st">"aristas"</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(de"</span>, comp<span class="sc">$</span>no, <span class="st">"componentes en total).</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grafo_componente_principal  <span class="ot">&lt;-</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">induced_subgraph</span>(g, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">which</span>(comp<span class="sc">$</span>membership <span class="sc">==</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">which.max</span>(comp<span class="sc">$</span>csize)))</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Componente principal:"</span>, </span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vcount</span>(grafo_componente_principal), </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"nodos,"</span>, </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ecount</span>(grafo_componente_principal), </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"aristas"</span>,</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(de"</span>, comp<span class="sc">$</span>no, <span class="st">"componentes en total).</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Componente principal: 6855 nodos, 91832 aristas (de 1902 componentes en total).</code></pre>
 </div>

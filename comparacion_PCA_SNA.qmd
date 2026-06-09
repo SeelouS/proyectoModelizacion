@@ -166,7 +166,8 @@ Lo confirmamos visualmente. Situamos los productos de la intersección en el pla
 #| warning: false
 
 ggplot(interseccion, aes(PC1, PC2)) +
-  geom_point(aes(colour = log10(pagerank), size = strength), alpha = 0.6) +
+  geom_point(aes(colour = log10(pagerank), size = strength), 
+             alpha = 0.6) +
   geom_point(data = filter(interseccion, central),
              colour = "#8C2D2D", shape = 21, size = 2.4, stroke = 0.7) +
   scale_colour_gradient(low = "#AFC6D9", 

@@ -133,7 +133,9 @@ library(graphlayouts)
 g2 <- delete_vertices(g, degree(g) == 0)
 
 # comunidades + tamaño de componente como atributos de nodo
-V(g2)$comunidad <- factor(membership(cluster_louvain(g2, weights = E(g2)$weight)))
+V(g2)$comunidad <- factor(
+  membership(
+  cluster_louvain(g2, weights = E(g2)$weight)))
 V(g2)$tam       <- components(g2)$csize[components(g2)$membership]
 ```
 
@@ -181,7 +183,8 @@ g <- g2 |>
   as_tbl_graph() |>
   activate(nodes) |>
   mutate(pagerank=centrality_pagerank(weights=weight,directed=FALSE),
-         betw=centrality_betweenness(weights = 1/weight, directed = FALSE),
+         betw=centrality_betweenness(weights = 
+                                       1/weight, directed = FALSE),
          grado=centrality_degree(weights = weight))
 
 ```
@@ -246,7 +249,9 @@ g_i <- as.igraph(g)
 
 # El ProductId líder es B002IEZJMA.
 
-g_ego <- make_ego_graph(g_i, order = 1, nodes=V(g)[name=="B002IEZJMA"])[[1]]
+g_ego <- make_ego_graph(g_i, 
+                        order = 1, 
+                        nodes=V(g)[name=="B002IEZJMA"])[[1]]
 V(g_ego)$ego <- V(g_ego)$name == "B002IEZJMA"
 
 
@@ -263,7 +268,8 @@ ggraph(g_ego, layout = "stress") +
   scale_colour_viridis_d(option = "turbo") +
   labs(colour = "Comunidad",
        title = "Ego-grafo de B002IEZJMA",
-       subtitle = paste0(vcount(g_ego), " nodos · ", ecount(g_ego), " aristas"))
+       subtitle = paste0(vcount(g_ego), " nodos · ", 
+                         ecount(g_ego), " aristas"))
 
 ```
 

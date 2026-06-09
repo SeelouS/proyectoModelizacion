@@ -409,8 +409,10 @@ Adjuntando el paquete: 'purrr'</code></pre>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g, <span class="fu">degree</span>(g) <span class="sc">==</span> <span class="dv">0</span>)</span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># comunidades + tamaño de componente como atributos de nodo</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>comunidad <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">membership</span>(<span class="fu">cluster_louvain</span>(g2, <span class="at">weights =</span> <span class="fu">E</span>(g2)<span class="sc">$</span>weight)))</span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>tam       <span class="ot">&lt;-</span> <span class="fu">components</span>(g2)<span class="sc">$</span>csize[<span class="fu">components</span>(g2)<span class="sc">$</span>membership]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>comunidad <span class="ot">&lt;-</span> <span class="fu">factor</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">membership</span>(</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cluster_louvain</span>(g2, <span class="at">weights =</span> <span class="fu">E</span>(g2)<span class="sc">$</span>weight)))</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>tam       <span class="ot">&lt;-</span> <span class="fu">components</span>(g2)<span class="sc">$</span>csize[<span class="fu">components</span>(g2)<span class="sc">$</span>membership]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>A continuación dibujamos el grafo. El cálculo del <em>layout</em> (<code>layout_components</code> con <em>sparse stress</em>) sobre miles de nodos es la parte más costosa de todo el documento, así que la figura se ha <strong>pre-renderizado una sola vez</strong> (con la misma semilla <code>set.seed(2004)</code>, mediante el script <code>generar_figuras_grafos.R</code>) y se inserta como imagen. El código se muestra pero no se ejecuta (<code>#| eval: false</code>).</p>
 <div class="cell">
@@ -454,8 +456,9 @@ Figure&nbsp;2.1: Grafo de coparticipación completo (umbral <span class="math in
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tbl_graph</span>() <span class="sc">|&gt;</span></span>
 <span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">|&gt;</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pagerank=</span><span class="fu">centrality_pagerank</span>(<span class="at">weights=</span>weight,<span class="at">directed=</span><span class="cn">FALSE</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">betw=</span><span class="fu">centrality_betweenness</span>(<span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span>weight, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">grado=</span><span class="fu">centrality_degree</span>(<span class="at">weights =</span> weight))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">betw=</span><span class="fu">centrality_betweenness</span>(<span class="at">weights =</span> </span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>                                       <span class="dv">1</span><span class="sc">/</span>weight, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">grado=</span><span class="fu">centrality_degree</span>(<span class="at">weights =</span> weight))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="análisis-de-centralidad-de-pagerank." class="level3" data-number="2.3.1">
 <h3 data-number="2.3.1" class="anchored" data-anchor-id="análisis-de-centralidad-de-pagerank."><span class="header-section-number">2.3.1</span> Análisis de centralidad de PageRank.</h3>
@@ -520,24 +523,27 @@ Figure&nbsp;2.1: Grafo de coparticipación completo (umbral <span class="math in
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="co"># El ProductId líder es B002IEZJMA.</span></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>g_ego <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(g_i, <span class="at">order =</span> <span class="dv">1</span>, <span class="at">nodes=</span><span class="fu">V</span>(g)[name<span class="sc">==</span><span class="st">"B002IEZJMA"</span>])[[<span class="dv">1</span>]]</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g_ego)<span class="sc">$</span>ego <span class="ot">&lt;-</span> <span class="fu">V</span>(g_ego)<span class="sc">$</span>name <span class="sc">==</span> <span class="st">"B002IEZJMA"</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>g_ego <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(g_i, </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">order =</span> <span class="dv">1</span>, </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>                        <span class="at">nodes=</span><span class="fu">V</span>(g)[name<span class="sc">==</span><span class="st">"B002IEZJMA"</span>])[[<span class="dv">1</span>]]</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g_ego)<span class="sc">$</span>ego <span class="ot">&lt;-</span> <span class="fu">V</span>(g_ego)<span class="sc">$</span>name <span class="sc">==</span> <span class="st">"B002IEZJMA"</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(g_ego, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> comunidad, <span class="at">size =</span> grado)) <span class="sc">+</span></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">subset</span>(.x, ego), </span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>                  <span class="at">colour =</span> <span class="st">"gold"</span>, </span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">8</span>, </span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">shape =</span> <span class="dv">21</span>, </span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">option =</span> <span class="st">"turbo"</span>) <span class="sc">+</span></span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Comunidad"</span>,</span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Ego-grafo de B002IEZJMA"</span>,</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="fu">vcount</span>(g_ego), <span class="st">" nodos · "</span>, <span class="fu">ecount</span>(g_ego), <span class="st">" aristas"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(g_ego, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> comunidad, <span class="at">size =</span> grado)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">subset</span>(.x, ego), </span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                  <span class="at">colour =</span> <span class="st">"gold"</span>, </span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>                  <span class="at">size =</span> <span class="dv">8</span>, </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>                  <span class="at">shape =</span> <span class="dv">21</span>, </span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>                  <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">option =</span> <span class="st">"turbo"</span>) <span class="sc">+</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Comunidad"</span>,</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Ego-grafo de B002IEZJMA"</span>,</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="fu">vcount</span>(g_ego), <span class="st">" nodos · "</span>, </span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">ecount</span>(g_ego), <span class="st">" aristas"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="fig-ego" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
