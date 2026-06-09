@@ -225,17 +225,14 @@ window.Quarto = {
   <ul>
   <li><a href="#aclaración-importante-qué-categoría-predecimos" id="toc-aclaración-importante-qué-categoría-predecimos" class="nav-link active" data-scroll-target="#aclaración-importante-qué-categoría-predecimos"><span class="header-section-number">4.1</span> Aclaración importante: ¿qué “categoría” predecimos?</a></li>
   <li><a href="#reconstrucción-de-las-estructuras-de-los-bloques-i-y-ii." id="toc-reconstrucción-de-las-estructuras-de-los-bloques-i-y-ii." class="nav-link" data-scroll-target="#reconstrucción-de-las-estructuras-de-los-bloques-i-y-ii."><span class="header-section-number">4.2</span> Reconstrucción de las estructuras de los Bloques I y II.</a></li>
-  <li><a href="#sec-homofilia" id="toc-sec-homofilia" class="nav-link" data-scroll-target="#sec-homofilia"><span class="header-section-number">4.3</span> Homofilia: ¿se puede predecir un atributo mirando a los vecinos?</a>
+  <li><a href="#homofilia-se-puede-predecir-un-atributo-mirando-a-los-vecinos" id="toc-homofilia-se-puede-predecir-un-atributo-mirando-a-los-vecinos" class="nav-link" data-scroll-target="#homofilia-se-puede-predecir-un-atributo-mirando-a-los-vecinos"><span class="header-section-number">4.3</span> Homofilia: ¿se puede predecir un atributo mirando a los vecinos?</a>
   <ul class="collapse">
   <li><a href="#medida-de-homofilia-la-asortatividad." id="toc-medida-de-homofilia-la-asortatividad." class="nav-link" data-scroll-target="#medida-de-homofilia-la-asortatividad."><span class="header-section-number">4.3.1</span> Medida de homofilia: la asortatividad.</a></li>
   <li><a href="#clasificación-colectiva-voto-ponderado-de-los-vecinos." id="toc-clasificación-colectiva-voto-ponderado-de-los-vecinos." class="nav-link" data-scroll-target="#clasificación-colectiva-voto-ponderado-de-los-vecinos."><span class="header-section-number">4.3.2</span> Clasificación colectiva: voto ponderado de los vecinos.</a></li>
   <li><a href="#coinciden-las-comunidades-con-la-calidad" id="toc-coinciden-las-comunidades-con-la-calidad" class="nav-link" data-scroll-target="#coinciden-las-comunidades-con-la-calidad"><span class="header-section-number">4.3.3</span> ¿Coinciden las comunidades con la calidad?</a></li>
   </ul></li>
-  <li><a href="#sec-elite" id="toc-sec-elite" class="nav-link" data-scroll-target="#sec-elite"><span class="header-section-number">4.4</span> Clasificación “Elite” desde la topología.</a></li>
-  <li><a href="#sec-link" id="toc-sec-link" class="nav-link" data-scroll-target="#sec-link"><span class="header-section-number">4.5</span> Link Prediction: predicción de la co-compra.</a>
-  <ul class="collapse">
-  <li><a href="#recomendaciones-concretas-de-co-compra." id="toc-recomendaciones-concretas-de-co-compra." class="nav-link" data-scroll-target="#recomendaciones-concretas-de-co-compra."><span class="header-section-number">4.5.1</span> Recomendaciones concretas de co-compra.</a></li>
-  </ul></li>
+  <li><a href="#clasificación-elite-desde-la-topología." id="toc-clasificación-elite-desde-la-topología." class="nav-link" data-scroll-target="#clasificación-elite-desde-la-topología."><span class="header-section-number">4.4</span> Clasificación “Elite” desde la topología.</a></li>
+  <li><a href="#link-prediction-predicción-de-la-co-compra." id="toc-link-prediction-predicción-de-la-co-compra." class="nav-link" data-scroll-target="#link-prediction-predicción-de-la-co-compra."><span class="header-section-number">4.5</span> Link Prediction: predicción de la co-compra.</a></li>
   <li><a href="#conclusión-del-bloque-iii." id="toc-conclusión-del-bloque-iii." class="nav-link" data-scroll-target="#conclusión-del-bloque-iii."><span class="header-section-number">4.6</span> Conclusión del Bloque III.</a></li>
   </ul>
 </nav>
@@ -278,19 +275,19 @@ window.Quarto = {
 </section>
 <section id="reconstrucción-de-las-estructuras-de-los-bloques-i-y-ii." class="level2" data-number="4.2">
 <h2 data-number="4.2" class="anchored" data-anchor-id="reconstrucción-de-las-estructuras-de-los-bloques-i-y-ii."><span class="header-section-number">4.2</span> Reconstrucción de las estructuras de los Bloques I y II.</h2>
-<p>Reconstruimos los resultados que validamos y estudiamos en los primeros dos bloques. Crearemos tanto la tabla de productos con las métricas usadas para aplicar PCA como el grafo de coparticipación con el que trabajamos en el <img src="&quot;./bloque2.qmd&quot;" class="img-fluid" alt="Bloque II">.</p>
+<p>Reconstruimos los resultados que validamos y estudiamos en los primeros dos bloques. Crearemos tanto la tabla de productos con las métricas usadas para aplicar PCA como el grafo de coparticipación con el que trabajamos en el <a href="&quot;./bloque2.qmd&quot;">Bloque II</a>.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2004</span>)   <span class="co"># misma semilla que en todo el proyecto</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2004</span>)   <span class="co"># misma semilla para todo el proyecto</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>reviews <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"./Reviews.csv"</span>)</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Tabla de métricas por producto (como en el Bloque I, sobre TODOS los productos) ---</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>productos_full <span class="ot">&lt;-</span> reviews <span class="sc">|&gt;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Tabla de métricas por producto</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>productos <span class="ot">&lt;-</span> reviews <span class="sc">|&gt;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">size_texto =</span> <span class="fu">nchar</span>(Text), <span class="at">size_summary =</span> <span class="fu">nchar</span>(Summary)) <span class="sc">|&gt;</span></span>
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(ProductId) <span class="sc">|&gt;</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">numero_reviews        =</span> <span class="fu">n</span>(),</span>
@@ -300,7 +297,7 @@ window.Quarto = {
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>            <span class="at">numero_usuarios       =</span> <span class="fu">n_distinct</span>(UserId),</span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>            <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co"># --- Grafo de coparticipación (proyección producto–producto, umbral N = 2) ---</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Grafo de coparticipación</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>valores <span class="ot">&lt;-</span> reviews <span class="sc">|&gt;</span> <span class="fu">select</span>(UserId, ProductId) <span class="sc">|&gt;</span> <span class="fu">distinct</span>()</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>pf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>ProductId)</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>uf <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>UserId)</span>
@@ -309,50 +306,51 @@ window.Quarto = {
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dims =</span> <span class="fu">c</span>(<span class="fu">nlevels</span>(pf), <span class="fu">nlevels</span>(uf)),</span>
 <span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">levels</span>(pf), <span class="fu">levels</span>(uf)))</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">tcrossprod</span>(A)                 <span class="co"># M[i,j] = nº de usuarios que reseñan i y j</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">as</span>(M, <span class="st">"generalMatrix"</span>)        <span class="co"># (forma no-simétrica; evita el aviso de 'dgCMatrix')</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> A <span class="sc">%*%</span> <span class="fu">t</span>(A)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">as</span>(M, <span class="st">"generalMatrix"</span>)        </span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(M) <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> M</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>                  <span class="co"># umbral N = 2</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span>   <span class="co"># umbral N = 2</span></span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">drop0</span>(C)</span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(C, <span class="at">mode =</span> <span class="st">"undirected"</span>,</span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>                                 <span class="at">weighted =</span> <span class="cn">TRUE</span>, <span class="at">diag =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g, <span class="fu">degree</span>(g) <span class="sc">==</span> <span class="dv">0</span>)   <span class="co"># limpieza de nodos aislados</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g, <span class="fu">degree</span>(g) <span class="sc">==</span> <span class="dv">0</span>) <span class="co"># limpieza de nodos aislados</span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Grafo:"</span>, <span class="fu">vcount</span>(g), <span class="st">"nodos,"</span>, <span class="fu">ecount</span>(g), <span class="st">"aristas.</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Grafo: 12617 nodos, 101997 aristas.</code></pre>
 </div>
 </div>
-<p>Las tareas de clasificación e inferencia por enlaces solo tienen sentido sobre nodos <strong>conectados</strong>, por lo que trabajaremos sobre la <strong>componente gigante</strong>, que concentra la mayor parte de la señal estructural. Esto, además, es la forma eficiente de <em>“manejar grafos de gran tamaño”</em>: descartamos las ~1.900 componentes diminutas y nos quedamos con el núcleo del ecosistema.</p>
+<p>Las tareas de clasificación e inferencia por enlaces solo tienen sentido sobre nodos <strong>conectados</strong>, por lo que trabajaremos solamente sobre la <strong>componente gigante</strong>, que concentra una gran parte de los productos. Además, así conseguimos manejar eficientemente <em>“grafos de gran tamaño”</em>: descartamos todas las componentes diminutas y nos quedamos con el núcleo.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>comp <span class="ot">&lt;-</span> <span class="fu">components</span>(g)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>gcc  <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g, <span class="fu">which</span>(comp<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(comp<span class="sc">$</span>csize)))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Componente gigante:"</span>, <span class="fu">vcount</span>(gcc), <span class="st">"nodos,"</span>, <span class="fu">ecount</span>(gcc), <span class="st">"aristas"</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>grafo_componente_principal  <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g, <span class="fu">which</span>(comp<span class="sc">$</span>membership <span class="sc">==</span> <span class="fu">which.max</span>(comp<span class="sc">$</span>csize)))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Componente principal:"</span>, <span class="fu">vcount</span>(grafo_componente_principal), <span class="st">"nodos,"</span>, <span class="fu">ecount</span>(grafo_componente_principal), <span class="st">"aristas"</span>,</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"(de"</span>, comp<span class="sc">$</span>no, <span class="st">"componentes en total).</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Componente gigante: 6855 nodos, 91832 aristas (de 1902 componentes en total).</code></pre>
+<pre><code>Componente principal: 6855 nodos, 91832 aristas (de 1902 componentes en total).</code></pre>
 </div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fmt <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">d =</span> <span class="dv">3</span>) <span class="fu">formatC</span>(x, <span class="at">format =</span> <span class="st">"f"</span>, <span class="at">digits =</span> d)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
-<section id="sec-homofilia" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="sec-homofilia"><span class="header-section-number">4.3</span> Homofilia: ¿se puede predecir un atributo mirando a los vecinos?</h2>
-<p>La <strong>homofilia</strong> es el principio de que los nodos conectados tienden a parecerse. Si existe, la red por sí sola debería permitirnos <em>imputar</em> una etiqueta desconocida de un producto a partir de las de sus vecinos. Vamos a ponerlo a prueba con una etiqueta que <strong>no</strong> depende de la topología: la <strong>calidad</strong> del producto, definida como <code>alta</code> si su valoración media es <span class="math inline">\(\geq 4\)</span> y <code>baja</code> en caso contrario.</p>
+<section id="homofilia-se-puede-predecir-un-atributo-mirando-a-los-vecinos" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="homofilia-se-puede-predecir-un-atributo-mirando-a-los-vecinos"><span class="header-section-number">4.3</span> Homofilia: ¿se puede predecir un atributo mirando a los vecinos?</h2>
+<p>La <strong>homofilia</strong> es el principio de que los nodos conectados tienden a ser similares. Si existe, la red por sí sola debería permitirnos <em>predecir</em> la etiqueta desconocida de un producto a partir de las de sus vecinos. Vamos a ponerlo a prueba con una etiqueta que <strong>no</strong> depende de la estructura del grafo: la <strong>calidad</strong> del producto. Definiremos la <strong>calidad de un producto</strong> como <code>alta</code> si su valoración media es <span class="math inline">\(\geq 4\)</span>, y <code>baja</code> en caso contrario.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rating <span class="ot">&lt;-</span> productos_full <span class="sc">|&gt;</span> <span class="fu">select</span>(ProductId, rating_promedio, numero_reviews)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>vert <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ProductId =</span> <span class="fu">V</span>(gcc)<span class="sc">$</span>name) <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(rating, <span class="at">by =</span> <span class="st">"ProductId"</span>)</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>vert<span class="sc">$</span>calidad <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(vert<span class="sc">$</span>rating_promedio <span class="sc">&gt;=</span> <span class="dv">4</span>, <span class="st">"alta"</span>, <span class="st">"baja"</span>))</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(gcc)<span class="sc">$</span>calidad <span class="ot">&lt;-</span> <span class="fu">as.character</span>(vert<span class="sc">$</span>calidad)</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(vert<span class="sc">$</span>calidad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rating <span class="ot">&lt;-</span> productos <span class="sc">|&gt;</span> <span class="fu">select</span>(ProductId, rating_promedio, numero_reviews)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>tabla_productos <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">ProductId =</span> <span class="fu">V</span>(grafo_componente_principal)<span class="sc">$</span>name) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(rating, <span class="at">by =</span> <span class="st">"ProductId"</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>tabla_productos<span class="sc">$</span>calidad <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">ifelse</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  tabla_productos<span class="sc">$</span>rating_promedio <span class="sc">&gt;=</span> <span class="dv">4</span>, </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alta"</span>, </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="st">"baja"</span>))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(grafo_componente_principal)<span class="sc">$</span>calidad <span class="ot">&lt;-</span> <span class="fu">as.character</span>(tabla_productos<span class="sc">$</span>calidad)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(tabla_productos<span class="sc">$</span>calidad)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 alta baja 
@@ -361,113 +359,135 @@ alta baja
 </div>
 <section id="medida-de-homofilia-la-asortatividad." class="level3" data-number="4.3.1">
 <h3 data-number="4.3.1" class="anchored" data-anchor-id="medida-de-homofilia-la-asortatividad."><span class="header-section-number">4.3.1</span> Medida de homofilia: la asortatividad.</h3>
-<p>El <strong>coeficiente de asortatividad</strong> mide la correlación de una característica a lo largo de las aristas: vale <span class="math inline">\(+1\)</span> con homofilia perfecta, <span class="math inline">\(0\)</span> si la etiqueta se distribuye al azar y es negativo si los opuestos se atraen.</p>
+<p>El <strong>coeficiente de asortatividad</strong> mide la correlación de una característica a lo largo de las aristas: vale <span class="math inline">\(+1\)</span> con homofilia perfecta, <span class="math inline">\(0\)</span> si la etiqueta se distribuye al azar y es negativo si los opuestos se atraen. Entonces, intentar predecir el parámetro <em>calidad</em> o <em>valoración</em> de un producto a partir de los valores de sus vecinos tendría sentido solamente <strong>si la asortatividad es alta</strong> (en valores absolutos).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>asort_nominal <span class="ot">&lt;-</span> <span class="fu">assortativity_nominal</span>(gcc, <span class="fu">as.integer</span>(vert<span class="sc">$</span>calidad),</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>asort_numeric <span class="ot">&lt;-</span> <span class="fu">assortativity</span>(gcc, vert<span class="sc">$</span>rating_promedio, <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Asortatividad (calidad alta/baja):"</span>, <span class="fu">fmt</span>(asort_nominal), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>asort_nominal <span class="ot">&lt;-</span> <span class="fu">assortativity_nominal</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  grafo_componente_principal, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.integer</span>(tabla_productos<span class="sc">$</span>calidad),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>asort_numeric <span class="ot">&lt;-</span> <span class="fu">assortativity</span>(</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  grafo_componente_principal, </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  tabla_productos<span class="sc">$</span>rating_promedio, </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">directed =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Asortatividad (calidad alta/baja):"</span>, <span class="fu">round</span>(asort_nominal, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Asortatividad (calidad alta/baja): 0.133 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Asortatividad (valoración continua):"</span>, <span class="fu">fmt</span>(asort_numeric), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Asortatividad (valoración continua):"</span>, <span class="fu">round</span>(asort_numeric, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Asortatividad (valoración continua): 0.194 </code></pre>
 </div>
 </div>
-<p>Ambos valores son <strong>positivos pero pequeños</strong> (en torno a 0.13–0.19). Es decir: <strong>existe homofilia de calidad, pero es débil</strong>. Dos productos co-reseñados por los mismos usuarios tienden a tener valoraciones algo parecidas, aunque la relación está lejos de ser determinista. Esto ya anticipa una conclusión importante: la red codifica <em>algo</em> sobre la calidad, pero mucho menos de lo que codifica sobre la popularidad (lo veremos en § <a href="#sec-elite" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-elite</span></a>).</p>
+<p>Ambos valores son <strong>positivos pero pequeños</strong> (en torno a <code>0.15</code>). Es decir: <strong>existe homofilia de calidad, pero es débil</strong>. Dos productos co-reseñados por los mismos usuarios tienden a tener valoraciones algo parecidas, aunque la relación está lejos de ser determinista. Esto ya anticipa una conclusión importante: la red codifica <em>algo</em> sobre la calidad, pero mucho menos de lo que se podría esperar en un principio.</p>
 </section>
 <section id="clasificación-colectiva-voto-ponderado-de-los-vecinos." class="level3" data-number="4.3.2">
 <h3 data-number="4.3.2" class="anchored" data-anchor-id="clasificación-colectiva-voto-ponderado-de-los-vecinos."><span class="header-section-number">4.3.2</span> Clasificación colectiva: voto ponderado de los vecinos.</h3>
-<p>Convirtamos la homofilia en un <strong>clasificador</strong>. Ocultamos la etiqueta del 30 % de los productos (conjunto de test) y los clasificamos por <strong>voto ponderado de sus vecinos</strong> del conjunto de entrenamiento (cada vecino vota por su clase con peso igual al nº de usuarios compartidos). Es el análogo sobre grafos de un <span class="math inline">\(k\)</span>-NN.</p>
+<p>Convirtamos la homofilia en un <strong>clasificador</strong>. Para ello, ocultaremos la etiqueta <code>calidad</code> del 30% de los productos (conjunto de test) y los clasificamos por <strong>voto ponderado de sus vecinos</strong> del conjunto de entrenamiento, esto es, cada vecino vota por su clase con peso proporcional al número de usuarios compartidos (cuanto más similar sea dicho producto – con respecto a sus vecinos –, mayor peso tendrá su etiqueta de <code>calidad</code> en la predicción de esta misma etiqueta en el otro producto).</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="fu">vcount</span>(gcc)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, <span class="fu">round</span>(<span class="fl">0.30</span> <span class="sc">*</span> n))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(n), test)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>lab <span class="ot">&lt;-</span> vert<span class="sc">$</span>calidad</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>Aw  <span class="ot">&lt;-</span> <span class="fu">as_adjacency_matrix</span>(gcc, <span class="at">attr =</span> <span class="st">"weight"</span>, <span class="at">sparse =</span> <span class="cn">TRUE</span>)  <span class="co"># pesos = usuarios compartidos</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Puntuación que cada clase recibe desde los vecinos de entrenamiento</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>idx_alta <span class="ot">&lt;-</span> train[lab[train] <span class="sc">==</span> <span class="st">"alta"</span>]</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>idx_baja <span class="ot">&lt;-</span> train[lab[train] <span class="sc">==</span> <span class="st">"baja"</span>]</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>sc_alta  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(Aw[, idx_alta] <span class="sc">%*%</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(idx_alta)))</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>sc_baja  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(Aw[, idx_baja] <span class="sc">%*%</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(idx_baja)))</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>clase_mayoritaria <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(lab[train]), <span class="at">decreasing =</span> <span class="cn">TRUE</span>))[<span class="dv">1</span>]</span>
-<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(sc_alta <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> sc_baja <span class="sc">==</span> <span class="dv">0</span>, clase_mayoritaria,</span>
-<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>               <span class="fu">ifelse</span>(sc_alta <span class="sc">&gt;=</span> sc_baja, <span class="st">"alta"</span>, <span class="st">"baja"</span>))</span>
-<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>acc      <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred[test] <span class="sc">==</span> <span class="fu">as.character</span>(lab[test]))</span>
-<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(lab[test])))</span>
-<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Matriz de confusión y exactitud balanceada (la clase está desbalanceada)</span></span>
-<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>cm   <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">real =</span> lab[test],</span>
-<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>              <span class="at">pred =</span> <span class="fu">factor</span>(pred[test], <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"alta"</span>, <span class="st">"baja"</span>)))</span>
-<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>sens <span class="ot">&lt;-</span> cm[<span class="st">"alta"</span>, <span class="st">"alta"</span>] <span class="sc">/</span> <span class="fu">sum</span>(cm[<span class="st">"alta"</span>, ])</span>
-<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">&lt;-</span> cm[<span class="st">"baja"</span>, <span class="st">"baja"</span>] <span class="sc">/</span> <span class="fu">sum</span>(cm[<span class="st">"baja"</span>, ])</span>
-<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>bal  <span class="ot">&lt;-</span> (sens <span class="sc">+</span> spec) <span class="sc">/</span> <span class="dv">2</span></span>
-<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>cm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>n     <span class="ot">&lt;-</span> <span class="fu">vcount</span>(grafo_componente_principal)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">sample</span>(n, <span class="fu">round</span>(<span class="fl">0.30</span> <span class="sc">*</span> n))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(n), test)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>vals <span class="ot">&lt;-</span> tabla_productos<span class="sc">$</span>calidad</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>matriz  <span class="ot">&lt;-</span> <span class="fu">as_adjacency_matrix</span>(grafo_componente_principal, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                               <span class="at">attr =</span> <span class="st">"weight"</span>, </span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                               <span class="at">sparse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Puntuación que cada clase recibe desde los vecinos</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>idx_alta <span class="ot">&lt;-</span> train[vals[train] <span class="sc">==</span> <span class="st">"alta"</span>]</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>idx_baja <span class="ot">&lt;-</span> train[vals[train] <span class="sc">==</span> <span class="st">"baja"</span>]</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>score_alta  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(matriz[, idx_alta] <span class="sc">%*%</span> </span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(idx_alta)))</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>score_baja  <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(matriz[, idx_baja] <span class="sc">%*%</span> </span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(idx_baja)))</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>clase_mayoritaria <span class="ot">&lt;-</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(vals[train]), </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                                <span class="at">decreasing =</span> <span class="cn">TRUE</span>))[<span class="dv">1</span>]</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>pred <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  score_alta <span class="sc">&gt;=</span> score_baja, </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="st">"alta"</span>, </span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="st">"baja"</span>)</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>acc <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred[test] <span class="sc">==</span> <span class="fu">as.character</span>(vals[test]))</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Usaremos como baseline predecir a todos con la clase mayoritaria</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>baseline <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">prop.table</span>(<span class="fu">table</span>(vals[test])))</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>temp   <span class="ot">&lt;-</span> <span class="fu">table</span>(<span class="at">real =</span> vals[test],</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>              <span class="at">pred =</span> <span class="fu">factor</span>(pred[test], <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"alta"</span>, <span class="st">"baja"</span>)))</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>temp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      pred
 real   alta baja
-  alta 1288  231
-  baja  236  301</code></pre>
+  alta 1283  200
+  baja  252  321</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Exactitud del voto de vecinos:"</span>, <span class="fu">fmt</span>(acc), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">Exactitud del voto de vecinos: "</span>, <span class="fu">round</span>(acc, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
-Exactitud del voto de vecinos: 0.773 </code></pre>
+Exactitud del voto de vecinos:  0.78 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Baseline (clase mayoritaria)  :"</span>, <span class="fu">fmt</span>(baseline), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Baseline (clase mayoritaria): "</span>, <span class="fu">round</span>(baseline, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Baseline (clase mayoritaria)  : 0.739 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Exactitud balanceada          :"</span>, <span class="fu">fmt</span>(bal), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Exactitud balanceada          : 0.704 </code></pre>
+<pre><code>Baseline (clase mayoritaria):  0.721 </code></pre>
 </div>
 </div>
-<p><strong>Interpretación.</strong> El clasificador acierta un 77.3 %, por encima del baseline trivial de 73.9 % (que se obtendría diciendo siempre “alta”). Más informativa es la <strong>exactitud balanceada</strong> (0.70): al estar las clases desbalanceadas (~73 % son “alta”), lo relevante es que el modelo recupera la clase minoritaria “baja” con una especificidad de 0.56, <strong>muy por encima del azar</strong>. Conclusión: <strong>la estructura de co-reseña contiene señal real, aunque modesta, sobre la calidad de un producto</strong> —se puede imputar la etiqueta de un nodo mirando a sus vecinos, pero con un acierto limitado.</p>
+<p><strong>Interpretación.</strong> El clasificador acierta un <span class="math inline">\(\approx 80\%\)</span>, que está por encima del baseline trivial de <span class="math inline">\(\approx 75\%\)</span> % (que se obtendría prediciendo siempre con la clase más común).</p>
+<p>Sin embargo, la verdadera diferencia ocurre en la precisión a la hora de predecir la clase minotritaria: como podemos apreciar en la tabla, se predijeron de más productos con calidad <em>“baja”</em>. Aún así, esta precisión estaría <strong>muy por encima del azar</strong> y del baseline, que tendría precisión de <span class="math inline">\(0\%\)</span> para esta clase.</p>
+<p>Conclusión: <strong>la estructura del grafo contiene información limiatada sobre la calidad de un producto</strong> — se puede predecir la etiqueta de un nodo mirando a sus vecinos, pero con un acierto limitado.</p>
 </section>
 <section id="coinciden-las-comunidades-con-la-calidad" class="level3" data-number="4.3.3">
 <h3 data-number="4.3.3" class="anchored" data-anchor-id="coinciden-las-comunidades-con-la-calidad"><span class="header-section-number">4.3.3</span> ¿Coinciden las comunidades con la calidad?</h3>
-<p>En el Bloque II detectamos comunidades con Louvain. Si las comunidades fueran “categorías de calidad”, cada una debería ser casi toda “alta” o casi toda “baja”. Veámoslo sobre la componente gigante.</p>
+<p>En el Bloque II detectamos comunidades con el <strong>Algoritmo de Louvain</strong>. Si las comunidades fueran “categorías de calidad”, cada una debería ser casi toda “alta” o casi toda “baja”. Veámoslo sobre la componente gigante.</p>
+<p>La intuición inicial es que esto no va a ser así, si no que estas comunidades son como las <em>“categorías”</em> en las que se puede clasificar el producto.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2004</span>)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>louv <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(gcc, <span class="at">weights =</span> <span class="fu">E</span>(gcc)<span class="sc">$</span>weight)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>share_alta <span class="ot">&lt;-</span> <span class="fu">tapply</span>(vert<span class="sc">$</span>calidad <span class="sc">==</span> <span class="st">"alta"</span>, <span class="fu">membership</span>(louv), mean)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>grandes    <span class="ot">&lt;-</span> share_alta[<span class="fu">sizes</span>(louv) <span class="sc">&gt;=</span> <span class="dv">100</span>]</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Comunidades:"</span>, <span class="fu">length</span>(louv), <span class="st">"| modularidad:"</span>, <span class="fu">fmt</span>(<span class="fu">modularity</span>(louv), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>comunidades <span class="ot">&lt;-</span> <span class="fu">cluster_louvain</span>(grafo_componente_principal, <span class="at">weights =</span> <span class="fu">E</span>(grafo_componente_principal)<span class="sc">$</span>weight)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>proporcion_alta <span class="ot">&lt;-</span> <span class="fu">tapply</span>(tabla_productos<span class="sc">$</span>calidad <span class="sc">==</span> <span class="st">"alta"</span>, <span class="fu">membership</span>(comunidades), mean)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>comunidades_grandes <span class="ot">&lt;-</span> proporcion_alta[<span class="fu">sizes</span>(comunidades) <span class="sc">&gt;=</span> <span class="dv">100</span>]</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Comunidades:"</span>, <span class="fu">length</span>(comunidades), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Comunidades: 114 | modularidad: 0.788 </code></pre>
+<pre><code>Comunidades: 123 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Proporción de 'alta' por comunidad grande (rango):"</span>,</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fmt</span>(<span class="fu">min</span>(grandes), <span class="dv">2</span>), <span class="st">"–"</span>, <span class="fu">fmt</span>(<span class="fu">max</span>(grandes), <span class="dv">2</span>),</span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"| global:"</span>, <span class="fu">fmt</span>(<span class="fu">mean</span>(vert<span class="sc">$</span>calidad <span class="sc">==</span> <span class="st">"alta"</span>), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Proporción de 'alta' por comunidad grande (&gt; 99 nodos):</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Mínimo: "</span>, <span class="fu">round</span>(<span class="fu">min</span>(comunidades_grandes), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Máximo: "</span>, <span class="fu">round</span>(<span class="fu">max</span>(comunidades_grandes), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Global:"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(tabla_productos<span class="sc">$</span>calidad <span class="sc">==</span> <span class="st">"alta"</span>), <span class="dv">2</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Proporción de 'alta' por comunidad grande (rango): 0.62 – 0.86 | global: 0.73 </code></pre>
+<pre><code>Proporción de 'alta' por comunidad grande (&gt; 99 nodos):
+ Mínimo:  0.59 
+ Máximo:  0.86 
+ Global: 0.73 </code></pre>
 </div>
 </div>
-<p>La modularidad es <strong>alta</strong> (0.79): hay una estructura de comunidades nítida. Pero la proporción de productos “alta” <strong>apenas varía entre comunidades</strong> y ronda siempre el valor global (~0.73). Es decir: <strong>las comunidades no organizan a los productos por calidad</strong>, sino por <em>con quién se co-reseñan</em> (afinidad de tipo de producto / “categoría” implícita). Esto encaja con la homofilia débil de calidad: la red agrupa productos por <strong>co-consumo</strong>, no por <strong>bondad</strong>.</p>
+<p>La proporción de productos “alta” es elevada, pero <strong>apenas varía entre comunidades</strong> y ronda siempre cerca del valor global (~0.73). Esto indica algo claro: <strong>las comunidades no organizan a los productos por calidad</strong>, sino por <em>el tipo de producto que es</em> (categoría implícita).</p>
+<p>Esto encaja con la homofilia débil de calidad calculada previamente: la red agrupa productos por <strong>co-consumo / tipo</strong>, no por <strong>similaridad en su calidad</strong>.</p>
 </section>
 </section>
-<section id="sec-elite" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-elite"><span class="header-section-number">4.4</span> Clasificación “Elite” desde la topología.</h2>
-<p>Cambiemos de etiqueta. Definimos un producto <strong>“Elite”</strong> como un <em>best-seller</em>: los del <strong>decil superior por número de reseñas</strong>. La pregunta es: ¿basta la <strong>posición en el grafo</strong> —sin mirar nunca el número de reseñas— para reconocerlos? Entrenamos una <strong>regresión logística</strong> usando solo descriptores estructurales.</p>
+<section id="clasificación-elite-desde-la-topología." class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="clasificación-elite-desde-la-topología."><span class="header-section-number">4.4</span> Clasificación “Elite” desde la topología.</h2>
+<p>Cambiemos ahora de perspectiva. Definimos un producto <strong>“Elite”</strong> como un <em>best-seller</em>: el <strong>top 10% por el número de reseñas</strong>. La pregunta es: ¿basta la <strong>posición en el grafo</strong> para reconocer estos productos de élite? Entrenamos una <strong>regresión logística</strong> usando solo descriptores estructurales. El umbral (threshold) para clasificar a un producto como <em>ELITE</em> o <em>NO ELITE</em>, lo dejaremos en <code>0.5</code>.</p>
+<p>Sería interesante ir modificando este umbral para obtener el límite que mejor resultados da.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>feat <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pagerank   =</span> <span class="fu">page_rank</span>(gcc, <span class="at">weights =</span> <span class="fu">E</span>(gcc)<span class="sc">$</span>weight)<span class="sc">$</span>vector,</span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength   =</span> <span class="fu">strength</span>(gcc, <span class="at">weights =</span> <span class="fu">E</span>(gcc)<span class="sc">$</span>weight),</span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">betw       =</span> <span class="fu">betweenness</span>(gcc, <span class="at">weights =</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">E</span>(gcc)<span class="sc">$</span>weight),  <span class="co"># peso = distancia = 1/similitud</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">transitivity</span>(gcc, <span class="at">type =</span> <span class="st">"local"</span>, <span class="at">isolates =</span> <span class="st">"zero"</span>),</span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">grado      =</span> <span class="fu">degree</span>(gcc)</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>caracteristicas <span class="ot">&lt;-</span> <span class="fu">tibble</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">pagerank   =</span> <span class="fu">page_rank</span>(grafo_componente_principal, </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">weights =</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">E</span>(grafo_componente_principal)<span class="sc">$</span>weight)<span class="sc">$</span>vector,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">strength   =</span> <span class="fu">strength</span>(grafo_componente_principal, </span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                        <span class="at">weights =</span> </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>                          <span class="fu">E</span>(grafo_componente_principal)<span class="sc">$</span>weight),</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">betw       =</span> <span class="fu">betweenness</span>(grafo_componente_principal, </span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>                           <span class="at">weights =</span> <span class="co"># peso = distancia = 1/similitud</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>                             <span class="dv">1</span> <span class="sc">/</span> <span class="fu">E</span>(grafo_componente_principal)<span class="sc">$</span>weight),  </span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">clustering =</span> <span class="fu">transitivity</span>(grafo_componente_principal, </span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>                            <span class="at">type =</span> <span class="st">"local"</span>, </span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>                            <span class="at">isolates =</span> <span class="st">"zero"</span>),</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="at">grado      =</span> <span class="fu">degree</span>(grafo_componente_principal)</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -483,141 +503,194 @@ Exactitud del voto de vecinos: 0.773 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>elite <span class="ot">&lt;-</span> <span class="fu">factor</span>(vert<span class="sc">$</span>numero_reviews <span class="sc">&gt;=</span> <span class="fu">quantile</span>(vert<span class="sc">$</span>numero_reviews, <span class="fl">0.90</span>))</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(feat, <span class="at">elite =</span> elite)</span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">3</span>)</span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>te <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(datos), <span class="fu">round</span>(<span class="fl">0.30</span> <span class="sc">*</span> <span class="fu">nrow</span>(datos)))</span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>tr <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(datos)), te)</span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">glm</span>(elite <span class="sc">~</span> pagerank <span class="sc">+</span> strength <span class="sc">+</span> betw <span class="sc">+</span> clustering <span class="sc">+</span> grado,</span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> datos[tr, ], <span class="at">family =</span> binomial)</span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>prob <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo, datos[te, ], <span class="at">type =</span> <span class="st">"response"</span>)</span>
-<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>y    <span class="ot">&lt;-</span> datos<span class="sc">$</span>elite[te] <span class="sc">==</span> <span class="st">"TRUE"</span></span>
-<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a><span class="co"># AUC mediante la equivalencia con el estadístico de Mann–Whitney</span></span>
-<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>r   <span class="ot">&lt;-</span> <span class="fu">rank</span>(prob); np <span class="ot">&lt;-</span> <span class="fu">sum</span>(y); nn <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span>y)</span>
-<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>auc_elite <span class="ot">&lt;-</span> (<span class="fu">sum</span>(r[y]) <span class="sc">-</span> np <span class="sc">*</span> (np <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> (np <span class="sc">*</span> nn)</span>
-<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"AUC (test) del clasificador Elite:"</span>, <span class="fu">fmt</span>(auc_elite), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>elite <span class="ot">&lt;-</span> <span class="fu">factor</span>(tabla_productos<span class="sc">$</span>numero_reviews <span class="sc">&gt;=</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">quantile</span>(tabla_productos<span class="sc">$</span>numero_reviews, <span class="fl">0.90</span>))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">bind_cols</span>(caracteristicas, <span class="at">elite =</span> elite)</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>elite_test <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">nrow</span>(datos), <span class="fu">round</span>(<span class="fl">0.30</span> <span class="sc">*</span> <span class="fu">nrow</span>(datos)))</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>elite_train <span class="ot">&lt;-</span> <span class="fu">setdiff</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(datos)), elite_test)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>modelo <span class="ot">&lt;-</span> <span class="fu">glm</span>(elite <span class="sc">~</span> pagerank <span class="sc">+</span> strength <span class="sc">+</span> betw <span class="sc">+</span> clustering <span class="sc">+</span> grado,</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>              <span class="at">data =</span> datos[elite_train, ], <span class="at">family =</span> binomial)</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>probabilidades <span class="ot">&lt;-</span> <span class="fu">predict</span>(modelo, datos[elite_test, ], <span class="at">type =</span> <span class="st">"response"</span>)</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>y    <span class="ot">&lt;-</span> datos<span class="sc">$</span>elite[elite_test] <span class="sc">==</span> <span class="st">"TRUE"</span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>predicciones <span class="ot">&lt;-</span> <span class="fu">if_else</span>(probabilidades <span class="sc">&gt;</span> <span class="fl">0.5</span>,</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>                        <span class="cn">TRUE</span>,</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>                        <span class="cn">FALSE</span>)</span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a><span class="co">#METRICAS</span></span>
+<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(<span class="at">prediccion =</span> predicciones, <span class="at">real =</span> y)  <span class="co"># matriz de confusión</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>AUC (test) del clasificador Elite: 0.949 </code></pre>
+<pre><code>          real
+prediccion FALSE TRUE
+     FALSE  1816   74
+     TRUE     21  145</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prevalencia de Elite en test     :"</span>, <span class="fu">fmt</span>(<span class="fu">mean</span>(y), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>VP <span class="ot">&lt;-</span> <span class="fu">sum</span>(predicciones <span class="sc">&amp;</span> y)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>FP <span class="ot">&lt;-</span> <span class="fu">sum</span>(predicciones <span class="sc">&amp;</span> <span class="sc">!</span>y)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>FN <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span>predicciones <span class="sc">&amp;</span> y)</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>precision_pos <span class="ot">&lt;-</span> VP <span class="sc">/</span> (VP <span class="sc">+</span> FP) <span class="co"># de los que predigo elite, cuántos lo son</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>recall        <span class="ot">&lt;-</span> VP <span class="sc">/</span> (VP <span class="sc">+</span> FN) <span class="co"># de los elite reales, cuántos detecto</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>f1            <span class="ot">&lt;-</span> <span class="dv">2</span> <span class="sc">*</span> precision_pos <span class="sc">*</span> recall <span class="sc">/</span> (precision_pos <span class="sc">+</span> recall)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Prevalencia de Elite en test     :"</span>, <span class="fu">round</span>(<span class="fu">mean</span>(y), <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Prevalencia de Elite en test     : 0.105 </code></pre>
+<pre><code>Prevalencia de Elite en test     : 0.107 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Precisión de Elite en test     :"</span>, precision_pos, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Precisión de Elite en test     : 0.873494 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Recuerdo de Elite en test     :"</span>, recall, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Recuerdo de Elite en test     : 0.6621005 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"F-Score     :"</span>, <span class="fu">round</span>(f1, <span class="dv">3</span>), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>F-Score     : 0.753 </code></pre>
 </div>
 </div>
-<p><strong>Interpretación.</strong> El AUC es altísimo (0.95): <strong>la topología reconoce a los productos <em>best-seller</em> casi a la perfección</strong>. Esto contrasta de forma deliberada con la § <a href="#sec-homofilia" class="quarto-xref"><span class="quarto-unresolved-ref ref-noprefix">sec-homofilia</span></a>: la red predice <strong>muy bien la popularidad</strong> pero solo <strong>débilmente la calidad</strong>. La razón es estructural —un producto con muchas reseñas comparte usuarios con muchos otros y, por construcción, tiene grado/<code>strength</code>/PageRank altos—. Esta misma idea (centralidad <span class="math inline">\(\approx\)</span> popularidad) será la clave de la validación cruzada con el PCA en el capítulo siguiente.</p>
+<p><strong>Interpretación.</strong> Podemos ver que nuestro modelo predice relativamente bien si un producto es de élite (predice casi el 66% de estos). Esto contrasta de forma deliberada con la primera parte del bloque: la red predice <strong>muy bien la popularidad</strong> del producto pero <strong>débilmente la calidad</strong> de este.</p>
+<p>Esto se da por la estructura del grafo —un producto con muchas reseñas comparte usuarios con muchos otros y, por construcción, tiene grado/<code>strength</code>/PageRank altos—.</p>
 </section>
-<section id="sec-link" class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="sec-link"><span class="header-section-number">4.5</span> Link Prediction: predicción de la co-compra.</h2>
-<p>Última explotación de la topología: predecir <strong>aristas que aún no existen</strong>. Si dos productos comparten muchos vecinos en la red de co-reseña, es verosímil que un mismo usuario acabe reseñando (comprando) ambos: son candidatos a <strong>co-compra</strong>.</p>
-<p>Validamos la idea de forma honesta: <strong>escondemos</strong> una muestra de aristas reales, puntuamos esos pares (positivos) frente a pares no conectados (negativos) usando solo la estructura <strong>restante</strong>, y medimos el AUC. Comparamos cuatro índices clásicos: vecinos comunes (CN), Jaccard, <strong>Adamic–Adar</strong> (AA) y <em>preferential attachment</em> (PA).</p>
+<section id="link-prediction-predicción-de-la-co-compra." class="level2" data-number="4.5">
+<h2 data-number="4.5" class="anchored" data-anchor-id="link-prediction-predicción-de-la-co-compra."><span class="header-section-number">4.5</span> Link Prediction: predicción de la co-compra.</h2>
+<blockquote class="blockquote">
+<p>Nota importante: En esta parte se ha usado bastante la IA, puesto que es algo que no hemos dado en clase, siendo los métodos vistos en clase totalmente inviables para un grafo de este tamaño.</p>
+</blockquote>
+<p>Finalmente, intentaremos predecir <strong>aristas que aún no existen</strong>. Si dos productos comparten muchos vecinos en la red de co-reseña, <strong>es probable que un mismo usuario acabe comprando ambos</strong>.</p>
+<p>Para ello, calcularemos la puntuación (<code>igraph::simmilarity()</code>) que reciben pares de productos no conectados usando diferentes métodos. En particular, estos métodos serán:</p>
+<ol type="1">
+<li>Vecinos comunes (CN).</li>
+<li>Jaccard.</li>
+<li>Adamic-Adar</li>
+<li>Preferential Attachment.</li>
+</ol>
+<p>Finalmente, <strong>ordenaremos las posibles aristas por esa puntuación</strong> y obtendremos las 20 mejores recomendaciones de posibles productos relacionados para cada método.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">7</span>)</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>m_keep <span class="ot">&lt;-</span> <span class="dv">3000</span>                                   <span class="co"># muestra de aristas a ocultar</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>hold   <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">ecount</span>(gcc), m_keep)</span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>el     <span class="ot">&lt;-</span> <span class="fu">as_edgelist</span>(gcc, <span class="at">names =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>gres   <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(gcc, hold)                <span class="co"># grafo "residual" (sin las ocultas)</span></span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>nb  <span class="ot">&lt;-</span> <span class="fu">adjacent_vertices</span>(gres, <span class="fu">V</span>(gres))</span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>deg <span class="ot">&lt;-</span> <span class="fu">degree</span>(gres)</span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>score_pairs <span class="ot">&lt;-</span> <span class="cf">function</span>(pairs, method) {</span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">apply</span>(pairs, <span class="dv">1</span>, <span class="cf">function</span>(p) {</span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>    a <span class="ot">&lt;-</span> nb[[p[<span class="dv">1</span>]]]; b <span class="ot">&lt;-</span> nb[[p[<span class="dv">2</span>]]]; inter <span class="ot">&lt;-</span> <span class="fu">intersect</span>(a, b)</span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">"cn"</span>)  <span class="fu">length</span>(inter)</span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">"jac"</span>) { u <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">union</span>(a, b)); <span class="cf">if</span> (u <span class="sc">==</span> <span class="dv">0</span>) <span class="dv">0</span> <span class="cf">else</span> <span class="fu">length</span>(inter)<span class="sc">/</span>u }</span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> <span class="cf">if</span> (method <span class="sc">==</span> <span class="st">"aa"</span>)  { w <span class="ot">&lt;-</span> inter[deg[inter] <span class="sc">&gt;</span> <span class="dv">1</span>]; <span class="cf">if</span> (<span class="sc">!</span><span class="fu">length</span>(w)) <span class="dv">0</span> <span class="cf">else</span> <span class="fu">sum</span>(<span class="dv">1</span><span class="sc">/</span><span class="fu">log</span>(deg[w])) }</span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span> deg[p[<span class="dv">1</span>]] <span class="sc">*</span> deg[p[<span class="dv">2</span>]]                   <span class="co"># preferential attachment</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>pos <span class="ot">&lt;-</span> el[hold, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]                  <span class="co"># positivos = aristas ocultas</span></span>
-<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Negativos: pares NO conectados en el grafo original, en igual número</span></span>
-<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>clave_arista <span class="ot">&lt;-</span> <span class="fu">with</span>(<span class="fu">as.data.frame</span>(el), <span class="fu">paste</span>(<span class="fu">pmin</span>(V1, V2), <span class="fu">pmax</span>(V1, V2)))</span>
-<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>neg <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>L, <span class="fu">nrow</span>(pos), <span class="dv">2</span>); i <span class="ot">&lt;-</span> <span class="dv">0</span></span>
-<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (i <span class="sc">&lt;</span> <span class="fu">nrow</span>(pos)) {</span>
-<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>  uv <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="fu">vcount</span>(gcc), <span class="dv">2</span>); k <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">min</span>(uv), <span class="fu">max</span>(uv))</span>
-<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (uv[<span class="dv">1</span>] <span class="sc">!=</span> uv[<span class="dv">2</span>] <span class="sc">&amp;&amp;</span> <span class="sc">!</span>(k <span class="sc">%in%</span> clave_arista)) { i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span>; neg[i, ] <span class="ot">&lt;-</span> uv }</span>
-<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>auc_lp <span class="ot">&lt;-</span> <span class="cf">function</span>(method) {</span>
-<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>  sp <span class="ot">&lt;-</span> <span class="fu">score_pairs</span>(pos, method); sn <span class="ot">&lt;-</span> <span class="fu">score_pairs</span>(neg, method)</span>
-<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>  r <span class="ot">&lt;-</span> <span class="fu">rank</span>(<span class="fu">c</span>(sp, sn)); np <span class="ot">&lt;-</span> <span class="fu">length</span>(sp); nn <span class="ot">&lt;-</span> <span class="fu">length</span>(sn)</span>
-<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>  (<span class="fu">sum</span>(r[<span class="fu">seq_len</span>(np)]) <span class="sc">-</span> np <span class="sc">*</span> (np <span class="sc">+</span> <span class="dv">1</span>) <span class="sc">/</span> <span class="dv">2</span>) <span class="sc">/</span> (np <span class="sc">*</span> nn)</span>
-<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>aucs <span class="ot">&lt;-</span> <span class="fu">sapply</span>(<span class="fu">c</span>(<span class="at">cn =</span> <span class="st">"cn"</span>, <span class="at">jaccard =</span> <span class="st">"jac"</span>, <span class="at">adamic_adar =</span> <span class="st">"aa"</span>, <span class="at">pref_attach =</span> <span class="st">"pa"</span>), auc_lp)</span>
-<span id="cb29-36"><a href="#cb29-36" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(aucs, <span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>         cn     jaccard adamic_adar pref_attach 
-      0.973       0.971       0.975       0.914 </code></pre>
-</div>
-</div>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">metodo =</span> <span class="fu">names</span>(aucs), <span class="at">auc =</span> aucs) <span class="sc">|&gt;</span></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(metodo, auc), auc, <span class="at">fill =</span> auc)) <span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">width =</span> <span class="fl">0.65</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">fmt</span>(auc, <span class="dv">3</span>)), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.15</span>, <span class="at">size =</span> <span class="fl">3.4</span>) <span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">1.02</span>)) <span class="sc">+</span></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low =</span> <span class="st">"#AFC6D9"</span>, <span class="at">high =</span> <span class="st">"#2F5D8C"</span>) <span class="sc">+</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="cn">NULL</span>, <span class="at">y =</span> <span class="st">"AUC"</span>, <span class="at">title =</span> <span class="st">"Link Prediction de co-compra"</span>) <span class="sc">+</span></span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output-display">
-<div id="fig-link-auc" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-link-auc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="bloque3_files/figure-html/fig-link-auc-1.png" class="img-fluid figure-img" width="672">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-link-auc-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.1: Capacidad predictiva (AUC) de cada índice topológico para recuperar aristas de co-reseña ocultas.
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Interpretación.</strong> Los tres índices basados en <strong>vecindario</strong> (CN, Jaccard y sobre todo <strong>Adamic–Adar</strong>, AUC <span class="math inline">\(\approx\)</span> 0.98) predicen la co-reseña <strong>casi perfectamente</strong>, mientras que <em>preferential attachment</em> —que solo mira grados, no vecinos compartidos— queda por debajo. La lectura de negocio es clara: <strong>la co-compra es enormemente predecible a partir de la estructura local</strong>; conocer con quién comparte clientes un producto basta para anticipar con qué otros productos se emparejará. Adamic–Adar gana porque <strong>pondera a la baja a los usuarios “promiscuos”</strong> (que reseñan de todo) y da más valor a los vecinos compartidos selectivos.</p>
-<section id="recomendaciones-concretas-de-co-compra." class="level3" data-number="4.5.1">
-<h3 data-number="4.5.1" class="anchored" data-anchor-id="recomendaciones-concretas-de-co-compra."><span class="header-section-number">4.5.1</span> Recomendaciones concretas de co-compra.</h3>
-<p>Apliquemos el índice de vecinos comunes a <strong>todos los pares aún no conectados</strong> (vía la multiplicación de matrices <span class="math inline">\(B \cdot B\)</span>, eficiente y dispersa) y mostremos los de mayor puntuación: son los pares de productos que el grafo sugiere que <em>deberían</em> comprarse juntos.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>B  <span class="ot">&lt;-</span> <span class="fu">as_adjacency_matrix</span>(gcc, <span class="at">sparse =</span> <span class="cn">TRUE</span>)         <span class="co"># binaria</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>CN <span class="ot">&lt;-</span> <span class="fu">as</span>(<span class="fu">as</span>(B <span class="sc">%*%</span> B, <span class="st">"generalMatrix"</span>), <span class="st">"TsparseMatrix"</span>)  <span class="co"># vecinos comunes</span></span>
-<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>nm <span class="ot">&lt;-</span> <span class="fu">V</span>(gcc)<span class="sc">$</span>name</span>
-<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>recs <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">i =</span> CN<span class="sc">@</span>i <span class="sc">+</span> <span class="dv">1</span>L, <span class="at">j =</span> CN<span class="sc">@</span>j <span class="sc">+</span> <span class="dv">1</span>L, <span class="at">comunes =</span> CN<span class="sc">@</span>x) <span class="sc">|&gt;</span></span>
-<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(i <span class="sc">&lt;</span> j, comunes <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">clave =</span> <span class="fu">paste</span>(<span class="fu">pmin</span>(i, j), <span class="fu">pmax</span>(i, j))) <span class="sc">|&gt;</span></span>
-<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(clave <span class="sc">%in%</span> clave_arista)) <span class="sc">|&gt;</span>                <span class="co"># solo pares NO conectados</span></span>
-<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(comunes)) <span class="sc">|&gt;</span></span>
-<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">|&gt;</span></span>
-<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(<span class="at">producto_A =</span> nm[i], <span class="at">producto_B =</span> nm[j], <span class="at">vecinos_comunes =</span> comunes)</span>
-<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>recs</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>predecir_links <span class="ot">&lt;-</span> <span class="cf">function</span>(g, </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">min_common =</span> <span class="dv">2</span>, <span class="co"># Umbral N=2</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>                           <span class="at">order_by   =</span> <span class="st">"adamic_adar"</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">top_n      =</span> <span class="dv">20</span>) {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Preparación del grafo ---</span></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">as.undirected</span>(g, <span class="at">mode =</span> <span class="st">"collapse"</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">simplify</span>(g)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Matriz de adyacencia dispersa ---</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>  A   <span class="ot">&lt;-</span> <span class="fu">as_adjacency_matrix</span>(g, <span class="at">sparse =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  A   <span class="ot">&lt;-</span> <span class="fu">as</span>(A, <span class="st">"dgCMatrix"</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  grado <span class="ot">&lt;-</span> Matrix<span class="sc">::</span><span class="fu">rowSums</span>(A)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>  nombre  <span class="ot">&lt;-</span> <span class="fu">V</span>(g)<span class="sc">$</span>name</span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.null</span>(nombre)) nombre <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">seq_len</span>(<span class="fu">nrow</span>(A)))</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Vecinos comunes ---</span></span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  CN <span class="ot">&lt;-</span> A <span class="sc">%*%</span> A</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  CN <span class="ot">&lt;-</span> <span class="fu">as</span>(CN, <span class="st">"TsparseMatrix"</span>)</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>  resumen <span class="ot">&lt;-</span> Matrix<span class="sc">::</span><span class="fu">summary</span>(CN)            <span class="co"># data.frame con columnas i, j, x (1-indexado)</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Solo triangulo superior (i&lt;j)</span></span>
+<span id="cb32-23"><a href="#cb32-23" aria-hidden="true" tabindex="-1"></a>  resumen <span class="ot">&lt;-</span> resumen[resumen<span class="sc">$</span>i <span class="sc">&lt;</span> resumen<span class="sc">$</span>j, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb32-24"><a href="#cb32-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="#cb32-25" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Descartar pares YA conectados</span></span>
+<span id="cb32-26"><a href="#cb32-26" aria-hidden="true" tabindex="-1"></a>  existing <span class="ot">&lt;-</span> A[<span class="fu">cbind</span>(resumen<span class="sc">$</span>i, resumen<span class="sc">$</span>j)]</span>
+<span id="cb32-27"><a href="#cb32-27" aria-hidden="true" tabindex="-1"></a>  resumen <span class="ot">&lt;-</span> resumen[existing <span class="sc">==</span> <span class="dv">0</span>, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb32-28"><a href="#cb32-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-29"><a href="#cb32-29" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Aplicamos el umbral</span></span>
+<span id="cb32-30"><a href="#cb32-30" aria-hidden="true" tabindex="-1"></a>  resumen <span class="ot">&lt;-</span> resumen[resumen<span class="sc">$</span>x <span class="sc">&gt;=</span> min_common, , drop <span class="ot">=</span> <span class="cn">FALSE</span>]</span>
+<span id="cb32-31"><a href="#cb32-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-32"><a href="#cb32-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">nrow</span>(resumen) <span class="sc">==</span> <span class="dv">0</span>L) <span class="fu">stop</span>(<span class="st">"No hay pares candidatos con esos parametros."</span>)</span>
+<span id="cb32-33"><a href="#cb32-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-34"><a href="#cb32-34" aria-hidden="true" tabindex="-1"></a>  i  <span class="ot">&lt;-</span> resumen<span class="sc">$</span>i</span>
+<span id="cb32-35"><a href="#cb32-35" aria-hidden="true" tabindex="-1"></a>  j  <span class="ot">&lt;-</span> resumen<span class="sc">$</span>j</span>
+<span id="cb32-36"><a href="#cb32-36" aria-hidden="true" tabindex="-1"></a>  cn <span class="ot">&lt;-</span> resumen<span class="sc">$</span>x</span>
+<span id="cb32-37"><a href="#cb32-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-38"><a href="#cb32-38" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Jaccard ---</span></span>
+<span id="cb32-39"><a href="#cb32-39" aria-hidden="true" tabindex="-1"></a>  jaccard <span class="ot">&lt;-</span> cn <span class="sc">/</span> (grado[i] <span class="sc">+</span> grado[j] <span class="sc">-</span> cn)</span>
+<span id="cb32-40"><a href="#cb32-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-41"><a href="#cb32-41" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Preferential attachment ---</span></span>
+<span id="cb32-42"><a href="#cb32-42" aria-hidden="true" tabindex="-1"></a>  <span class="co"># restringido a pares a distancia 2</span></span>
+<span id="cb32-43"><a href="#cb32-43" aria-hidden="true" tabindex="-1"></a>  preferential_attachment <span class="ot">&lt;-</span> grado[i] <span class="sc">*</span> grado[j]</span>
+<span id="cb32-44"><a href="#cb32-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-45"><a href="#cb32-45" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Adamic-Adar ---</span></span>
+<span id="cb32-46"><a href="#cb32-46" aria-hidden="true" tabindex="-1"></a>  w <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">/</span> <span class="fu">log</span>(grado)</span>
+<span id="cb32-47"><a href="#cb32-47" aria-hidden="true" tabindex="-1"></a>  w[<span class="sc">!</span><span class="fu">is.finite</span>(w)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb32-48"><a href="#cb32-48" aria-hidden="true" tabindex="-1"></a>  academic_adar <span class="ot">&lt;-</span> A <span class="sc">%*%</span> Matrix<span class="sc">::</span><span class="fu">Diagonal</span>(<span class="at">x =</span> w) <span class="sc">%*%</span> A</span>
+<span id="cb32-49"><a href="#cb32-49" aria-hidden="true" tabindex="-1"></a>  academic_adar <span class="ot">&lt;-</span> <span class="fu">as</span>(academic_adar, <span class="st">"TsparseMatrix"</span>)</span>
+<span id="cb32-50"><a href="#cb32-50" aria-hidden="true" tabindex="-1"></a>  academic_adar <span class="ot">&lt;-</span> academic_adar[<span class="fu">cbind</span>(i, j)]</span>
+<span id="cb32-51"><a href="#cb32-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-52"><a href="#cb32-52" aria-hidden="true" tabindex="-1"></a>  <span class="co"># --- Resultado ordenable ---</span></span>
+<span id="cb32-53"><a href="#cb32-53" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb32-54"><a href="#cb32-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">from             =</span> nombre[i],</span>
+<span id="cb32-55"><a href="#cb32-55" aria-hidden="true" tabindex="-1"></a>    <span class="at">to               =</span> nombre[j],</span>
+<span id="cb32-56"><a href="#cb32-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">common_neighbors =</span> cn,</span>
+<span id="cb32-57"><a href="#cb32-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">jaccard          =</span> <span class="fu">as.numeric</span>(jaccard),</span>
+<span id="cb32-58"><a href="#cb32-58" aria-hidden="true" tabindex="-1"></a>    <span class="at">adamic_adar      =</span> <span class="fu">as.numeric</span>(academic_adar),</span>
+<span id="cb32-59"><a href="#cb32-59" aria-hidden="true" tabindex="-1"></a>    <span class="at">pref_attach      =</span> <span class="fu">as.numeric</span>(preferential_attachment),</span>
+<span id="cb32-60"><a href="#cb32-60" aria-hidden="true" tabindex="-1"></a>    <span class="at">stringsAsFactors =</span> <span class="cn">FALSE</span></span>
+<span id="cb32-61"><a href="#cb32-61" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-62"><a href="#cb32-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-63"><a href="#cb32-63" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="sc">!</span>order_by <span class="sc">%in%</span> <span class="fu">names</span>(res)) {</span>
+<span id="cb32-64"><a href="#cb32-64" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stop</span>(<span class="st">"order_by debe ser uno de: common_neighbors, jaccard, adamic_adar, pref_attach"</span>)</span>
+<span id="cb32-65"><a href="#cb32-65" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-66"><a href="#cb32-66" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-67"><a href="#cb32-67" aria-hidden="true" tabindex="-1"></a>  res <span class="ot">&lt;-</span> res[<span class="fu">order</span>(res[[order_by]], <span class="at">decreasing =</span> <span class="cn">TRUE</span>), ]</span>
+<span id="cb32-68"><a href="#cb32-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rownames</span>(res) <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb32-69"><a href="#cb32-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(res, top_n)</span>
+<span id="cb32-70"><a href="#cb32-70" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-71"><a href="#cb32-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-72"><a href="#cb32-72" aria-hidden="true" tabindex="-1"></a>top_cn <span class="ot">&lt;-</span> <span class="fu">predecir_links</span>(g, <span class="at">order_by=</span><span class="st">"common_neighbors"</span>)</span>
+<span id="cb32-73"><a href="#cb32-73" aria-hidden="true" tabindex="-1"></a>top_cn <span class="sc">|&gt;</span> <span class="fu">select</span>(from, to, common_neighbors)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["producto_A"],"name":[1],"type":["chr"],"align":["left"]},{"label":["producto_B"],"name":[2],"type":["chr"],"align":["left"]},{"label":["vecinos_comunes"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"B002NHYQAS","2":"B007JT7ARQ","3":"197"},{"1":"B004JGQ15E","2":"B004T80BYE","3":"192"},{"1":"B001EQ55ZO","2":"B006BXV14E","3":"192"},{"1":"B004X3VRLG","2":"B0061IULW2","3":"191"},{"1":"B000Q5X876","2":"B005IW4WFY","3":"190"},{"1":"B000Q5X8DK","2":"B005IW4WFY","3":"190"},{"1":"B000Q611U6","2":"B005IW4WFY","3":"190"},{"1":"B0015MY6PC","2":"B005IW4WFY","3":"190"},{"1":"B000Q5X876","2":"B008RWUHA6","3":"190"},{"1":"B000Q5X8DK","2":"B008RWUHA6","3":"190"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["from"],"name":[1],"type":["chr"],"align":["left"]},{"label":["to"],"name":[2],"type":["chr"],"align":["left"]},{"label":["common_neighbors"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"B002NHYQAS","2":"B007JT7ARQ","3":"197","_rn_":"1"},{"1":"B004JGQ15E","2":"B004T80BYE","3":"192","_rn_":"2"},{"1":"B001EQ55ZO","2":"B006BXV14E","3":"192","_rn_":"3"},{"1":"B004X3VRLG","2":"B0061IULW2","3":"191","_rn_":"4"},{"1":"B000Q5X876","2":"B005IW4WFY","3":"190","_rn_":"5"},{"1":"B000Q5X8DK","2":"B005IW4WFY","3":"190","_rn_":"6"},{"1":"B000Q611U6","2":"B005IW4WFY","3":"190","_rn_":"7"},{"1":"B0015MY6PC","2":"B005IW4WFY","3":"190","_rn_":"8"},{"1":"B000Q5X876","2":"B008RWUHA6","3":"190","_rn_":"9"},{"1":"B000Q5X8DK","2":"B008RWUHA6","3":"190","_rn_":"10"},{"1":"B000Q611U6","2":"B008RWUHA6","3":"190","_rn_":"11"},{"1":"B0015MY6PC","2":"B008RWUHA6","3":"190","_rn_":"12"},{"1":"B000Q5X876","2":"B008RWUKXK","3":"190","_rn_":"13"},{"1":"B000Q5X8DK","2":"B008RWUKXK","3":"190","_rn_":"14"},{"1":"B000Q611U6","2":"B008RWUKXK","3":"190","_rn_":"15"},{"1":"B0015MY6PC","2":"B008RWUKXK","3":"190","_rn_":"16"},{"1":"B000FA38ZY","2":"B00503DOWS","3":"189","_rn_":"17"},{"1":"B000YSRK7E","2":"B007RTR9G0","3":"189","_rn_":"18"},{"1":"B000YSTIL0","2":"B007RTR9G0","3":"189","_rn_":"19"},{"1":"B001AHFVHO","2":"B007RTR9G0","3":"189","_rn_":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>top_jac <span class="ot">&lt;-</span> <span class="fu">predecir_links</span>(g, <span class="at">order_by=</span><span class="st">"jaccard"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>top_jac <span class="sc">|&gt;</span> <span class="fu">select</span>(from, to, jaccard)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["from"],"name":[1],"type":["chr"],"align":["left"]},{"label":["to"],"name":[2],"type":["chr"],"align":["left"]},{"label":["jaccard"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"B0005ZVOOG","2":"B0005ZZSSE","3":"1","_rn_":"1"},{"1":"B0006U3NIU","2":"B0006U3NJ4","3":"1","_rn_":"2"},{"1":"B0007IQQUS","2":"B0007IQQWQ","3":"1","_rn_":"3"},{"1":"B00032IEXU","2":"B0009F3QKM","3":"1","_rn_":"4"},{"1":"B0005Z7PI0","2":"B000A3I3BA","3":"1","_rn_":"5"},{"1":"B000AYDGHU","2":"B000BF3AJ2","3":"1","_rn_":"6"},{"1":"B0005ZGXVK","2":"B000CQ4D3C","3":"1","_rn_":"7"},{"1":"B0005ZGXVK","2":"B000CQ4D6O","3":"1","_rn_":"8"},{"1":"B000CQ4D3C","2":"B000CQ4D6O","3":"1","_rn_":"9"},{"1":"B000AYDGZ2","2":"B000CSCOXQ","3":"1","_rn_":"10"},{"1":"B0001BVO9Y","2":"B000E1FZBY","3":"1","_rn_":"11"},{"1":"B0001BVO9Y","2":"B000EFBM4O","3":"1","_rn_":"12"},{"1":"B000E1FZBY","2":"B000EFBM4O","3":"1","_rn_":"13"},{"1":"B0007IQQUS","2":"B000F9FHDQ","3":"1","_rn_":"14"},{"1":"B0007IQQWQ","2":"B000F9FHDQ","3":"1","_rn_":"15"},{"1":"B000FFVYEQ","2":"B000FFXN2C","3":"1","_rn_":"16"},{"1":"B0002ML8D4","2":"B000FPM5EE","3":"1","_rn_":"17"},{"1":"B0001FQVCA","2":"B000G1769G","3":"1","_rn_":"18"},{"1":"B0009VZP6Y","2":"B000G1ILU4","3":"1","_rn_":"19"},{"1":"B0001M0ZXY","2":"B000GFYRHQ","3":"1","_rn_":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>top_aa <span class="ot">&lt;-</span> <span class="fu">predecir_links</span>(g, <span class="at">order_by=</span><span class="st">"adamic_adar"</span>)</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>top_aa <span class="sc">|&gt;</span> <span class="fu">select</span>(from, to, adamic_adar)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["from"],"name":[1],"type":["chr"],"align":["left"]},{"label":["to"],"name":[2],"type":["chr"],"align":["left"]},{"label":["adamic_adar"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"B002NHYQAS","2":"B007JT7ARQ","3":"34.77735","_rn_":"1"},{"1":"B000Q5X876","2":"B005IW4WFY","3":"34.36085","_rn_":"2"},{"1":"B000Q5X8DK","2":"B005IW4WFY","3":"34.36085","_rn_":"3"},{"1":"B000Q611U6","2":"B005IW4WFY","3":"34.36085","_rn_":"4"},{"1":"B0015MY6PC","2":"B005IW4WFY","3":"34.36085","_rn_":"5"},{"1":"B000Q5X876","2":"B008RWUHA6","3":"34.36085","_rn_":"6"},{"1":"B000Q5X8DK","2":"B008RWUHA6","3":"34.36085","_rn_":"7"},{"1":"B000Q611U6","2":"B008RWUHA6","3":"34.36085","_rn_":"8"},{"1":"B0015MY6PC","2":"B008RWUHA6","3":"34.36085","_rn_":"9"},{"1":"B000Q5X876","2":"B008RWUKXK","3":"34.36085","_rn_":"10"},{"1":"B000Q5X8DK","2":"B008RWUKXK","3":"34.36085","_rn_":"11"},{"1":"B000Q611U6","2":"B008RWUKXK","3":"34.36085","_rn_":"12"},{"1":"B0015MY6PC","2":"B008RWUKXK","3":"34.36085","_rn_":"13"},{"1":"B001EQ55ZO","2":"B006BXV14E","3":"34.13293","_rn_":"14"},{"1":"B004JGQ15E","2":"B004T80BYE","3":"34.12792","_rn_":"15"},{"1":"B004X3VRLG","2":"B0061IULW2","3":"33.82976","_rn_":"16"},{"1":"B000YSRK7E","2":"B007RTR9G0","3":"33.82720","_rn_":"17"},{"1":"B000YSTIL0","2":"B007RTR9G0","3":"33.82720","_rn_":"18"},{"1":"B001AHFVHO","2":"B007RTR9G0","3":"33.82720","_rn_":"19"},{"1":"B001AHJ2D8","2":"B007RTR9G0","3":"33.82720","_rn_":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>top_pa <span class="ot">&lt;-</span> <span class="fu">predecir_links</span>(g, <span class="at">order_by=</span><span class="st">"pref_attach"</span>)</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>top_pa <span class="sc">|&gt;</span> <span class="fu">select</span>(from, to, pref_attach)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["from"],"name":[1],"type":["chr"],"align":["left"]},{"label":["to"],"name":[2],"type":["chr"],"align":["left"]},{"label":["pref_attach"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"B003TC7WN4","2":"B006MONQMC","3":"235466","_rn_":"1"},{"1":"B003VXFK44","2":"B006MONQMC","3":"235466","_rn_":"2"},{"1":"B003VXHGDM","2":"B006MONQMC","3":"235466","_rn_":"3"},{"1":"B003VXHGE6","2":"B006MONQMC","3":"235466","_rn_":"4"},{"1":"B003VXHGPK","2":"B006MONQMC","3":"235466","_rn_":"5"},{"1":"B003VXL0V6","2":"B006MONQMC","3":"235466","_rn_":"6"},{"1":"B004FGWU9O","2":"B006MONQMC","3":"235466","_rn_":"7"},{"1":"B006MONQMC","2":"B006N3IE6A","3":"235466","_rn_":"8"},{"1":"B006MONQMC","2":"B006N3IG4K","3":"235466","_rn_":"9"},{"1":"B000G6MBUA","2":"B004E4EBMG","3":"197327","_rn_":"10"},{"1":"B000G6O2QG","2":"B004E4EBMG","3":"197327","_rn_":"11"},{"1":"B000G6RYNE","2":"B004E4EBMG","3":"197327","_rn_":"12"},{"1":"B000LKVD5U","2":"B004E4EBMG","3":"197327","_rn_":"13"},{"1":"B000LKXBL4","2":"B004E4EBMG","3":"197327","_rn_":"14"},{"1":"B0012XBD7I","2":"B004E4EBMG","3":"197327","_rn_":"15"},{"1":"B001SAXPEO","2":"B004E4EBMG","3":"197327","_rn_":"16"},{"1":"B004728MI4","2":"B004E4EBMG","3":"197327","_rn_":"17"},{"1":"B00472I5A4","2":"B004E4EBMG","3":"197327","_rn_":"18"},{"1":"B004E4EBMG","2":"B0058AMY10","3":"197327","_rn_":"19"},{"1":"B004E4EBMG","2":"B0058AMY5G","3":"197327","_rn_":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
 </div>
-<p>Estos pares no comparten todavía <span class="math inline">\(\geq 2\)</span> reseñadores directos, pero están rodeados de <strong>decenas de productos co-reseñados en común</strong>: son las recomendaciones de co-compra con mayor respaldo estructural.</p>
-</section>
+<p><strong>Interpretación.</strong> Hemos obtenido 4 tablas con 20 potenciales aristas en cada una. Dentro de cada una de ellas, el valor de la métrica usada es muy parecida entre los primeros 20 productos.</p>
+<p>Esto indica una cosa, y es que hay muchos pares de productos que no están conectados, pero que perfectamente podrían estarlo. Por ejemplo, todas las recomendaciones hechas con <em>jaccard</em> tienen valor 1 (máximo) en la métrica.</p>
+<p>Luego se podrían hacer 2 cosas. O bien aceptar este resultado y ver cuando la fuerza de las recomendaciones “cae”, o bien recalcular estas recomendaciones aumentando en umbral N (ahora 2) a un valor más elevado (3 o 4).</p>
 </section>
 <section id="conclusión-del-bloque-iii." class="level2" data-number="4.6">
 <h2 data-number="4.6" class="anchored" data-anchor-id="conclusión-del-bloque-iii."><span class="header-section-number">4.6</span> Conclusión del Bloque III.</h2>
-<p>La topología de la red de coparticipación resulta ser un <strong>predictor muy desigual</strong> según <em>qué</em> queramos inferir:</p>
+<p>La red de coparticipación <strong>no predice igual de bien</strong> las diferentes métricas estudiadas:</p>
 <ul>
-<li><strong>Popularidad / prominencia comercial:</strong> se predice <strong>casi perfectamente</strong> desde la estructura (clasificador Elite, AUC <span class="math inline">\(\approx\)</span> 0.95). La posición en el grafo <em>es</em> esencialmente una medida de popularidad.</li>
-<li><strong>Co-compra (Link Prediction):</strong> <strong>altísima</strong> capacidad predictiva (AA, AUC <span class="math inline">\(\approx\)</span> 0.98). El vecindario local basta para recomendar qué productos se adquieren juntos.</li>
-<li><strong>Calidad / valoración:</strong> la red solo aporta <strong>señal débil</strong> (homofilia <span class="math inline">\(\approx\)</span> 0.13; el voto de vecinos mejora el baseline, pero modestamente). La calidad es un atributo <em>poco contagioso</em> a través del co-consumo.</li>
+<li><strong>Popularidad:</strong> se predice <strong>casi perfectamente</strong> desde la estructura gracias al modelo de regresión logística entrenado. La posición de un producto en el grafo <em>representa</em> la popularidad de este.</li>
+<li><strong>Calidad:</strong> la red solo puede hacer una <strong>predicción débil</strong>, que aun así mejora el baseline, aunque sea un una menor medida. La calidad es un atributo mal representado dentro de la estructura de la red.</li>
 </ul>
-<p>En conjunto, hemos usado los enlaces para <strong>clasificar</strong> productos (Elite), <strong>imputar</strong> un atributo por homofilia (calidad) y <strong>recomendar</strong> nuevos enlaces (co-compra), cubriendo las tres facetas del reto <em>link-based</em>. La idea de que <strong>centralidad ≈ popularidad</strong> es la bisagra que conecta este bloque con la validación cruzada frente al PCA.</p>
+<p>En conjunto, hemos usado los enlaces para <strong>clasificar</strong> productos <em>Elite</em> o <em>No Elite</em>, <strong>predecir</strong> un atributo por homofilia (calidad) y <strong>recomendar</strong> nuevos enlaces potenciales. La idea más relevante que hemos obtenido es que <strong>centralidad ≈ popularidad</strong>, siendo un resultado similar al obtenido en el apartado de PCA (<a href="&quot;./bloque1.qmd&quot;">Bloque I</a>).</p>
 <hr>
 <p><strong><em>FIN DEL BLOQUE 3</em></strong></p>
 

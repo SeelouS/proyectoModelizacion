@@ -44,3 +44,35 @@ Para renderizar (R/Quarto no están en tu PATH del shell; uso el Quarto que trae
 $env:PATH = "C:\Program Files\R\R-4.5.2\bin;$env:PATH"
 & "C:\Program Files\RStudio\resources\app\bin\quarto\bin\quarto.exe" render
 ¿Quieres que aplique las correcciones del Bloque I y II directamente en sus ficheros (sobre todo el bug de betweenness y añadir Kaiser), o prefieres tocarlos tú?
+
+
+
+
+
+ERRORES PDF
+
+
+GRAFO BLOQUE 2.2 ESTA MAL IMPRESO
+
+CODIGO 2.3.3 SE SALE DEL BLOQUE (BLOQUE 2)
+
+EGO GRAFO SE VE MAL TB
+
+CODIGO 3.1 SE SALE DEL BLOQUE (COMPARACION)
+
+CODIGO 3.3 SE SALE DEL BLOQUE (COMPARACION)
+
+CODIGO 3.4 SE SALE DEL BLOQUE (COMPARACION)
+
+CODIGO 3.5 SE SALE DEL BLOQUE (COMPARACION)
+
+CODIGO 4.3 SE SALE DEL BLOQUE (BLOQUE 3)
+
+CODIGO 4.3.3 SE SALE DEL BLOQUE (BLOQUE 3)
+
+CODIGO 4.5 SE SALE DEL BLOQUE (BLOQUE 3)
+
+CODIGO 5.3.2 SE SALE DEL BLOQUE (ANEXO)
+
+CODIGO 5.4.2 SE SALE DEL BLOQUE (ANEXO)
+

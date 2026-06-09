@@ -96,7 +96,7 @@ El PCA se calculó sobre los productos **más recientes** y el grafo retiene los
 
 interseccion <- inner_join(scores, medidas, by = "ProductId")
 cat("Productos en PCA:", nrow(scores),
-    "| nodos del grafo:", nrow(cent),
+    "| nodos del grafo:", nrow(medidas),
     "| en AMBOS:", nrow(interseccion), "\n")
 ```
 

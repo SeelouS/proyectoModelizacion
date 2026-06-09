@@ -108,6 +108,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -212,6 +241,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#output.-2" id="toc-output.-2" class="nav-link" data-scroll-target="#output.-2"><span class="header-section-number">5.3.3</span> Output.</a></li>
   <li><a href="#valoración.-2" id="toc-valoración.-2" class="nav-link" data-scroll-target="#valoración.-2"><span class="header-section-number">5.3.4</span> Valoración.</a></li>
   </ul></li>
+  <li><a href="#prompt-4-consulta-sobre-qué-había-que-hacer-en-el-bloque-3.-sobre-todo-en-la-parte-de-predicciones." id="toc-prompt-4-consulta-sobre-qué-había-que-hacer-en-el-bloque-3.-sobre-todo-en-la-parte-de-predicciones." class="nav-link" data-scroll-target="#prompt-4-consulta-sobre-qué-había-que-hacer-en-el-bloque-3.-sobre-todo-en-la-parte-de-predicciones."><span class="header-section-number">5.4</span> Prompt 4: Consulta sobre qué había que hacer en el Bloque 3. Sobre todo en la parte de predicciones.</a>
+  <ul class="collapse">
+  <li><a href="#motivo.-3" id="toc-motivo.-3" class="nav-link" data-scroll-target="#motivo.-3"><span class="header-section-number">5.4.1</span> Motivo.</a></li>
+  <li><a href="#prompt-modelo-opus-4.8-extra.-3" id="toc-prompt-modelo-opus-4.8-extra.-3" class="nav-link" data-scroll-target="#prompt-modelo-opus-4.8-extra.-3"><span class="header-section-number">5.4.2</span> Prompt (Modelo Opus 4.8 Extra).</a></li>
+  <li><a href="#output.-3" id="toc-output.-3" class="nav-link" data-scroll-target="#output.-3"><span class="header-section-number">5.4.3</span> Output.</a></li>
+  <li><a href="#valoración.-3" id="toc-valoración.-3" class="nav-link" data-scroll-target="#valoración.-3"><span class="header-section-number">5.4.4</span> Valoración.</a></li>
+  </ul></li>
+  <li><a href="#prompt-5-visualización-de-grafos." id="toc-prompt-5-visualización-de-grafos." class="nav-link" data-scroll-target="#prompt-5-visualización-de-grafos."><span class="header-section-number">5.5</span> Prompt 5: Visualización de grafos.</a>
+  <ul class="collapse">
+  <li><a href="#motivo.-4" id="toc-motivo.-4" class="nav-link" data-scroll-target="#motivo.-4"><span class="header-section-number">5.5.1</span> Motivo.</a></li>
+  <li><a href="#prompt-modelo-opus-4.8-extra.-4" id="toc-prompt-modelo-opus-4.8-extra.-4" class="nav-link" data-scroll-target="#prompt-modelo-opus-4.8-extra.-4"><span class="header-section-number">5.5.2</span> Prompt (Modelo Opus 4.8 Extra).</a></li>
+  <li><a href="#output.-4" id="toc-output.-4" class="nav-link" data-scroll-target="#output.-4"><span class="header-section-number">5.5.3</span> Output.</a></li>
+  <li><a href="#valoración.-4" id="toc-valoración.-4" class="nav-link" data-scroll-target="#valoración.-4"><span class="header-section-number">5.5.4</span> Valoración.</a></li>
+  </ul></li>
+  <li><a href="#porcentaje-de-uso-de-ia-en-cada-fichero." id="toc-porcentaje-de-uso-de-ia-en-cada-fichero." class="nav-link" data-scroll-target="#porcentaje-de-uso-de-ia-en-cada-fichero."><span class="header-section-number">5.6</span> Porcentaje de uso de IA en cada fichero.</a></li>
   </ul>
 </nav>
     </div>
@@ -237,6 +281,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<div class="callout callout-style-default callout-important callout-titled" title="Nota Importante.">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Important</span>Nota Importante.
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>En esta sección no se han incluido todas las interacciones que se han tenido con la IA. Las que no están son porque:</p>
+<ol type="1">
+<li>Se han perdido (no las encontré).</li>
+<li>Son muy parecidas a otras interacciones ya explicadas.</li>
+</ol>
+<p>Al final de esta parte hay un resumen del porcentaje aproximado de uso de la IA para cada bloque.</p>
+</div>
+</div>
 <section id="prompt-1-configuración-libro-quarto." class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="prompt-1-configuración-libro-quarto."><span class="header-section-number">5.1</span> Prompt 1: Configuración libro quarto.</h2>
 <section id="motivo." class="level3" data-number="5.1.1">
@@ -389,9 +451,114 @@ que es esto y cuales son los pasos para hacerlo</code></pre>
 <section id="valoración.-2" class="level3" data-number="5.3.4">
 <h3 data-number="5.3.4" class="anchored" data-anchor-id="valoración.-2"><span class="header-section-number">5.3.4</span> Valoración.</h3>
 <p>Gracias a esta respuesta entendí que era un grafo de coparticipación y supe que tenía que hacer. Seguro que usando librería como <code>tidygraph</code> o <code>igraph</code> también se podría hacer, pero me pareció muy interesante la propuesta de usar matrices dispersas por eficiencia, así que he decidido usarlas.</p>
-
-
+<hr>
 </section>
+</section>
+<section id="prompt-4-consulta-sobre-qué-había-que-hacer-en-el-bloque-3.-sobre-todo-en-la-parte-de-predicciones." class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="prompt-4-consulta-sobre-qué-había-que-hacer-en-el-bloque-3.-sobre-todo-en-la-parte-de-predicciones."><span class="header-section-number">5.4</span> Prompt 4: Consulta sobre qué había que hacer en el Bloque 3. Sobre todo en la parte de predicciones.</h2>
+<section id="motivo.-3" class="level3" data-number="5.4.1">
+<h3 data-number="5.4.1" class="anchored" data-anchor-id="motivo.-3"><span class="header-section-number">5.4.1</span> Motivo.</h3>
+<p>Se le ha preguntado qué es lo que pedía la tarea del Bloque 3, en especial en lo relacionado con predecir si un producto era de élite o no. También se le ha pedido los pasos para hacerlo (no la solución).</p>
+</section>
+<section id="prompt-modelo-opus-4.8-extra.-3" class="level3" data-number="5.4.2">
+<h3 data-number="5.4.2" class="anchored" data-anchor-id="prompt-modelo-opus-4.8-extra.-3"><span class="header-section-number">5.4.2</span> Prompt (Modelo Opus 4.8 Extra).</h3>
+<pre class="text"><code>Reto: Si un producto no tiene categoría asignada, ¿podéis predecirla 
+basándoos en la categoría de sus “vecinos” en la red de usuarios? (Homofilia). 
+Utilizad la estructura del grafo para predecir si un usuario pertenece a 
+una categoría “Elite” o para recomendar un enlace (Link Prediction), 
+por ejemplo, identificando qué productos suelen adquirirse de forma conjunta 
+(co-compra) basándose en la estructura de la red.
+
+que puedo hacer para predecir si un producto es elite o no, y que metrica 
+puedo predecir con la Homofilia si no tengo ni categoría ni precio.</code></pre>
+</section>
+<section id="output.-3" class="level3" data-number="5.4.3">
+<h3 data-number="5.4.3" class="anchored" data-anchor-id="output.-3"><span class="header-section-number">5.4.3</span> Output.</h3>
+<p>Buena pregunta, porque tiene una trampa conceptual que conviene aclarar antes de tocar código.</p>
+<section id="el-malentendido-a-resolver" class="level4" data-number="5.4.3.1">
+<h4 data-number="5.4.3.1" class="anchored" data-anchor-id="el-malentendido-a-resolver"><span class="header-section-number">5.4.3.1</span> El malentendido a resolver</h4>
+<p>La homofilia no es algo que “predices”: es una propiedad que <strong>mides sobre un atributo que ya tienes</strong>. Es el principio (“los conectados se parecen”) que <em>justifica</em> propagar etiquetas. Por eso, si no tienes ni categoría ni precio, no es que te falte la homofilia — es que te falta el atributo sobre el cual medirla. La solución es <strong>derivar la etiqueta de la propia estructura del grafo</strong>, que es justo lo que tienes de sobra.</p>
+</section>
+<section id="parte-1-definir-y-predecir-elite-sin-atributos" class="level4" data-number="5.4.3.2">
+<h4 data-number="5.4.3.2" class="anchored" data-anchor-id="parte-1-definir-y-predecir-elite-sin-atributos"><span class="header-section-number">5.4.3.2</span> Parte 1: definir y predecir “elite” sin atributos</h4>
+<p>Como no tienes etiqueta natural, defines “elite” de forma <strong>endógena</strong> (topológica). Un producto elite = un nodo en el núcleo denso de la red de co-compra. Opciones, de más simple a más robusta:</p>
+<ul>
+<li><strong>Grado</strong> (<code>degree()</code>): se co-compra con muchos otros. Rápido pero ingenuo.</li>
+<li><strong>PageRank</strong> (<code>page_rank()</code>): importante porque sus vecinos son importantes. Buena opción por defecto.</li>
+<li><strong>k-core / coreness</strong> (<code>coreness()</code>): el núcleo más profundo del grafo. Conceptualmente es la mejor definición de “elite” porque captura densamente interconectados, no solo grado alto.</li>
+<li><strong>Eigenvector / betweenness</strong>: alternativas según si te interesa influencia o rol de puente.</li>
+</ul>
+<p>Eliges una métrica, pones un umbral (p.ej. top 5–10%, o el k-core máximo) y obtienes tu etiqueta binaria <code>elite ∈ {0,1}</code>. Esto es tu <em>ground truth</em> derivado.</p>
+<p><strong>Para “predecir” (y validar que la homofilia funciona):</strong> ocultas la etiqueta de un subconjunto de nodos y la reconstruyes de dos maneras:</p>
+<ol type="1">
+<li><strong>Label propagation / voto de vecinos:</strong> cada nodo oculto recibe la etiqueta mayoritaria de sus vecinos. Si la homofilia es real, esto acierta mucho. En igraph tienes <code>cluster_label_prop()</code>, o lo implementas a mano con la lista de adyacencia.</li>
+<li><strong>Clasificador sobre features estructurales:</strong> una regresión logística con <code>degree</code>, <code>page_rank</code>, <code>coreness</code>, <code>transitivity(type="local")</code> como predictores de <code>elite</code>. Mides AUC/accuracy sobre los nodos ocultos.</li>
+</ol>
+<p>El punto fino para tu memoria: si defines elite <em>con</em> PageRank y luego <em>predices</em> elite <em>con</em> PageRank como feature, es circular. Para que tenga valor, define elite con una métrica (p.ej. coreness) y predice con <strong>estructura local de vecindario</strong> (label propagation), demostrando que la categoría se contagia por la red.</p>
+</section>
+<section id="parte-2-la-métrica-de-homofilia-que-no-necesita-categoría-ni-precio" class="level4" data-number="5.4.3.3">
+<h4 data-number="5.4.3.3" class="anchored" data-anchor-id="parte-2-la-métrica-de-homofilia-que-no-necesita-categoría-ni-precio"><span class="header-section-number">5.4.3.3</span> Parte 2: la métrica de homofilia que NO necesita categoría ni precio</h4>
+<p>Esta es la respuesta directa a tu segunda pregunta:</p>
+<ul>
+<li><strong><code>assortativity_degree(g)</code></strong> — mide si los nodos de alto grado tienden a conectarse entre sí. Se calcula <strong>puramente de la topología, sin ningún atributo de nodo</strong>. Es literalmente “homofilia por grado” y es tu mejor opción dado que no tienes atributos. Devuelve un valor en [−1, 1]: positivo = asortativo (homofilia), negativo = disasortativo.</li>
+<li><strong><code>assortativity_nominal(g, types = elite + 1L)</code></strong> — una vez derivada la etiqueta elite, mide si elites se conectan con elites. (Ojo: igraph espera índices que empiecen en 1, de ahí el <code>+1L</code>.)</li>
+<li><strong>Edge homophily ratio</strong> (a mano): fracción de aristas cuyos dos extremos comparten clase. Más interpretable para el informe que el coeficiente de Newman.</li>
+</ul>
+<p>Resumen: la asortatividad de grado es la métrica de homofilia que puedes reportar <strong>sin etiquetas</strong>, y la asortatividad nominal sobre tu <code>elite</code> derivado es la que cierra el círculo conceptual del reto.</p>
+</section>
+<section id="bonus-link-prediction-de-co-compra-sin-atributos" class="level4" data-number="5.4.3.4">
+<h4 data-number="5.4.3.4" class="anchored" data-anchor-id="bonus-link-prediction-de-co-compra-sin-atributos"><span class="header-section-number">5.4.3.4</span> Bonus: link prediction de co-compra sin atributos</h4>
+<p>Para la otra mitad del reto (qué productos se compran juntos), los scores clásicos tampoco necesitan atributos, solo topología: <strong>vecinos comunes</strong>, <strong>Jaccard</strong>, <strong>Adamic-Adar</strong> y <strong>preferential attachment</strong>. Calculas el score para pares no conectados, ordenas, y los top son tus enlaces predichos. <code>igraph::similarity(g, method="jaccard")</code> te da Jaccard directo; Adamic-Adar suele ir a mano sobre la matriz de adyacencia.</p>
+<p>¿Quieres que aterrice alguna de estas en código sobre tu grafo de ~72k productos con N=2? El cuello de botella ahí será la asortatividad y el label propagation a esa escala, que conviene plantear con operaciones sobre matrices dispersas en vez de bucles.</p>
+</section>
+</section>
+<section id="valoración.-3" class="level3" data-number="5.4.4">
+<h3 data-number="5.4.4" class="anchored" data-anchor-id="valoración.-3"><span class="header-section-number">5.4.4</span> Valoración.</h3>
+<p>Gracias a esta respuesta supe qué tenía que hacer. Me pareció muy interesante el predecir si un producto era élite o no usando un modelo de regresión logística, ya que combinaba conceptos vistos en <em>Fundamentos de Inteligencia Artificial</em> con los contenidos vistos en esta asignatura.</p>
+<p>Por tanto, decidí seguir las recomendaciones de Claude, ya que como tampoco hemos estudiado mucho de este tema, me pareció interesante ahondar un poco más en esto.</p>
+<p>En la segunda parte (qué predecir usando la homofilia) no me pareció muy interesante, así que descarté lo que dijo. Finalmente creé una métrica calidad que era <em>“alta”</em> si la valoración promedio del producto era <span class="math inline">\(\ge 4\)</span>, y <em>“baja”</em> si no lo era.</p>
+<p>En el tema del Bonus también se le hizo caso pues, de nuevo, en clase no hemos dado nada de recomendación basada en enlaces que sea escalable a algo de este tamaño.</p>
+<hr>
+</section>
+</section>
+<section id="prompt-5-visualización-de-grafos." class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="prompt-5-visualización-de-grafos."><span class="header-section-number">5.5</span> Prompt 5: Visualización de grafos.</h2>
+<section id="motivo.-4" class="level3" data-number="5.5.1">
+<h3 data-number="5.5.1" class="anchored" data-anchor-id="motivo.-4"><span class="header-section-number">5.5.1</span> Motivo.</h3>
+<p>A la hora de visualizar grafos, se le ha pedido el código a la IA.</p>
+</section>
+<section id="prompt-modelo-opus-4.8-extra.-4" class="level3" data-number="5.5.2">
+<h3 data-number="5.5.2" class="anchored" data-anchor-id="prompt-modelo-opus-4.8-extra.-4"><span class="header-section-number">5.5.2</span> Prompt (Modelo Opus 4.8 Extra).</h3>
+<pre class="text"><code>{Codigo del grafo}
+
+Usa ggplot2 para visualizar el grafo.
+
+Quiero que:
+
+{características del grafo: 
+p.ej: color por comunidades,
+tamaño del nodo por grado, etc.}</code></pre>
+</section>
+<section id="output.-4" class="level3" data-number="5.5.3">
+<h3 data-number="5.5.3" class="anchored" data-anchor-id="output.-4"><span class="header-section-number">5.5.3</span> Output.</h3>
+<p>{Código para visualizar el grafo}</p>
+</section>
+<section id="valoración.-4" class="level3" data-number="5.5.4">
+<h3 data-number="5.5.4" class="anchored" data-anchor-id="valoración.-4"><span class="header-section-number">5.5.4</span> Valoración.</h3>
+<p>Este tipo de interacciones eran bastante directas. El código se copiaba y pegaba y funcionaba normalmente a la primera, aunque algunas veces había que modificarlo un poco para que funcionara, mayoritariamente para cambiar el nombre de las variables que usaba (por los nombres que yo había definido).</p>
+<hr>
+</section>
+</section>
+<section id="porcentaje-de-uso-de-ia-en-cada-fichero." class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="porcentaje-de-uso-de-ia-en-cada-fichero."><span class="header-section-number">5.6</span> Porcentaje de uso de IA en cada fichero.</h2>
+<ol type="1">
+<li>Bloque I: <strong>0 - 5%</strong> (solamente se le pidió que valorara el resultado y que buscara errores y inexactitudes).</li>
+<li>Bloque II: <strong>20 - 30%</strong> (consultas más relacionadas con temas conceptuales – <em>qué</em> había que hacer, que de implementación).</li>
+<li>Bloque III: <strong>50 - 60%</strong> (hay un grado elevado de IA ya que no se hizo nada parecido en clase)</li>
+<li>Comparación PCA vs SNA: <strong>30%</strong> (mayoritariamente ayuda con <em>cómo</em> comparar los dos primeros bloques, y un poco de ayuda en la implementación – sobre todo funciones a utilizar).</li>
+</ol>
+
+
 </section>
 
 </main> <!-- /main -->
