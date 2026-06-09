@@ -263,3 +263,6 @@ También se puede apreciar que este nodo está **conectado a muchas comunidades 
 
 En conclusión, podemos ver que hay varios nodos que destacan por su importancia. Algunos por sus conexiones con otros nodos importantes (PageRank), y otros por sus conexiones con otras *"categorías"* de productos; aunque es verdad que **aquellos nodos que destacan especialmente en una métrica suelen destacar también en las demás**, volviendo a reflejar la importancia que tienen estos nodos en la red.
 
+---
+
+***FIN DEL BLOQUE 2***

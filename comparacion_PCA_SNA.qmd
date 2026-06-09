@@ -2,3 +2,184 @@
 title: "Validación Cruzada de Métodos: Comparación de resultados obtenidos en PCA y SNA."
 ---
 
+> Nota sobre la IA: Para este apartado se le preguntó a la IA cómo podíamos comparar los bloques.
+
+Hasta ahora hemos estudiado el dataset de dos formas independientes: con **PCA** (Bloque I) se resumió cada producto en unos pocos ejes latentes a partir de sus *métricas*, y con **SNA** (Bloque II) se situó al producto en una *red* de coparticipación y se midió su centralidad. La pregunta de este capítulo es:
+
+> ¿Los productos con mayor centralidad en el grafo son también los que destacan en el biplot del PCA?
+
+Cruzar ambos métodos es una forma de **validación**: si dos técnicas tan distintas señalan a los mismos productos, la conclusión es robusta; si se contradicen, cada una está capturando algo diferente.
+
+## Reconstrucción del PCA (Bloque I) y de las centralidades (Bloque II).
+
+Reconstruimos las dos vistas con exactamente la misma metodología de los bloques anteriores. El PCA se calcula sobre los **4000 productos más recientes** (como en el Bloque I) y las centralidades sobre el grafo de coparticipación completo.
+
+```{r}
+#| message: false
+#| warning: false
+
+library(data.table)
+library(dplyr)
+library(Matrix)
+library(igraph)
+library(ggplot2)
+
+set.seed(2004)
+reviews <- fread("./Reviews.csv")
+
+# PCA
+productos <- reviews |>
+  mutate(size_texto = nchar(Text), size_summary = nchar(Summary)) |>
+  group_by(ProductId) |>
+  summarise(numero_reviews        = n(),
+            rating_promedio       = mean(Score),
+            size_summary_promedio = mean(size_summary),
+            size_texto_promedio   = mean(size_texto),
+            numero_usuarios       = n_distinct(UserId),
+            comprado_por_ultima_vez = max(Time),
+            .groups = "drop")
+
+productos_pca <- productos |>
+  arrange(desc(comprado_por_ultima_vez)) |>
+  slice_head(n = 4000) |>
+  select(-comprado_por_ultima_vez)
+
+pca <- prcomp(productos_pca |> select(-ProductId), center = TRUE, scale. = TRUE)
+
+scores <- as.data.frame(pca$x)
+scores$ProductId <- productos_pca$ProductId
+
+#SNA
+valores <- reviews |> select(UserId, ProductId) |> distinct()
+pf <- factor(valores$ProductId)
+uf <- factor(valores$UserId)
+
+A <- sparseMatrix(i = as.integer(pf), j = as.integer(uf), x = 1,
+                  dims = c(nlevels(pf), nlevels(uf)),
+                  dimnames = list(levels(pf), levels(uf)))
+
+M <- A %*% t(A)
+M <- as(M, "dgCMatrix") 
+diag(M) <- 0
+
+C <- M; 
+C@x[C@x < 2] <- 0; # 2 es el umbral
+C <- drop0(C)
+
+g <- graph_from_adjacency_matrix(C, 
+                                 mode = "undirected", 
+                                 weighted = TRUE, 
+                                 diag = FALSE)
+# elminamos nodos inconexos
+g <- delete_vertices(g, degree(g) == 0)
+
+medidas <- tibble(
+  ProductId = V(g)$name,
+  pagerank  = page_rank(g, 
+                        weights = E(g)$weight, 
+                        directed = FALSE)$vector,
+  strength  = strength(g,  
+                       weights = E(g)$weight),
+  betw      = betweenness(g, 
+                          weights = 1 / E(g)$weight, directed = FALSE),
+  grado = degree(g, mode="total")
+)
+```
+
+## Comparación de las dos aproximaciones.
+
+El PCA se calculó sobre los productos **más recientes** y el grafo retiene los productos con **suficiente co-reseña**. Así que como no son el mismo conjunto, trabajaremos sobre su **intersección**.
+
+```{r}
+#| message: false
+#| warning: false
+
+interseccion <- inner_join(scores, medidas, by = "ProductId")
+cat("Productos en PCA:", nrow(scores),
+    "| nodos del grafo:", nrow(cent),
+    "| en AMBOS:", nrow(interseccion), "\n")
+```
+
+El solapamiento es suficiente para comparar ambas técnicas. Por ello, procederemos a comparar los cálculos
+
+## ¿Centralidad y posición en el PCA miden lo mismo?
+
+Calculamos la correlación de **Spearman** entre cada medida de centralidad y cada componente.
+
+```{r}
+#| label: correlaciones
+#| message: false
+#| warning: false
+
+vars_c <- c("pagerank", "strength", "betw", "grado")
+tabla_cor <- lapply(vars_c, function(cc) {
+  tibble(centralidad = cc,
+         PC1  = cor(interseccion[[cc]], interseccion$PC1,  method = "spearman"),
+         PC2  = cor(interseccion[[cc]], interseccion$PC2,  method = "spearman"),
+         PC3  = cor(interseccion[[cc]], interseccion$PC3,  method = "spearman")
+  )}) |> bind_rows()
+
+tabla_cor |> mutate(across(where(is.numeric), \(x) round(x, 3)))
+```
+
+**Interpretación.** De esta tabla podemos obtener varias cosas en claro:
+
+- Las 4 medidas se correlacionan **fuertemente con PC1** (aunque PageRank tiene una correlación más floja). Esto tiene sentido ya que en el Bloque I vimos que **PC1 lo define principalmente `numero_reviews` y `numero_usuarios`**, es decir, **PC1 es el eje de la popularidad**. Y, como dijimos en el Bloque 3 la centralidad en una red de co-reseña *representa* básicamente la popularidad, así que **ambos métodos coinciden en este eje**.
+- Por otro lado, la correlación con **PC2** (verbosidad de las reseñas) y **PC3** (valoración) es **prácticamente nula**. Esto nos dice que la centralidad de un producto **no dice nada** sobre lo bien valorado que esta un producto, o lo *"leíble"* que son las reseñas de este.
+
+## Outliers del PCA vs. productos centrales.
+
+Definimos a los **outliers** como el 5 % de productos más extremos y como **central** al 5 % con mayor PageRank.
+
+```{r}
+#| message: false
+#| warning: false
+
+interseccion <- interseccion |>
+  mutate(outlier = PC1 >= quantile(PC1, 0.95) |
+              PC2 >= quantile(PC2, 0.95) |
+              PC3 >= quantile(PC3, 0.95),
+         central = pagerank >= quantile(pagerank, 0.95))
+
+tabla <- table(outlier = interseccion$outlier, central = interseccion$central)
+p_outlier_si_central <- mean(interseccion$outlier[interseccion$central])
+p_outlier <- mean(interseccion$outlier)
+
+tabla
+cat("\nP(outlier | central) =", round(p_outlier_si_central, 3),
+    "  vs  P(outlier) =", round(p_outlier, 3), "\n")
+```
+
+La respuesta es contundente: un producto central tiene más de un 45% de probabilidad de ser outlier del PCA, frente al casi 14% de un producto cualquiera. Por tanto, concluimos que **sí, los productos con mayor centralidad suelen ser los outliers del biplot**.
+
+## Visualización del cruce: el biplot coloreado por centralidad.
+
+Lo confirmamos visualmente. Situamos los productos de la intersección en el plano PC1–PC2 y los coloreamos por su PageRank; rodeamos en rojo el 5 % más central.
+
+```{r}
+#| message: false
+#| warning: false
+
+ggplot(interseccion, aes(PC1, PC2)) +
+  geom_point(aes(colour = log10(pagerank), size = strength), alpha = 0.6) +
+  geom_point(data = filter(interseccion, central),
+             colour = "#8C2D2D", shape = 21, size = 2.4, stroke = 0.7) +
+  scale_colour_gradient(low = "#AFC6D9", high = "#2F5D8C", name = "log10(PageRank)") +
+  scale_size(range = c(0.4, 4), guide = "none") +
+  labs(x = "PC1  (→ más popular)", y = "PC2  (→ reseñas más largas)",
+       title = "Cruce PCA × SNA: centralidad sobre el biplot") +
+  theme_minimal()
+```
+
+La nube se dispersa hacia la **derecha**: ahí, separados de los productos "normales", se sitúan los puntos azul oscuro (centrales) y rojos (outliers). 
+
+Esto es exactamente lo que se predijo con los resultados numéricos: **la centralidad crece a lo largo de PC1, y los productos centrales son los que más tienden a ser outliers**, pero **sin desplazarse demasiado en el eje vertical** (PC2) ni en el eje de calidad (PC3).
+
+## Conclusión de la validación cruzada.
+
+Cruzando PCA y SNA obtenemos las siguientes conclusiones
+
+1. **Coinciden en el eje de la popularidad.** PC1 y la centralidad de la red (`strength`, PageRank, *betweenness*, grado) miden, de manera independiente, **lo mismo**: cuánta gente interactúa con el producto. Esta intuición esta respaldada por una alto índice de correlación.
+2. **Los productos centrales son los outliers del biplot.** Pero lo son **en la dirección del PC1**. Son extremos en *popularidad*, no en *verbosidad* ni en *calidad* (PC2 y PC3, respectivamente). La conclusión con *calidad* también la obtuvimos con SNA, la topología de la red aportaba muy poca información acerca de la calidad de un producto.
+
+En resumen, PCA y SNA llegan a resultados parecidos en las métricas que parecen compartir. Hay una **alta correlación entre popularidad (PC1) y centralidad**, mientras que desde las dos comparativas se concluye también que **valoración (PC3) y centralidad están muy poco (o nada) correlacionadas**.

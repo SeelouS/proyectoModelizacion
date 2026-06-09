@@ -2,6 +2,15 @@
 title: "Anexo: Diario de Interacción con IA."
 ---
 
+:::{.callout-important title="Nota Importante."}
+En esta sección no se han incluido todas las interacciones que se han tenido con la IA. Las que no están son porque:
+
+1. Se han perdido (no las encontré).
+2. Son muy parecidas a otras interacciones ya explicadas.
+
+Al final de esta parte hay un resumen del porcentaje aproximado de uso de la IA para cada bloque.
+:::
+
 ## Prompt 1: Configuración libro quarto.
 
 ### Motivo.
@@ -184,3 +193,114 @@ El argumento que debes escribir en la memoria no es "elegí N=3 porque sí", sin
 ### Valoración.
 
 Gracias a esta respuesta entendí que era un grafo de coparticipación y supe que tenía que hacer. Seguro que usando librería como `tidygraph` o `igraph` también se podría hacer, pero me pareció muy interesante la propuesta de usar matrices dispersas por eficiencia, así que he decidido usarlas.
+
+---
+
+## Prompt 4: Consulta sobre qué había que hacer en el Bloque 3. Sobre todo en la parte de predicciones.
+
+### Motivo.
+
+Se le ha preguntado qué es lo que pedía la tarea del Bloque 3, en especial en lo relacionado con predecir si un producto era de élite o no. También se le ha pedido los pasos para hacerlo (no la solución).
+
+### Prompt (Modelo Opus 4.8 Extra).
+```text      
+Reto: Si un producto no tiene categoría asignada, ¿podéis predecirla 
+basándoos en la categoría de sus “vecinos” en la red de usuarios? (Homofilia). 
+Utilizad la estructura del grafo para predecir si un usuario pertenece a 
+una categoría “Elite” o para recomendar un enlace (Link Prediction), 
+por ejemplo, identificando qué productos suelen adquirirse de forma conjunta 
+(co-compra) basándose en la estructura de la red.
+
+que puedo hacer para predecir si un producto es elite o no, y que metrica 
+puedo predecir con la Homofilia si no tengo ni categoría ni precio.
+```
+
+### Output.
+
+Buena pregunta, porque tiene una trampa conceptual que conviene aclarar antes de tocar código.
+
+#### El malentendido a resolver
+
+La homofilia no es algo que "predices": es una propiedad que **mides sobre un atributo que ya tienes**. Es el principio ("los conectados se parecen") que *justifica* propagar etiquetas. Por eso, si no tienes ni categoría ni precio, no es que te falte la homofilia — es que te falta el atributo sobre el cual medirla. La solución es **derivar la etiqueta de la propia estructura del grafo**, que es justo lo que tienes de sobra.
+
+#### Parte 1: definir y predecir "elite" sin atributos
+
+Como no tienes etiqueta natural, defines "elite" de forma **endógena** (topológica). Un producto elite = un nodo en el núcleo denso de la red de co-compra. Opciones, de más simple a más robusta:
+
+- **Grado** (`degree()`): se co-compra con muchos otros. Rápido pero ingenuo.
+- **PageRank** (`page_rank()`): importante porque sus vecinos son importantes. Buena opción por defecto.
+- **k-core / coreness** (`coreness()`): el núcleo más profundo del grafo. Conceptualmente es la mejor definición de "elite" porque captura densamente interconectados, no solo grado alto.
+- **Eigenvector / betweenness**: alternativas según si te interesa influencia o rol de puente.
+
+Eliges una métrica, pones un umbral (p.ej. top 5–10%, o el k-core máximo) y obtienes tu etiqueta binaria `elite ∈ {0,1}`. Esto es tu *ground truth* derivado.
+
+**Para "predecir" (y validar que la homofilia funciona):** ocultas la etiqueta de un subconjunto de nodos y la reconstruyes de dos maneras:
+
+1. **Label propagation / voto de vecinos:** cada nodo oculto recibe la etiqueta mayoritaria de sus vecinos. Si la homofilia es real, esto acierta mucho. En igraph tienes `cluster_label_prop()`, o lo implementas a mano con la lista de adyacencia.
+2. **Clasificador sobre features estructurales:** una regresión logística con `degree`, `page_rank`, `coreness`, `transitivity(type="local")` como predictores de `elite`. Mides AUC/accuracy sobre los nodos ocultos.
+
+El punto fino para tu memoria: si defines elite *con* PageRank y luego *predices* elite *con* PageRank como feature, es circular. Para que tenga valor, define elite con una métrica (p.ej. coreness) y predice con **estructura local de vecindario** (label propagation), demostrando que la categoría se contagia por la red.
+
+#### Parte 2: la métrica de homofilia que NO necesita categoría ni precio
+
+Esta es la respuesta directa a tu segunda pregunta:
+
+- **`assortativity_degree(g)`** — mide si los nodos de alto grado tienden a conectarse entre sí. Se calcula **puramente de la topología, sin ningún atributo de nodo**. Es literalmente "homofilia por grado" y es tu mejor opción dado que no tienes atributos. Devuelve un valor en [−1, 1]: positivo = asortativo (homofilia), negativo = disasortativo.
+- **`assortativity_nominal(g, types = elite + 1L)`** — una vez derivada la etiqueta elite, mide si elites se conectan con elites. (Ojo: igraph espera índices que empiecen en 1, de ahí el `+1L`.)
+- **Edge homophily ratio** (a mano): fracción de aristas cuyos dos extremos comparten clase. Más interpretable para el informe que el coeficiente de Newman.
+
+Resumen: la asortatividad de grado es la métrica de homofilia que puedes reportar **sin etiquetas**, y la asortatividad nominal sobre tu `elite` derivado es la que cierra el círculo conceptual del reto.
+
+#### Bonus: link prediction de co-compra sin atributos
+
+Para la otra mitad del reto (qué productos se compran juntos), los scores clásicos tampoco necesitan atributos, solo topología: **vecinos comunes**, **Jaccard**, **Adamic-Adar** y **preferential attachment**. Calculas el score para pares no conectados, ordenas, y los top son tus enlaces predichos. `igraph::similarity(g, method="jaccard")` te da Jaccard directo; Adamic-Adar suele ir a mano sobre la matriz de adyacencia.
+
+¿Quieres que aterrice alguna de estas en código sobre tu grafo de ~72k productos con N=2? El cuello de botella ahí será la asortatividad y el label propagation a esa escala, que conviene plantear con operaciones sobre matrices dispersas en vez de bucles.
+
+### Valoración.
+
+Gracias a esta respuesta supe qué tenía que hacer. Me pareció muy interesante el predecir si un producto era élite o no usando un modelo de regresión logística, ya que combinaba conceptos vistos en *Fundamentos de Inteligencia Artificial* con los contenidos vistos en esta asignatura. 
+
+Por tanto, decidí seguir las recomendaciones de Claude, ya que como tampoco hemos estudiado mucho de este tema, me pareció interesante ahondar un poco más en esto.
+
+En la segunda parte (qué predecir usando la homofilia) no me pareció muy interesante, así que descarté lo que dijo. Finalmente creé una métrica calidad que era *"alta"* si la valoración promedio del producto era $\ge 4$, y *"baja"* si no lo era.
+
+En el tema del Bonus también se le hizo caso pues, de nuevo, en clase no hemos dado nada de recomendación basada en enlaces que sea escalable a algo de este tamaño.
+
+---
+
+## Prompt 5: Visualización de grafos.
+
+### Motivo.
+
+A la hora de visualizar grafos, se le ha pedido el código a la IA.
+
+### Prompt (Modelo Opus 4.8 Extra).
+```text      
+{Codigo del grafo}
+
+Usa ggplot2 para visualizar el grafo.
+
+Quiero que:
+
+{características del grafo: 
+p.ej: color por comunidades,
+tamaño del nodo por grado, etc.}
+```
+
+### Output.
+
+{Código para visualizar el grafo}
+
+### Valoración.
+
+Este tipo de interacciones eran bastante directas. El código se copiaba y pegaba y funcionaba normalmente a la primera, aunque algunas veces había que modificarlo un poco para que funcionara, mayoritariamente para cambiar el nombre de las variables que usaba (por los nombres que yo había definido).
+
+---
+
+## Porcentaje de uso de IA en cada fichero.
+
+1. Bloque I: **0 - 5%** (solamente se le pidió que valorara el resultado y que buscara errores y inexactitudes).
+1. Bloque II: **20 - 30%** (consultas más relacionadas con temas conceptuales -- *qué* había que hacer, que de implementación).
+1. Bloque III: **50 - 60%** (hay un grado elevado de IA ya que no se hizo nada parecido en clase)
+1. Comparación PCA vs SNA: **30%** (mayoritariamente ayuda con *cómo* comparar los dos primeros bloques, y un poco de ayuda en la implementación -- sobre todo funciones a utilizar).

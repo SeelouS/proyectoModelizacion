@@ -23,6 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -73,7 +108,38 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 <style>html{ scroll-behavior: smooth; }</style>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -152,8 +218,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contenido</h2>
+   
+  <ul>
+  <li><a href="#creación-del-dataset." id="toc-creación-del-dataset." class="nav-link active" data-scroll-target="#creación-del-dataset."><span class="header-section-number">2.1</span> Creación del dataset.</a></li>
+  <li><a href="#creación-y-visualización-del-grafo." id="toc-creación-y-visualización-del-grafo." class="nav-link" data-scroll-target="#creación-y-visualización-del-grafo."><span class="header-section-number">2.2</span> Creación y visualización del grafo.</a></li>
+  <li><a href="#análisis-de-centralidad." id="toc-análisis-de-centralidad." class="nav-link" data-scroll-target="#análisis-de-centralidad."><span class="header-section-number">2.3</span> Análisis de centralidad.</a>
+  <ul class="collapse">
+  <li><a href="#análisis-de-centralidad-de-pagerank." id="toc-análisis-de-centralidad-de-pagerank." class="nav-link" data-scroll-target="#análisis-de-centralidad-de-pagerank."><span class="header-section-number">2.3.1</span> Análisis de centralidad de PageRank.</a></li>
+  <li><a href="#análisis-de-centralidad-de-betweenness." id="toc-análisis-de-centralidad-de-betweenness." class="nav-link" data-scroll-target="#análisis-de-centralidad-de-betweenness."><span class="header-section-number">2.3.2</span> Análisis de centralidad de Betweenness.</a></li>
+  <li><a href="#comprobación-de-los-resultados." id="toc-comprobación-de-los-resultados." class="nav-link" data-scroll-target="#comprobación-de-los-resultados."><span class="header-section-number">2.3.3</span> Comprobación de los resultados.</a></li>
+  </ul></li>
+  <li><a href="#conclusión." id="toc-conclusión." class="nav-link" data-scroll-target="#conclusión."><span class="header-section-number">2.4</span> Conclusión.</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -177,8 +257,291 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Una vez reducida la dimensionalidad, pasaréis a modelar el ecosistema de consumo como una red compleja bidimensional.</p>
+<ul>
+<li><strong>Tarea:</strong> Construir la red de usuarios en un <strong>grafo de coparticipación</strong>. Dos productos están conectados si han sido reseñados por los mismos <em>N</em> usuarios. Debéis justificar la elección de <em>N</em> basándoos en la densidad del grafo resultante.</li>
+<li><strong>Análisis: Utilizad</strong> métricas de centralidad: <strong>PageRank</strong> (para identificar productos “faro”), <strong>Betweenness</strong> (para identificar productos puente entre categorías), etc.</li>
+<li>Detección de Comunidades: Mediante el algoritmo de <strong>Louvain</strong> o <strong>Walktrap</strong>, <strong>analizad</strong> si las comunidades coinciden con aspectos geográficos o de categorías de consumo u otras características.</li>
+<li><strong>Visualización: Mostrad</strong> las comunidades de productos más densas. <strong>Manejad</strong> eficientemente objetos de grafos de gran tamaño (limpieza de nodos aislados, simplificación de aristas).</li>
+</ul>
+<section id="creación-del-dataset." class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="creación-del-dataset."><span class="header-section-number">2.1</span> Creación del dataset.</h2>
+<p>Para crear este dataset vamos a usar la librería <code>Matrix</code>. La intención es llegar a tener una matriz <em>M</em>, de tamaño <span class="math inline">\(P\times P\)</span>, donde <em>P</em> es el número de productos, y que la celda <span class="math inline">\((i, j)\)</span> represente el número de usuarios que han reseñado tanto al producto <em>i</em> como al producto <em>j</em>.</p>
+<p>Para esto es muy importante, quedarnos con los pares (<em>UserId</em>, <em>ProductId</em>), y que solo salgan una vez. Si un usuario ha reseñado más de una vez un mismo producto, solo contará como una fila.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 0: Cargamos el dataset, para ello usamos</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#la librería data.table, como en el bloque anterior.</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Usaremos esta semilla para todo el proyecto</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2004</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>ds <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="at">file=</span><span class="st">"./Reviews.csv"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 1: Nos quedamos solamente con los pares </span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># (UserId, ProductId) únicos.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>valores <span class="ot">&lt;-</span> ds <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(UserId, ProductId) <span class="sc">|&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 2: Pasamos esta información a una matriz dispersa.</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(Matrix)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>productosFactores <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>ProductId)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>userFactores <span class="ot">&lt;-</span> <span class="fu">factor</span>(valores<span class="sc">$</span>UserId)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="fu">sparseMatrix</span>(</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">i =</span> <span class="fu">as.integer</span>(productosFactores),</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">j =</span> <span class="fu">as.integer</span>(userFactores),</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> <span class="dv">1</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">dims =</span> <span class="fu">c</span>(<span class="fu">nlevels</span>(productosFactores), <span class="fu">nlevels</span>(userFactores)),</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">dimnames =</span> <span class="fu">list</span>(<span class="fu">levels</span>(productosFactores), <span class="fu">levels</span>(userFactores))</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Ahora, creamos la matriz <em>M</em> que definimos anteriormente, y lo haremos a partir de la matriz que creamos en el bloque anterior (la matriz <em>A</em>).</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> A <span class="sc">%*%</span> <span class="fu">t</span>(A)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>M <span class="ot">&lt;-</span> <span class="fu">as</span>(M, <span class="st">"dgCMatrix"</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">diag</span>(M) <span class="ot">&lt;-</span> <span class="dv">0</span>          <span class="co"># quitamos auto-bucles</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>A continuación procederemos a elegir el umbral <em>N</em> más adecuado para nuestro grafo. Para ello, crearemos una función auxiliar <code>densidad_para_N(N)</code>, que calculará la densidad, el número de componentes, y el tamaño de la componente más grande para un umbral <em>N</em> dado. Con esos datos, decidiremos cuál es el umbral más apropiado para nuestro grafo.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>densidad_para_N <span class="ot">&lt;-</span> <span class="cf">function</span>(N) {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  C <span class="ot">&lt;-</span> M</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> N] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co">#pone a 0 los pesos por debajo de N</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  C <span class="ot">&lt;-</span> <span class="fu">drop0</span>(C)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(C, </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">mode =</span> <span class="st">"undirected"</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">diag =</span> <span class="cn">FALSE</span>)<span class="co">#no incluir diagonal</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tibble</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">N            =</span> N,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">densidad     =</span> <span class="fu">edge_density</span>(g),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_componentes =</span> <span class="fu">components</span>(g)<span class="sc">$</span>no,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">size_componente_mas_grande =</span> <span class="fu">max</span>(<span class="fu">components</span>(g)<span class="sc">$</span>csize)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Probaremos con <strong>10 umbrales distintos</strong> (desde <span class="math inline">\(N=1\)</span> hasta <span class="math inline">\(N=10\)</span>), y usaremos <code>ggplot()</code> para graficar la densidad resultante tras aplicar cada umbral. Para aplicar iterativamente la función <code>densidad_para_N(N)</code>, usaremos la función <code>map_dfr(v, f)</code> de la librería <code>purrr</code>, que aplica (y guarda en un df) el resultado de aplicar la función <em>f</em>, a cada elemento del vector <em>v</em>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'purrr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:igraph':
+
+    compose, simplify</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:data.table':
+
+    transpose</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>umbrales <span class="ot">&lt;-</span> <span class="fu">map_dfr</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, densidad_para_N)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(umbrales)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 4
+       N   densidad n_componentes size_componente_mas_grande
+   &lt;int&gt;      &lt;dbl&gt;         &lt;dbl&gt;                      &lt;dbl&gt;
+ 1     1 0.000621           22078                      48878
+ 2     2 0.0000370          63543                       6855
+ 3     3 0.0000169          68600                       2249
+ 4     4 0.0000118          70007                       1002
+ 5     5 0.00000935         70633                        729
+ 6     6 0.00000806         71030                        585
+ 7     7 0.00000709         71268                        347
+ 8     8 0.00000632         71459                        275
+ 9     9 0.00000570         71624                        263
+10    10 0.00000517         71787                        233</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(umbrales, <span class="fu">aes</span>(N, densidad)) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Densidad del grafo según el umbral N"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bloque2_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Con la tabla y la gráfica podemos ver varias cosas:</p>
+<ol type="1">
+<li><span class="math inline">\(N=1\)</span> es un umbral demasiado pequeño. El clúster (componente) más grande tiene un tamaño gigante. Casi 50000 productos de los <span class="math inline">\(\approx 72000\)</span> que hay, están en esa componente.</li>
+<li>El codo se encuentra en <span class="math inline">\(N=2\)</span>, la caída de densidad de <span class="math inline">\(N=1\)</span> a <span class="math inline">\(N=2\)</span> es mucho más grande que la que hay de <span class="math inline">\(N=2\)</span> a <span class="math inline">\(N=3\)</span>. Además, la componente más grande con <span class="math inline">\(N=2\)</span> tiene menos de 7000 productos, reduciendo significativamente el tamaño de las componentes.</li>
+</ol>
+<p>Por tanto, aunque <span class="math inline">\(N=3\)</span> es también una buena opción, se escogerá <span class="math inline">\(N=2\)</span> como umbral.</p>
+</section>
+<section id="creación-y-visualización-del-grafo." class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="creación-y-visualización-del-grafo."><span class="header-section-number">2.2</span> Creación y visualización del grafo.</h2>
+<p>Creamos nuestro grafo de coparticipación <code>g</code> con <span class="math inline">\(N=2\)</span>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> M</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>C<span class="sc">@</span>x[C<span class="sc">@</span>x <span class="sc">&lt;</span> <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="dv">0</span> <span class="co">#pone a 0 los pesos por debajo de N</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>C <span class="ot">&lt;-</span> <span class="fu">drop0</span>(C)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">graph_from_adjacency_matrix</span>(C, </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">mode =</span> <span class="st">"undirected"</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">weighted =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">diag =</span> <span class="cn">FALSE</span>) <span class="co">#no incluir diagonal</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Visualizaremos el grafo resultante para una exploración inicial. Usaremos <code>ggraph</code>, en combinación con <code>graphlayouts</code>, que incluye layouts pensados para <strong>grafos con muchos nodos y aristas</strong>. También identificaremos las comunidades que hay en el grafo usando el <strong>algoritmo de Louvain</strong>. Solo tendremos en cuenta componentes con más de 5 nodos para poder reducir un poco la complejidad del grafo y poder visualizarlo más fácilmente.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(graphlayouts)</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">delete_edges</span>(g, <span class="fu">E</span>(g)[weight <span class="sc">&lt;</span> <span class="dv">2</span>])</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>g2 <span class="ot">&lt;-</span> <span class="fu">delete_vertices</span>(g2, <span class="fu">degree</span>(g2) <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co"># comunidades + tamaño de componente como atributos de nodo</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>comunidad <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">membership</span>(<span class="fu">cluster_louvain</span>(g2, <span class="at">weights =</span> <span class="fu">E</span>(g2)<span class="sc">$</span>weight)))</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g2)<span class="sc">$</span>tam       <span class="ot">&lt;-</span> <span class="fu">components</span>(g2)<span class="sc">$</span>csize[<span class="fu">components</span>(g2)<span class="sc">$</span>membership]</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>lay_fun <span class="ot">&lt;-</span> <span class="cf">function</span>(cmp) {</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">vcount</span>(cmp) <span class="sc">&gt;</span> <span class="dv">100</span>)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout_with_sparse_stress</span>(cmp, <span class="at">pivots =</span> <span class="fu">min</span>(<span class="dv">500</span>, <span class="fu">vcount</span>(cmp) <span class="sc">-</span> <span class="dv">1</span>))</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">layout_with_stress</span>(cmp)</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>xy <span class="ot">&lt;-</span> <span class="fu">layout_components</span>(g2, <span class="at">layout =</span> lay_fun)</span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(g2, <span class="at">layout =</span> <span class="st">"manual"</span>, <span class="at">x =</span> xy[, <span class="dv">1</span>], <span class="at">y =</span> xy[, <span class="dv">2</span>]) <span class="sc">+</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link0</span>(<span class="at">edge_colour =</span> <span class="st">"grey85"</span>, <span class="at">width =</span> <span class="fl">0.1</span>, <span class="at">alpha =</span> <span class="fl">0.25</span>) <span class="sc">+</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> comunidad, <span class="at">size =</span> tam),</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>                  <span class="at">alpha =</span> <span class="fl">0.8</span>, <span class="at">show.legend =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="fl">0.4</span>, <span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_graph</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bloque2_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Estructuralmente, podemos apreciar que <strong>hay un gran clúster</strong> en el centro, que será la <strong>principal categoría de productos</strong> que se han vendido (Libros, tecnología, etc.), y después hay muchas componentes pequeñas.</p>
+<p>Con respecto a las comunidades no podemos extraer mucha información, pues al haber tantas, los colores se <strong>“solapan”</strong>, es decir, hay muchos colores que son muy parecidos entre ellos. Sin embargo, hay una cosa en claro y es que la componente principal sí tiene una comunidad mayoritaria, cosa que también refuerza el concepto de <em>categoría principal de producto</em>.</p>
+</section>
+<section id="análisis-de-centralidad." class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="análisis-de-centralidad."><span class="header-section-number">2.3</span> Análisis de centralidad.</h2>
+<p>Veámos ahora qué productos son los más importantes tanto en el ranking proporcionado por <strong>PageRank</strong> (productos <strong>faro</strong>), tanto en el ranking proporcionado por <strong>Betweenness</strong> (productos <strong>puente</strong>).</p>
+<p>Primero, convertiremos el grafo a un <code>tbl_graph</code> para simplifcar los cálculos y el tratamiento de los datos. Después, calcularemos tanto la métrica de PageRank como la de Betweenness.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidygraph)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> g2 <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tbl_graph</span>() <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pagerank=</span><span class="fu">centrality_pagerank</span>(<span class="at">weights=</span>weight,<span class="at">directed=</span><span class="cn">FALSE</span>),</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">betw=</span><span class="fu">centrality_betweenness</span>(<span class="at">weights =</span> weight, <span class="at">directed =</span> <span class="cn">FALSE</span>),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">grado=</span><span class="fu">centrality_degree</span>(<span class="at">weights =</span> weight))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="análisis-de-centralidad-de-pagerank." class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="análisis-de-centralidad-de-pagerank."><span class="header-section-number">2.3.1</span> Análisis de centralidad de PageRank.</h3>
+<p>Veamos los primeros 20 productos con mayor ranking en PageRank.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>top_20 <span class="ot">&lt;-</span> g <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">|&gt;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(pagerank)) <span class="sc">|&gt;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>betw, <span class="sc">-</span>tam) <span class="sc">|&gt;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>top_20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["comunidad"],"name":[2],"type":["fct"],"align":["left"]},{"label":["pagerank"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["grado"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"B002IEZJMA","2":"5","3":"0.002512407","4":"9790"},{"1":"B006MONQMC","2":"5","3":"0.002249312","4":"8936"},{"1":"B002IEVJRY","2":"5","3":"0.002208929","4":"8894"},{"1":"B0041NYV8E","2":"5","3":"0.002183679","4":"8735"},{"1":"B002LANN56","2":"5","3":"0.001971530","4":"7908"},{"1":"B001VJ0B0I","2":"5","3":"0.001919932","4":"7604"},{"1":"B003GTR8IO","2":"5","3":"0.001537012","4":"7030"},{"1":"B0090X8IPM","2":"5","3":"0.001537012","4":"7030"},{"1":"B005HG9ERW","2":"5","3":"0.001531770","4":"6789"},{"1":"B005HG9ESG","2":"5","3":"0.001531770","4":"6789"},{"1":"B005HG9ET0","2":"5","3":"0.001531770","4":"6789"},{"1":"B0051COPH6","2":"5","3":"0.001379679","4":"5622"},{"1":"B005VOOKS8","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOOL00","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOOLXM","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOOM2W","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOOM4A","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOOM5E","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOONGM","2":"5","3":"0.001220927","4":"6689"},{"1":"B005VOONI0","2":"5","3":"0.001220927","4":"6689"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Podemos apreciar que los productos que más destacan son los 5 - 6 primeros, el resto mantienen un valor bastante parecido. Su valor <strong>no es muy elevado debido al gran tamaño de la red</strong>, que además tiene muchas componentes inconexas.</p>
+<p>También podemos ver que los top-20 productos pertenecen a la <strong>misma comunidad</strong> (la 5). Luego es probable que sean productos similares, y que la gente suela comprar en conjunto.</p>
+</section>
+<section id="análisis-de-centralidad-de-betweenness." class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="análisis-de-centralidad-de-betweenness."><span class="header-section-number">2.3.2</span> Análisis de centralidad de Betweenness.</h3>
+<p>Veamos los primeros 20 productos con mayor ranking en Betweenness.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>top_20 <span class="ot">&lt;-</span> g <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">activate</span>(nodes) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(betw)) <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>pagerank, <span class="sc">-</span>tam) <span class="sc">|&gt;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">20</span>)</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>top_20</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div data-pagedtable="false">
+  <script data-pagedtable-source="" type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["comunidad"],"name":[2],"type":["fct"],"align":["left"]},{"label":["betw"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["grado"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"B002IEZJMA","2":"5","3":"1339533.1","4":"9790"},{"1":"B0041NYV8E","2":"5","3":"1188526.5","4":"8735"},{"1":"B002IEVJRY","2":"5","3":"1048154.4","4":"8894"},{"1":"B006MONQMC","2":"5","3":"997673.9","4":"8936"},{"1":"B002LANN56","2":"5","3":"994360.4","4":"7908"},{"1":"B001VJ0B0I","2":"5","3":"964208.1","4":"7604"},{"1":"B001EO5Q64","2":"114","3":"799437.9","4":"521"},{"1":"B0051COPH6","2":"5","3":"644904.7","4":"5622"},{"1":"B000NMJWZO","2":"149","3":"502010.1","4":"718"},{"1":"B003B3OOPA","2":"109","3":"439243.6","4":"324"},{"1":"B004E4EBMG","2":"5","3":"380336.9","4":"4767"},{"1":"B0061IUIDY","2":"5","3":"370798.1","4":"4093"},{"1":"B005HG9ERW","2":"5","3":"361858.3","4":"6789"},{"1":"B005HG9ESG","2":"5","3":"361858.3","4":"6789"},{"1":"B005HG9ET0","2":"5","3":"361858.3","4":"6789"},{"1":"B004ZIER34","2":"5","3":"358459.6","4":"4549"},{"1":"B000V17MLS","2":"5","3":"334898.6","4":"609"},{"1":"B004T80BYE","2":"5","3":"333775.6","4":"1319"},{"1":"B004BKLHOS","2":"5","3":"319933.9","4":"4289"},{"1":"B000H7LVKY","2":"5","3":"314794.3","4":"566"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<p>Aquí podemos ver que los productos que más destacan son también los 5 - 6 primeros; el resto mantienen un valor bastante más bajo que estos. Su valor es muy alto debido al <strong>gran número de componentes</strong> que tiene el grafo, siendo estos productos los pocos que conecten 2 o más componentes / comunidades entre ellas.</p>
+<p>También podemos ver que los <strong>primeros 6 productos pertenecen a la misma comunidad</strong> que antes. Sin embargo, el que pertenezcan o no a esa comunidad enorme <strong>no es tan relevante</strong> aquí. Podemos observar que en el resto del top podemos encontrar productos que no son de esa categoría, aunque también es cierto que los productos más importantes (con respecto a esta métrica) sí son de la mega-categoría 5.</p>
+<p>Por tanto, los productos más importantes (los productos <em>puente</em>) son:</p>
+<ol type="1">
+<li><code>B002IEZJMA</code></li>
+<li><code>B0041NYV8E</code></li>
+<li><code>B002IEVJRY</code></li>
+<li><code>B006MONQMC</code></li>
+<li><code>B002LANN56</code></li>
+<li><code>B001VJ0B0I</code></li>
+</ol>
+</section>
+<section id="comprobación-de-los-resultados." class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="comprobación-de-los-resultados."><span class="header-section-number">2.3.3</span> Comprobación de los resultados.</h3>
+<p>Veamos en el grafo, usando el primer nodo de ejemplo (que resulta ser el mismo para las 2 métricas) quiénes son sus vecinos para comprobar que las métricas reflejan, en efecto, su importancia dentro de la red. Para ello crearemos un subgrafo con una egored.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>g_i <span class="ot">&lt;-</span> <span class="fu">as.igraph</span>(g)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># El ProductId líder es B002IEZJMA.</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>g_ego <span class="ot">&lt;-</span> <span class="fu">make_ego_graph</span>(g_i, <span class="at">order =</span> <span class="dv">1</span>, <span class="at">nodes=</span><span class="fu">V</span>(g)[name<span class="sc">==</span><span class="st">"B002IEZJMA"</span>])[[<span class="dv">1</span>]]</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">V</span>(g_ego)<span class="sc">$</span>ego <span class="ot">&lt;-</span> <span class="fu">V</span>(g_ego)<span class="sc">$</span>name <span class="sc">==</span> <span class="st">"B002IEZJMA"</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a><span class="fu">ggraph</span>(g_ego, <span class="at">layout =</span> <span class="st">"stress"</span>) <span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_edge_link</span>(<span class="at">alpha =</span> <span class="fl">0.08</span>, <span class="at">colour =</span> <span class="st">"grey70"</span>) <span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> comunidad, <span class="at">size =</span> grado)) <span class="sc">+</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_node_point</span>(<span class="at">data =</span> <span class="sc">~</span> <span class="fu">subset</span>(.x, ego), <span class="at">colour =</span> <span class="st">"gold"</span>, <span class="at">size =</span> <span class="dv">8</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">option =</span> <span class="st">"turbo"</span>) <span class="sc">+</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour =</span> <span class="st">"Comunidad"</span>,</span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">"Ego-grafo de B002IEZJMA"</span>,</span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="fu">paste0</span>(<span class="fu">vcount</span>(g_ego), <span class="st">" nodos · "</span>, <span class="fu">ecount</span>(g_ego), <span class="st">" aristas"</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="bloque2_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Aquí se demuestra claramente lo que ya exponían. Nuestro nodo (rodeado por un círculo amarillo), está <strong>conectado con muchísimos otros productos</strong> que tienen grado de centralidad elevados también (tamaño del nodo). Esto explica por qué tiene un valor de PageRank tan elevado.</p>
+<p>También se puede apreciar que este nodo está <strong>conectado a muchas comunidades distintas</strong> (cada color representa una), cosa que explica por qué tiene un <em>betweenness</em> muy alto también. Esto se debe a que probablemente, estas comunidades distintas se conecten con pocos productos diferentes a los de su categoría, siendo nuestro nodo uno de ellos.</p>
+</section>
+</section>
+<section id="conclusión." class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="conclusión."><span class="header-section-number">2.4</span> Conclusión.</h2>
+<p>En conclusión, podemos ver que hay varios nodos que destacan por su importancia. Algunos por sus conexiones con otros nodos importantes (PageRank), y otros por sus conexiones con otras <em>“categorías”</em> de productos; aunque es verdad que <strong>aquellos nodos que destacan especialmente en una métrica suelen destacar también en las demás</strong>, volviendo a reflejar la importancia que tienen estos nodos en la red.</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

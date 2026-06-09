@@ -1,0 +1,46 @@
+Bloque I — PCA
+Lo que está muy bien: justificas aplicar PCA con el corrplot; estandarizas (scale/center); el scree plot está; e interpretas las componentes una a una. Los porcentajes de varianza que citas (67% con 2, 87% con 3) son correctos (los he recomputado: 40,6 / 26,7 / 19,5 / 13,2 / 0,01%).
+
+Errores / mejoras:
+
+Falta el criterio de Kaiser (bloque1.qmd:9 lo pide el enunciado, solo haces scree). Los autovalores son 2,03 · 1,33 · 0,97 · 0,66 · 0,001 → Kaiser retiene 2 componentes (la 3ª se queda a las puertas, 0,97). Esto refuerza tu elección de 2-3. Añádelo:
+eig <- pca_productos$sdev^2
+barplot(eig, names.arg = paste0("PC", 1:5)); abline(h = 1, lty = 2)  # Kaiser
+Incoherencia al interpretar las componentes. En la tabla de loadings dices bien que PC2 = longitudes y PC3 = rating (bloque1.qmd:147-148), pero en la Conclusión (bloque1.qmd:196) reescribes la PC2 como "cómo de bien reseñado" mezclando rating + longitud. Los loadings reales: PC1 = popularidad (numero_reviews/numero_usuarios, ≈‑0,69 cada una), PC2 = verbosidad (longitudes, ≈‑0,66), PC3 = calidad (rating 0,95). El rating casi no carga en PC2 (0,28), así que la lectura del biplot PC1‑PC2 sobre la valoración (bloque1.qmd:186-188) está poco soportada — para hablar de rating, grafica un biplot PC1‑PC3 o PC2‑PC3.
+Desajuste texto/código: bloque1.qmd:30 dice "las últimas 3000 reseñas" pero el código se queda con 4000 productos (bloque1.qmd:67). Son dos cosas distintas (3000≠4000, reseñas≠productos).
+numero_reviews y numero_usuarios están correlacionadas casi a 1 (cada usuario reseña un producto ~una vez) → son casi redundantes; por eso PC1 las carga igual. Vale la pena decirlo (o quedarte con una).
+Typos: "dapuntan" → apuntan (bloque1.qmd:149); "promedia" → promedio (bloque1.qmd:198).
+Bloque II — SNA
+Lo que está muy bien: el barrido de N con la curva de densidad + nº de componentes + tamaño del gigante es exactamente la justificación que pide el enunciado, y la conclusión (codo en N=2) es correcta. El uso de matrices dispersas (A·Aᵀ) es elegante y eficiente. PageRank, betweenness, Louvain y la ego-red de comprobación están muy bien planteados.
+
+Errores / mejoras:
+
+🐛 Bug importante — pesos en betweenness. centrality_betweenness(weights = weight) (bloque2.qmd:178): igraph interpreta los pesos como distancias, pero el tuyo es una similitud (usuarios compartidos). Estás tratando los productos más parecidos como más lejanos → tu ranking de "productos puente" sale invertido. Arréglalo con el inverso:
+betw = centrality_betweenness(weights = 1 / weight, directed = FALSE)
+(PageRank sí usa el peso como fuerza, así que ese está bien. Solo afecta a betweenness/closeness.)
+Afirmación que el código no cumple: dices "Solo tendremos en cuenta componentes con más de 5 nodos" (bloque2.qmd:123), pero el código solo borra nodos aislados (grado 0), no filtra componentes pequeñas. O lo implementas o quitas la frase:
+comp <- components(g2); g2 <- induced_subgraph(g2, comp$membership %in% which(comp$csize > 5))
+"Mostrad las comunidades más densas": muestras el grafo entero (y tú mismo admites que los colores se solapan). Cumplirías mejor el enunciado haciendo zoom a la comunidad/componente mayor con un induced_subgraph.
+as(M, "dgCMatrix") (bloque2.qmd:59) está deprecado (warning) → usa as(M, "generalMatrix").
+Reproducibilidad de Louvain: cluster_louvain es estocástico y pones set.seed(123) después (bloque2.qmd:147). Ponlo antes de Louvain.
+Menor: centrality_degree(weights=weight) no es el grado sino la fuerza (strength) — renómbralo. Typos: "simplifcar", "Veámos".
+✅ Lo que he hecho en Bloque III y Comparación
+Ambos ficheros estaban vacíos. Los he escrito completos, con código ejecutado y verificado (los rendericé a HTML sin errores; todas las cifras del texto se calculan en vivo con referencias inline, así que el texto nunca se desincroniza del resultado). Cada capítulo reconstruye la tabla y el grafo (porque cada capítulo Quarto corre en su propia sesión de R) y usa cache: true en los fragmentos pesados.
+
+bloque3.qmd — Clasificación basada en enlaces. Como el dataset no tiene categorías reales, lo dejo explícito y operacionalizo el reto con etiquetas honestas:
+
+Homofilia (predecir un atributo por los vecinos): etiqueta = calidad alta/baja. Asortatividad ≈ 0,13–0,19 (homofilia débil pero real); clasificador por voto ponderado de vecinos = 77,3% vs baseline 73,9% (balanced acc 0,70). Conclusión: la red codifica algo de calidad, poco. Además cruzo con Louvain: las comunidades no separan por calidad → agrupan por co-consumo (la "categoría" implícita).
+Clasificación "Elite" (best-seller) solo con topología (regresión logística): AUC ≈ 0,95. La posición en el grafo ≈ popularidad.
+Link Prediction / co-compra: ocultando aristas y puntuando con CN/Jaccard/Adamic‑Adar/PA → AUC ≈ 0,98 (AA gana). Incluyo una tabla de recomendaciones de co-compra concretas (pares producto–producto con más vecinos comunes).
+comparacion_PCA_SNA.qmd — Validación cruzada. Cruzo las dos vistas (intersección = 1.857 productos; aviso del sesgo y de que el grafo es proyección sobre productos, no usuarios). Resultado nítido:
+
+Centralidad ↔ PC1 fuerte (|ρ|≈0,60–0,75; strength el que más) pero ↔ PC2/PC3 ≈ 0. Es decir, PC1 y centralidad miden lo mismo: popularidad.
+Los productos centrales SÍ son los outliers del biplot: P(outlier | central)=58% vs 5% global (~11×) — pero outliers a lo largo de PC1, no en calidad. Lo confirmo con un biplot coloreado por PageRank.
+Conclusión: PCA y SNA no se contradicen, coinciden en el eje de popularidad y se complementan en el resto.
+Ojo: en la comparación corregí el peso de betweenness (1/weight); si dejas el bug en Bloque II, ahí los rankings de "puente" no coincidirán entre capítulos.
+
+Para renderizar (R/Quarto no están en tu PATH del shell; uso el Quarto que trae RStudio):
+
+$env:PATH = "C:\Program Files\R\R-4.5.2\bin;$env:PATH"
+& "C:\Program Files\RStudio\resources\app\bin\quarto\bin\quarto.exe" render
+¿Quieres que aplique las correcciones del Bloque I y II directamente en sus ficheros (sobre todo el bug de betweenness y añadir Kaiser), o prefieres tocarlos tú?
